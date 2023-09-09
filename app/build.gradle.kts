@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -66,4 +67,28 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    // navigation
+    implementation ("androidx.navigation:navigation-compose:2.4.2")
+
+    // coil
+    implementation ("io.coil-kt:coil-compose:2.1.0")
+
+    // converter-moshi
+    implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation ("com.squareup.moshi:moshi-kotlin:1.13.0")
+
+    // retorofit
+    implementation ("com.squ2areup.retrofit2:retrofit:2.9.0")
+
+    // Room
+    implementation("androidx.room:room-runtime:$rootProject.roomVersion")
+    kapt("androidx.room:room-compiler:$rootProject.roomVersion")
+    implementation("androidx.room:room-ktx:$rootProject.roomVersion")
+
+    // livedata
+    implementation("androidx.compose.runtime:runtime-livedata:$rootProject.livedataVersion")
+
+    // Gson
+    implementation ("com.google.code.gson:gson:2.8.6")
 }
