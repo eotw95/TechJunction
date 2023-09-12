@@ -1,0 +1,36 @@
+package com.example.techjunction.network
+
+import android.util.Log
+import com.example.techjunction.network.model.QiitaArticlesResponse
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+
+class QiitaApiDataSourceImpl: QiitaApiDataSource {
+    companion object {
+        val TAG = "QiitaApiDataSourceImpl"
+        val retrofit = Retrofit.Builder()
+            .baseUrl(QiitaApi.BASE_URL)
+            .client(OkHttpClient())
+            .addConverterFactory(
+                MoshiConverterFactory.create(
+                    Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+                )
+            )
+            .build()
+            .create(QiitaApi::class.java)
+    }
+    override suspend fun fetchQiitaArticles(query: String): QiitaArticlesResponse {
+        val response = retrofit.fetchQiitaArticles(query)
+        if (response.isSuccessful) {
+            return requireNotNull(response.body())
+        } else {
+            Log.e(TAG, "fail http request. errorCode=${response.code()}")
+            throw HttpException()
+        }
+    }
+}
+
+class HttpException: Throwable()
