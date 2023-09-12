@@ -22,9 +22,10 @@ class QiitaApiDataSourceImpl: QiitaApiDataSource {
             .build()
             .create(QiitaApi::class.java)
     }
-    override suspend fun fetchQiitaArticles(query: String): QiitaArticlesResponse {
+    override suspend fun fetchQiitaArticles(query: String): List<QiitaArticlesResponse> {
         val response = retrofit.fetchQiitaArticles(query)
         if (response.isSuccessful) {
+            Log.d(TAG, "success http request. response=${response.body()}")
             return requireNotNull(response.body())
         } else {
             Log.e(TAG, "fail http request. errorCode=${response.code()}")
