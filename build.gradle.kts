@@ -1,10 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     id("com.android.application") version "8.1.0" apply false
-    id("org.jetbrains.kotlin.android") version "1.8.10" apply false
-}
-
-ext {
-    extra["roomVersion"] = "2.5.0"
-    extra["livedataVersion"] = "1.3.2"
+    id("org.jetbrains.kotlin.android") version "1.9.0" apply false
 }

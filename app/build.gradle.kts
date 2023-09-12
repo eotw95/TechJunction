@@ -41,7 +41,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.0"
     }
     packaging {
         resources {
@@ -78,16 +78,16 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation ("com.squareup.moshi:moshi-kotlin:1.13.0")
 
-    // retorofit
-    implementation ("com.squ2areup.retrofit2:retrofit:2.9.0")
+    // retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
 
     // Room
-    implementation("androidx.room:room-runtime:$rootProject.roomVersion")
-    kapt("androidx.room:room-compiler:$rootProject.roomVersion")
-    implementation("androidx.room:room-ktx:$rootProject.roomVersion")
+    implementation("androidx.room:room-runtime:2.5.0")
+    kapt("androidx.room:room-compiler:2.5.0")
+    implementation("androidx.room:room-ktx:2.5.0")
 
     // livedata
-    implementation("androidx.compose.runtime:runtime-livedata:$rootProject.livedataVersion")
+    implementation("androidx.compose.runtime:runtime-livedata:1.3.2")
 
     // Gson
     implementation ("com.google.code.gson:gson:2.8.6")
