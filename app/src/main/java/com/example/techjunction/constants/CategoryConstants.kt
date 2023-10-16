@@ -1,10 +1,10 @@
 package com.example.techjunction.constants
 
-const val APP_NAME = "TechJunction"
-const val TOP = "トップ"
-const val QIITA = "Qiita"
-const val ZEN = "Zen"
-const val HATENA = "Hatena"
-const val KOTLIN = "Kotlin"
-const val COMPOSE = "Compose"
-const val ANDROID = "Android"
+const val KEY_APP_NAME = "TechJunction"
+const val KEY_TOP = "トップ"
+const val KEY_QIITA = "Qiita"
+const val KEY_ZEN = "Zen"
+const val KEY_HATENA = "Hatena"
+const val KEY_KOTLIN = "Kotlin"
+const val KEY_COMPOSE = "Compose"
+const val KEY_ANDROID = "Android"

@@ -1,6 +1,5 @@
-package com.example.techjunction.component
+package com.example.techjunction.screens.component
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text

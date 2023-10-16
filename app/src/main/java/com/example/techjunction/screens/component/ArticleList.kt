@@ -1,6 +1,5 @@
-package com.example.techjunction.component
+package com.example.techjunction.screens.component
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding

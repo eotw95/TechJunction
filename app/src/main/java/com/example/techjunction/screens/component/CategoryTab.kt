@@ -1,4 +1,4 @@
-package com.example.techjunction.component
+package com.example.techjunction.screens.component
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -13,13 +13,13 @@ import com.example.techjunction.constants.*
 @Composable
 fun CategoryTab() {
     val dummyList = listOf(
-        APP_NAME,
-        QIITA,
-        ZEN,
-        HATENA,
-        KOTLIN,
-        COMPOSE,
-        ANDROID
+        KEY_APP_NAME,
+        KEY_QIITA,
+        KEY_ZEN,
+        KEY_HATENA,
+        KEY_KOTLIN,
+        KEY_COMPOSE,
+        KEY_ANDROID
     )
 
     LazyRow(content = {

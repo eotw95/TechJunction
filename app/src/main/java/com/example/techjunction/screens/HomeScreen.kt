@@ -1,4 +1,4 @@
-package com.example.techjunction.screen
+package com.example.techjunction.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -6,10 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.techjunction.component.ArticleList
-import com.example.techjunction.component.ArticleSection
-import com.example.techjunction.component.CategoryTab
-import com.example.techjunction.component.Header
+import com.example.techjunction.screens.component.ArticleSection
+import com.example.techjunction.screens.component.CategoryTab
+import com.example.techjunction.screens.component.Header
 
 @Composable
 fun HomeScreen() {

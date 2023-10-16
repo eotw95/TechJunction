@@ -1,4 +1,4 @@
-package com.example.techjunction.component
+package com.example.techjunction.screens.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

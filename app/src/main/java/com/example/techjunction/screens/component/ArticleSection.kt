@@ -1,4 +1,4 @@
-package com.example.techjunction.component
+package com.example.techjunction.screens.component
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
