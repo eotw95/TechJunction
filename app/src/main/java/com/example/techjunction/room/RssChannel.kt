@@ -5,9 +5,10 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity
+@Entity(tableName = "rss_channels")
 data class RssChannel(
     @PrimaryKey(autoGenerate = true) val id: String,
+    @ColumnInfo("rss_url") val rssUrl: String,
     val title: String,
     val description: String,
     val link: String,
