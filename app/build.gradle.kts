@@ -91,4 +91,7 @@ dependencies {
 
     // Gson
     implementation ("com.google.code.gson:gson:2.8.6")
+
+    // Work
+    implementation ("androidx.work:work-runtime-ktx:2.8.1")
 }
