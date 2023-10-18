@@ -8,6 +8,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.example.techjunction.util.WorkerHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
@@ -17,10 +18,10 @@ class RssDownloadWorker(
     params: WorkerParameters
 ): CoroutineWorker(context, params) {
     companion object {
-        const val TAG = "RssDownloadWorker"
+        const val TAG = "com.example.techjunction.worker.RssDownloadWorker"
 
         private fun isWorkScheduled(context: Context): Boolean {
-            // Todo
+            return WorkerHelper.isWorkScheduled(context, TAG)
         }
 
         fun start(context: Context): Boolean {
@@ -45,6 +46,7 @@ class RssDownloadWorker(
     }
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
+            // Todo: Rss feedをローカルのXMLファイルにダウンロードする
             return@withContext Result.success()
         }
     }
