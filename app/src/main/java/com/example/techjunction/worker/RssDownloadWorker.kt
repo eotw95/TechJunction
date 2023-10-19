@@ -1,6 +1,7 @@
 package com.example.techjunction.worker
 
 import android.content.Context
+import android.net.Uri
 import android.os.Environment
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
@@ -11,10 +12,12 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.example.techjunction.room.RssDatabase
 import com.example.techjunction.room.RssRepositoryImpl
+import com.example.techjunction.util.HttpHelper
 import com.example.techjunction.util.WorkerHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.net.URI
 import java.util.concurrent.TimeUnit
 
 class RssDownloadWorker(
@@ -62,6 +65,8 @@ class RssDownloadWorker(
         val db = RssDatabase.getInstance(context)
         val repo = RssRepositoryImpl()
         repo.fetchChannels().forEach { channel ->
+            val uri = Uri.parse(channel.rssUrl)
+            val download = HttpHelper.writeData(uri, rssFile)
             // Todo: HTTP通信してRss feedをtmp fileに書き込む　→　別メソッドに切り出し
             // Todo: Rss feedを書き込めたらXMLを解析する
             rssFile.inputStream().use {
