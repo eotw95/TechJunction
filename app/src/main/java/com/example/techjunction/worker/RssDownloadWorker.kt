@@ -10,6 +10,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.example.techjunction.domain.RssParser
 import com.example.techjunction.room.RssDatabase
 import com.example.techjunction.room.RssRepositoryImpl
 import com.example.techjunction.util.HttpDownloadManager
@@ -63,12 +64,14 @@ class RssDownloadWorker(
 
         val db = RssDatabase.getInstance(context)
         val repo = RssRepositoryImpl()
+        val parser = RssParser(repo)
         repo.fetchChannels().forEach { channel ->
             val uri = Uri.parse(channel.rssUrl)
-            val download = HttpDownloadManager.writeData(uri, rssFile)
-            // Todo: Rss feedを書き込めたらXMLを解析する
-            rssFile.inputStream().use {
-                // Todo: XML解析　→　別メソッドに切り出し
+            val downloadResult = HttpDownloadManager.writeData(uri, rssFile)
+            if (downloadResult) {
+                rssFile.inputStream().use { input ->
+                    parser.parse(input, channel.rssUrl)
+                }
             }
         }
     }
