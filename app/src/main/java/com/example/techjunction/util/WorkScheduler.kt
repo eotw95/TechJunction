@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 
-class WorkerHelper {
+class WorkScheduler {
     companion object {
         fun isWorkScheduled(context: Context, tag: String): Boolean {
             val statuses = WorkManager.getInstance(context).getWorkInfosByTag(tag)

@@ -6,7 +6,7 @@ import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-class HttpHelper {
+class HttpDownloadManager {
     companion object {
         const val TAG = "HttpHelper"
 

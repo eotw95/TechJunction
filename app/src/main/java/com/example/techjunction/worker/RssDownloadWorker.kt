@@ -12,12 +12,11 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.example.techjunction.room.RssDatabase
 import com.example.techjunction.room.RssRepositoryImpl
-import com.example.techjunction.util.HttpHelper
-import com.example.techjunction.util.WorkerHelper
+import com.example.techjunction.util.HttpDownloadManager
+import com.example.techjunction.util.WorkScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.net.URI
 import java.util.concurrent.TimeUnit
 
 class RssDownloadWorker(
@@ -48,7 +47,7 @@ class RssDownloadWorker(
         }
 
         private fun isWorkScheduled(context: Context): Boolean {
-            return WorkerHelper.isWorkScheduled(context, TAG)
+            return WorkScheduler.isWorkScheduled(context, TAG)
         }
     }
     override suspend fun doWork(): Result {
@@ -66,8 +65,7 @@ class RssDownloadWorker(
         val repo = RssRepositoryImpl()
         repo.fetchChannels().forEach { channel ->
             val uri = Uri.parse(channel.rssUrl)
-            val download = HttpHelper.writeData(uri, rssFile)
-            // Todo: HTTP通信してRss feedをtmp fileに書き込む　→　別メソッドに切り出し
+            val download = HttpDownloadManager.writeData(uri, rssFile)
             // Todo: Rss feedを書き込めたらXMLを解析する
             rssFile.inputStream().use {
                 // Todo: XML解析　→　別メソッドに切り出し
