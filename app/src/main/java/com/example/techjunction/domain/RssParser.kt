@@ -14,6 +14,7 @@ class RssParser(private val repo: RssRepository) {
     }
 
     suspend fun parse(input: InputStream, rssUrl: String) {
+        val stack = ArrayDeque<Tag>(listOf(RootTag(rssUrl)))
         val parser = XmlPullParserFactory.newInstance().newPullParser()
         parser.setInput(input, null)
         var event = parser.eventType
