@@ -1,8 +1,9 @@
 package com.example.techjunction.domain
 
+import com.example.techjunction.room.RssChannel
 import com.example.techjunction.room.RssRepository
 
-class RdfTag(name: String): Tag(name) {
+class RdfTag(name: String, val rssUrl: String): Tag(name) {
 
     override fun createChildTag(name: String): Tag {
         return when(name) {
@@ -12,7 +13,9 @@ class RdfTag(name: String): Tag(name) {
         }
     }
     override fun handleChildTagEnd(tag: Tag, repo: RssRepository) {
-        TODO("Not yet implemented")
+        when(tag) {
+            is RdfChannelTag -> repo.insertOrUpdateChannel()
+        }
     }
 }
 
@@ -34,3 +37,12 @@ private class RdfItemTag(name: String): Tag(name) {
         TODO("Not yet implemented")
     }
 }
+
+// Todo: TagクラスをDatabaseモデルに変換する
+//fun RdfTag.asDatabaseModel(tag: RdfTag):  RssChannel{
+//    return RssChannel(
+//        id = 0,
+//        rssUrl = tag.rssUrl,
+//        title = tag.
+//    )
+//}
