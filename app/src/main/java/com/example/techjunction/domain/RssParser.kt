@@ -29,7 +29,7 @@ class RssParser(private val repo: RssRepository) {
                 }
                 END_TAG -> {
                     val tag = stack.removeFirst()
-                    stack.first().handleChildTagEnd()
+                    stack.first().handleChildTagEnd(tag, repo)
                 }
             }
             event = parser.next()
