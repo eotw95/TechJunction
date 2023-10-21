@@ -21,13 +21,15 @@ class RssParser(private val repo: RssRepository) {
         while (event != END_DOCUMENT) {
             when (event) {
                 START_TAG -> {
-
+                    val childTag = stack.first().createChildTag(parser.name)
+                    stack.addFirst(childTag)
                 }
                 TEXT -> {
 
                 }
                 END_TAG -> {
-
+                    val tag = stack.removeFirst()
+                    stack.first().handleChildTagEnd()
                 }
             }
             event = parser.next()

@@ -1,5 +1,7 @@
 package com.example.techjunction.domain
 
+import com.example.techjunction.room.RssRepository
+
 class RssTag(name: String): Tag(name) {
 
     override fun createChildTag(name: String): Tag {
@@ -8,7 +10,7 @@ class RssTag(name: String): Tag(name) {
             else -> super.createChildTag(name)
         }
     }
-    override fun handleChildTagEnd() {
+    override fun handleChildTagEnd(tag: Tag, repo: RssRepository) {
         TODO("Not yet implemented")
     }
 }
@@ -21,13 +23,13 @@ private class RssChannelTag(name: String): Tag(name) {
             else -> super.createChildTag(name)
         }
     }
-    override fun handleChildTagEnd() {
+    override fun handleChildTagEnd(tag: Tag, repo: RssRepository) {
         TODO("Not yet implemented")
     }
 }
 
 private class RssItemTag(name: String): Tag(name) {
-    override fun handleChildTagEnd() {
+    override fun handleChildTagEnd(tag: Tag, repo: RssRepository) {
         TODO("Not yet implemented")
     }
 }
