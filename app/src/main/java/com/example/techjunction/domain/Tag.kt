@@ -1,16 +1,17 @@
 package com.example.techjunction.domain
 
 import com.example.techjunction.room.RssRepository
+import java.util.Date
 
 abstract class Tag(val name: String) {
 
-    var text: String? = null
+    var text: String = ""
 
     open fun createChildTag(name: String): Tag {
         return OtherTag(name)
     }
 
-    abstract fun handleChildTagEnd(tag: Tag, repo: RssRepository)
+    abstract suspend fun handleChildTagEnd(tag: Tag, repo: RssRepository, date: Date)
 }
 
 // コンストラクタにメンバ変数でrssUrlを持つ必要あるか？
@@ -20,18 +21,18 @@ class RootTag(private val rssUrl: String): Tag("Root") {
     override fun createChildTag(name: String): Tag {
         return when (name) {
             "rss" -> RssTag(name)
-            "rdf:RDF" -> RdfTag(name)
+            "rdf:RDF" -> RdfTag(name, rssUrl)
             else -> throw java.lang.RuntimeException("not supported tag [$name]")
         }
     }
-    override fun handleChildTagEnd(tag: Tag, repo: RssRepository) {
+    override suspend fun handleChildTagEnd(tag: Tag, repo: RssRepository, date: Date) {
         // do nothing
     }
 
 }
 
 class OtherTag(name: String): Tag(name) {
-    override fun handleChildTagEnd(tag: Tag, repo: RssRepository) {
+    override suspend fun handleChildTagEnd(tag: Tag, repo: RssRepository, date: Date) {
         TODO("Not yet implemented")
     }
 }

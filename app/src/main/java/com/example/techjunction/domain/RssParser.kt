@@ -4,6 +4,7 @@ import com.example.techjunction.room.RssRepository
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.InputStream
+import java.util.Date
 
 class RssParser(private val repo: RssRepository) {
     companion object {
@@ -29,7 +30,7 @@ class RssParser(private val repo: RssRepository) {
                 }
                 END_TAG -> {
                     val tag = stack.removeFirst()
-                    stack.first().handleChildTagEnd(tag, repo)
+                    stack.first().handleChildTagEnd(tag, repo, Date())
                 }
             }
             event = parser.next()
