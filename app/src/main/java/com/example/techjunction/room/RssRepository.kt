@@ -5,11 +5,7 @@ interface RssRepository {
 
     suspend fun  fetchItemsByChannelId(channelId: Int): List<RssItem>
 
-    suspend fun insertChannel(channel: RssChannel)
+    suspend fun insertOrUpdateChannel(channel: RssChannel)
 
-    suspend fun insertItem(item: RssItem)
-
-    suspend fun updateChannel(channel: RssChannel)
-
-    suspend fun updateItem(item: RssItem)
+    suspend fun insertOrUpdateItem(item: RssItem)
 }

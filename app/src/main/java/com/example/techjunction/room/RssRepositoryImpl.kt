@@ -1,27 +1,33 @@
 package com.example.techjunction.room
 
-class RssRepositoryImpl: RssRepository {
+import android.content.Context
+
+class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
     override suspend fun fetchChannels(): List<RssChannel> {
-        TODO("Not yet implemented")
+        val dao = db.rssChannelDao()
+        return dao.getAll()
     }
 
     override suspend fun fetchItemsByChannelId(channelId: Int): List<RssItem> {
-        TODO("Not yet implemented")
+        val dao = db.rssItemDao()
+        return fetchItemsByChannelId(channelId)
     }
 
-    override suspend fun insertChannel(channel: RssChannel) {
-        TODO("Not yet implemented")
+    override suspend fun insertOrUpdateChannel(channel: RssChannel) {
+        val dao = db.rssChannelDao()
+        if (fetchChannels().isEmpty()) {
+            dao.insert(channel)
+        } else {
+            dao.update(channel)
+        }
     }
 
-    override suspend fun insertItem(item: RssItem) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateChannel(channel: RssChannel) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateItem(item: RssItem) {
-        TODO("Not yet implemented")
+    override suspend fun insertOrUpdateItem(item: RssItem) {
+        val dao = db.rssItemDao()
+        if (fetchItemsByChannelId(item.channelId).isEmpty()) {
+            dao.insert(item)
+        } else {
+            dao.update(item)
+        }
     }
 }
