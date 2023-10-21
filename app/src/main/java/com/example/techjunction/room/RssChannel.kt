@@ -7,7 +7,7 @@ import java.util.Date
 
 @Entity(tableName = "rss_channels")
 data class RssChannel(
-    @PrimaryKey(autoGenerate = true) val id: String,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo("rss_url") val rssUrl: String,
     val title: String,
     val description: String,
