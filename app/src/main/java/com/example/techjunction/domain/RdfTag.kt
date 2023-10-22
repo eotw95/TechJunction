@@ -1,9 +1,12 @@
 package com.example.techjunction.domain
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.techjunction.room.RssRepository
+import com.example.techjunction.util.DateConverter
 import java.util.Date
 
-class RdfTag(name: String, val rssUrl: String): Tag(name) {
+class RdfTag(name: String, private val rssUrl: String): Tag(name) {
 
     override fun createChildTag(name: String): Tag {
         return when(name) {
@@ -50,13 +53,14 @@ private class RdfItemTag(name: String): Tag(name) {
     var desc: String = ""
     var link: String = ""
     var pubDate: Date = Date()
+    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun handleChildTagEnd(tag: Tag, repo: RssRepository, date: Date) {
         when(tag.name) {
             "title" -> title = tag.text
             "desc" -> desc = tag.text
             "link" -> link = tag.text
             // Todo: String → Dateへのコンバータが必要
-            "dc:date" -> pubDate = tag.text
+            "dc:date" -> pubDate = DateConverter.asDate(tag.text)
         }
     }
 }
