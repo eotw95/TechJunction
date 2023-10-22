@@ -26,7 +26,7 @@ class RssParser(private val repo: RssRepository) {
                     stack.addFirst(childTag)
                 }
                 TEXT -> {
-
+                    stack.first().text = parser.text.trim()
                 }
                 END_TAG -> {
                     val tag = stack.removeFirst()

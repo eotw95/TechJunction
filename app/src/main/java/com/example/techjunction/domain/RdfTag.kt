@@ -59,7 +59,6 @@ private class RdfItemTag(name: String): Tag(name) {
             "title" -> title = tag.text
             "desc" -> desc = tag.text
             "link" -> link = tag.text
-            // Todo: String → Dateへのコンバータが必要
             "dc:date" -> pubDate = DateConverter.asDate(tag.text)
         }
     }
