@@ -9,8 +9,8 @@ import java.util.Date
 data class RssChannel(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo("rss_url") val rssUrl: String,
-    val title: String,
-    val description: String,
-    val link: String,
-    @ColumnInfo("latest_date") val latestDate: Long?
+    var title: String?,
+    var description: String?,
+    var link: String?,
+    @ColumnInfo("latest_date") var latestDate: Long?
 )
