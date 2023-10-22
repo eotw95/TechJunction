@@ -20,7 +20,6 @@ interface RssRepository {
 
     suspend fun insertOrUpdateItem(
         rssUrl: String,
-        channelId: Int,
         title: String,
         desc: String,
         link: String,

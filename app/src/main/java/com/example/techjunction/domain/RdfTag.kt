@@ -1,7 +1,5 @@
 package com.example.techjunction.domain
 
-import com.example.techjunction.room.RssChannel
-import com.example.techjunction.room.RssItem
 import com.example.techjunction.room.RssRepository
 import java.util.Date
 
@@ -23,7 +21,13 @@ class RdfTag(name: String, val rssUrl: String): Tag(name) {
                 tag.link,
                 date
             )
-            is RdfItemTag -> repo.insertOrUpdateItem(tag.asDatabaseModel(tag))
+            is RdfItemTag -> repo.insertOrUpdateItem(
+                rssUrl,
+                tag.title,
+                tag.desc,
+                tag.link,
+                tag.pubDate
+            )
         }
     }
 }
@@ -45,11 +49,14 @@ private class RdfItemTag(name: String): Tag(name) {
     var title: String = ""
     var desc: String = ""
     var link: String = ""
+    var pubDate: Date = Date()
     override suspend fun handleChildTagEnd(tag: Tag, repo: RssRepository, date: Date) {
         when(tag.name) {
             "title" -> title = tag.text
             "desc" -> desc = tag.text
             "link" -> link = tag.text
+            // Todo: String → Dateへのコンバータが必要
+            "dc:date" -> pubDate = tag.text
         }
     }
 }

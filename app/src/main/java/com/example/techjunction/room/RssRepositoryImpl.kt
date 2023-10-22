@@ -56,7 +56,6 @@ class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
 
     override suspend fun insertOrUpdateItem(
         rssUrl: String,
-        channelId: Int,
         title: String,
         desc: String,
         link: String,
