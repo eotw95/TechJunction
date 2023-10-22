@@ -17,9 +17,9 @@ class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun findItemByUrl(link: String): RssItem? {
+    override suspend fun findItemByUrl(channelId: Int, link: String): RssItem? {
         val dao = db.rssItemDao()
-        return dao.findItemByUrl(link)
+        return dao.findItemByUrl(channelId, link)
     }
 
     override suspend fun insertOrUpdateChannel(
@@ -79,12 +79,13 @@ class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
                 )
             )
         } else {
-            val item: RssItem? = itemDao.findItemByUrl(link)
+            val channelId = channel.id
+            val item: RssItem? = itemDao.findItemByUrl(channelId, link)
             if (item == null) {
                 itemDao.insert(
                     RssItem(
                         0,
-                        channel.id,
+                        channelId,
                         title,
                         desc,
                         link,

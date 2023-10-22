@@ -8,7 +8,7 @@ interface RssRepository {
     suspend fun findChannelByUrl(rssUrl: String): RssChannel?
     suspend fun getItemsByChannelId(channelId: Int): List<RssItem>
 
-    suspend fun findItemByUrl(link: String): RssItem?
+    suspend fun findItemByUrl(channelId: Int, link: String): RssItem?
 
     suspend fun insertOrUpdateChannel(
         rssUrl: String,
