@@ -63,9 +63,9 @@ class RssDownloadWorker(
         val rssFile = File(downloadDir, "rssFile")
 
         val db = RssDatabase.getInstance(context)
-        val repo = RssRepositoryImpl()
+        val repo = RssRepositoryImpl(db)
         val parser = RssParser(repo)
-        repo.fetchChannels().forEach { channel ->
+        repo.getChannels().forEach { channel ->
             val uri = Uri.parse(channel.rssUrl)
             val downloadResult = HttpDownloadManager.writeData(uri, rssFile)
             if (downloadResult) {
