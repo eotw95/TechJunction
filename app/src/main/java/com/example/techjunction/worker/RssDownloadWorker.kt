@@ -11,6 +11,7 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.example.techjunction.domain.RssParser
+import com.example.techjunction.room.RssChannel
 import com.example.techjunction.room.RssDatabase
 import com.example.techjunction.room.RssRepositoryImpl
 import com.example.techjunction.util.HttpDownloadManager
@@ -18,6 +19,7 @@ import com.example.techjunction.util.WorkScheduler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.util.Date
 import java.util.concurrent.TimeUnit
 
 class RssDownloadWorker(
@@ -65,6 +67,7 @@ class RssDownloadWorker(
         val db = RssDatabase.getInstance(context)
         val repo = RssRepositoryImpl(db)
         val parser = RssParser(repo)
+        setUpChannels(repo)
         repo.getChannels().forEach { channel ->
             val uri = Uri.parse(channel.rssUrl)
             val downloadResult = HttpDownloadManager.writeData(uri, rssFile)
@@ -73,6 +76,25 @@ class RssDownloadWorker(
                     parser.parse(input, channel.rssUrl)
                 }
             }
+        }
+    }
+
+    private suspend fun setUpChannels(repo: RssRepositoryImpl) {
+        if (repo.getChannels().isEmpty()) {
+            repo.insertOrUpdateChannel(
+                "https://b.hatena.ne.jp/hotentry/it.rss",
+                null,
+                null,
+                null,
+                Date()
+            )
+            repo.insertOrUpdateChannel(
+                "https://zenn.dev/topics/android/feed",
+                null,
+                null,
+                null,
+                Date()
+            )
         }
     }
 }
