@@ -11,7 +11,6 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.example.techjunction.domain.RssParser
-import com.example.techjunction.room.RssChannel
 import com.example.techjunction.room.RssDatabase
 import com.example.techjunction.room.RssRepositoryImpl
 import com.example.techjunction.util.HttpDownloadManager
@@ -31,7 +30,16 @@ class RssDownloadWorker(
 
         fun start(context: Context): Boolean {
             if (isWorkScheduled(context)) return false
+            WorkManager.getInstance(context).enqueue(createRequest())
 
+            return  true
+        }
+
+        private fun isWorkScheduled(context: Context): Boolean {
+            return WorkScheduler.isWorkScheduled(context, TAG)
+        }
+
+        private fun createRequest(): OneTimeWorkRequest {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresBatteryNotLow(true)
@@ -44,13 +52,7 @@ class RssDownloadWorker(
                 .addTag(TAG)
                 .build()
 
-            WorkManager.getInstance(context).enqueue(request)
-
-            return  true
-        }
-
-        private fun isWorkScheduled(context: Context): Boolean {
-            return WorkScheduler.isWorkScheduled(context, TAG)
+            return request
         }
     }
     override suspend fun doWork(): Result {
