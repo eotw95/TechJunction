@@ -33,6 +33,6 @@ class RootTag(private val rssUrl: String): Tag("Root") {
 
 class OtherTag(name: String): Tag(name) {
     override suspend fun handleChildTagEnd(tag: Tag, repo: RssRepository, date: Date) {
-        TODO("Not yet implemented")
+        // do nothing
     }
 }

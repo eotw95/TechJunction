@@ -16,7 +16,7 @@ abstract class RssDatabase: RoomDatabase() {
 
         fun getInstance(context: Context): RssDatabase {
             instance ?: synchronized(this) {
-                Room.databaseBuilder(
+                instance = Room.databaseBuilder(
                     context,
                     RssDatabase::class.java,
                     "rss-database"
