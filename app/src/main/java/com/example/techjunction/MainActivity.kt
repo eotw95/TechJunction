@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.techjunction.screens.HomeScreen
 import com.example.techjunction.ui.theme.TechJunctionTheme
+import com.example.techjunction.worker.RssDownloadWorker
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     HomeScreen()
+                    RssDownloadWorker.start(this@MainActivity)
                 }
             }
         }

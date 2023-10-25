@@ -2,9 +2,9 @@ package com.example.techjunction.screens.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.example.techjunction.constants.APP_NAME
+import com.example.techjunction.constants.KEY_APP_NAME
 
 @Composable
 fun ArticleTitle() {
-    Text(text = APP_NAME)
+    Text(text = KEY_APP_NAME)
 }

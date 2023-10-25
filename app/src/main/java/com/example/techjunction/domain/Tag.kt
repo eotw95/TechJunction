@@ -20,7 +20,7 @@ class RootTag(private val rssUrl: String): Tag("Root") {
 
     override fun createChildTag(name: String): Tag {
         return when (name) {
-            "rss" -> RssTag(name)
+            "rss" -> RssTag(name, rssUrl)
             "rdf:RDF" -> RdfTag(name, rssUrl)
             else -> throw java.lang.RuntimeException("not supported tag [$name]")
         }
