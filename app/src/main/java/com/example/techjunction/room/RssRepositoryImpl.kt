@@ -1,8 +1,12 @@
 package com.example.techjunction.room
 
+import android.util.Log
 import java.util.Date
 
 class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
+    companion object {
+        const val TAG = "RssRepositoryImpl"
+    }
     override suspend fun getChannels(): List<RssChannel> {
         val dao = db.rssChannelDao()
         return dao.getAll()
@@ -61,6 +65,12 @@ class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
         link: String,
         latestDate: Date
     ) {
+        Log.d(TAG, "insertOrUpdateItem()" +
+                " rssUrl=$rssUrl" +
+                " title=$title" +
+                " desc=$desc" +
+                " link=$link" +
+                " latestDat=$latestDate")
         val channelDao = db.rssChannelDao()
         val itemDao = db.rssItemDao()
 
