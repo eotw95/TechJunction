@@ -42,7 +42,7 @@ private class RdfChannelTag(name: String): Tag(name) {
     override suspend fun handleChildTagEnd(tag: Tag, repo: RssRepository, date: Date) {
         when(tag.name) {
             "title" -> title = tag.text
-            "desc" -> desc = tag.text
+            "description" -> desc = tag.text
             "link" -> link = tag.text
         }
     }
@@ -57,7 +57,7 @@ private class RdfItemTag(name: String): Tag(name) {
     override suspend fun handleChildTagEnd(tag: Tag, repo: RssRepository, date: Date) {
         when(tag.name) {
             "title" -> title = tag.text
-            "desc" -> desc = tag.text
+            "description" -> desc = tag.text
             "link" -> link = tag.text
             "dc:date" -> pubDate = DateConverter.asDate(tag.text)
         }
