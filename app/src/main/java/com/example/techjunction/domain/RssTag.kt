@@ -54,6 +54,7 @@ private class RssChannelTag(name: String, private val channelLink: String): Tag(
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun handleChildTagEnd(tag: Tag, repo: RssRepository, date: Date) {
         if (tag is RssItemTag) {
+            // Todo: Zennのchannelのデータがitemとして登録されているバグが起きているので修正
             repo.insertOrUpdateItem(
                 channelLink,
                 tag.title,
