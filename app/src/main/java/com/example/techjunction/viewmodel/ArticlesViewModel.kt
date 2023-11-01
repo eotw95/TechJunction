@@ -11,6 +11,7 @@ import com.example.techjunction.network.model.QiitaArticlesResponse
 import com.example.techjunction.repository.QiitaArticlesRepository
 import com.example.techjunction.room.RssChannel
 import com.example.techjunction.room.RssDatabase
+import com.example.techjunction.room.RssItem
 import com.example.techjunction.room.RssRepositoryImpl
 import kotlinx.coroutines.launch
 
@@ -25,10 +26,13 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
     val articles: LiveData<List<QiitaArticlesResponse>> = _articles
     private var _rssChannels = MutableLiveData<List<RssChannel>>()
     val rssChannels: LiveData<List<RssChannel>> = _rssChannels
+    private val _rssItems = MutableLiveData<List<RssItem>>()
+    val rssItems: LiveData<List<RssItem>> = _rssItems
 
     init {
         fetchQiitaArticles("kotlin")
         fetchRssChannels()
+        fetchRssitems()
     }
 
     fun fetchQiitaArticles(query: String) {
@@ -43,6 +47,17 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
         viewModelScope.launch {
             val channels = rssRepo.getChannels()
             _rssChannels.postValue(channels)
+        }
+    }
+
+    fun fetchRssitems() {
+        viewModelScope.launch {
+            val allItems = mutableListOf<RssItem>()
+            rssRepo.getChannels().forEach {channel ->
+                val items = rssRepo.getItemsByChannelId(channel.id)
+                allItems.addAll(items)
+            }
+            _rssItems.postValue(allItems)
         }
     }
 }

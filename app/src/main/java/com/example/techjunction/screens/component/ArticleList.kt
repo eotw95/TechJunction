@@ -28,6 +28,7 @@ fun ArticleList(){
     }
     val observeQiitaArticles = vm?.articles?.observeAsState()
     val observeRssChannels = vm?.rssChannels?.observeAsState()
+    val observeRssItems = vm?.rssItems?.observeAsState()
     Column {
         observeQiitaArticles?.value?.forEach { article ->
             Text(text = article.title)
@@ -35,6 +36,11 @@ fun ArticleList(){
         }
         observeRssChannels?.value?.forEach { channel ->
             Text(text = "${channel.title}")
+            Spacer(modifier = Modifier.padding(vertical = 10.dp))
+        }
+        observeRssItems?.value?.forEach { item ->
+            Text(text = "${item.title}")
+            Spacer(modifier = Modifier.padding(vertical = 10.dp))
             Divider()
         }
     }
