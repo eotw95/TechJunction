@@ -18,7 +18,8 @@ class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
     }
 
     override suspend fun getItemsByChannelId(channelId: Int): List<RssItem> {
-        TODO("Not yet implemented")
+        val dao = db.rssItemDao()
+        return dao.getAllByChannelId(channelId)
     }
 
     override suspend fun findItemByUrl(channelId: Int, link: String): RssItem? {
