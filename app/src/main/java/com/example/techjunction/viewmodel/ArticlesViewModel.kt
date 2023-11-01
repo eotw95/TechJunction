@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.techjunction.network.model.QiitaArticlesResponse
 import com.example.techjunction.repository.QiitaArticlesRepository
+import com.example.techjunction.room.RssChannel
 import com.example.techjunction.room.RssDatabase
 import com.example.techjunction.room.RssRepositoryImpl
 import kotlinx.coroutines.launch
@@ -18,19 +19,30 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
         private const val TAG = "ArticlesViewModel"
     }
 
-    private val repository = QiitaArticlesRepository()
+    private val qiitaArtRepo = QiitaArticlesRepository()
+    private val rssRepo = RssRepositoryImpl(RssDatabase.getInstance(application))
     private var _articles = MutableLiveData<List<QiitaArticlesResponse>>()
     val articles: LiveData<List<QiitaArticlesResponse>> = _articles
+    private var _rssChannels = MutableLiveData<List<RssChannel>>()
+    val rssChannels: LiveData<List<RssChannel>> = _rssChannels
 
     init {
         fetchQiitaArticles("kotlin")
+        fetchRssChannels()
     }
 
     fun fetchQiitaArticles(query: String) {
         viewModelScope.launch {
-            val articles = repository.fetchQiitaArticles(query)
+            val articles = qiitaArtRepo.fetchQiitaArticles(query)
             Log.d(TAG, "fetchQiitaArticles ret=$articles")
             _articles.postValue(articles)
+        }
+    }
+
+    fun fetchRssChannels() {
+        viewModelScope.launch {
+            val channels = rssRepo.getChannels()
+            _rssChannels.postValue(channels)
         }
     }
 }

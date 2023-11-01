@@ -27,11 +27,15 @@ fun ArticleList(){
         )
     }
     val observeQiitaArticles = vm?.articles?.observeAsState()
+    val observeRssChannels = vm?.rssChannels?.observeAsState()
     Column {
         observeQiitaArticles?.value?.forEach { article ->
             Text(text = article.title)
-            Divider()
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
+        }
+        observeRssChannels?.value?.forEach { channel ->
+            Text(text = "${channel.title}")
+            Divider()
         }
     }
 }
