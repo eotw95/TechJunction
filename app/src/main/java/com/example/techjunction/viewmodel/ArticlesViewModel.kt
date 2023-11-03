@@ -35,7 +35,7 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
         fetchRssitems()
     }
 
-    fun fetchQiitaArticles(query: String) {
+    private fun fetchQiitaArticles(query: String) {
         viewModelScope.launch {
             val articles = qiitaArtRepo.fetchQiitaArticles(query)
             Log.d(TAG, "fetchQiitaArticles ret=$articles")
@@ -43,14 +43,14 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
         }
     }
 
-    fun fetchRssChannels() {
+    private fun fetchRssChannels() {
         viewModelScope.launch {
             val channels = rssRepo.getChannels()
             _rssChannels.postValue(channels)
         }
     }
 
-    fun fetchRssitems() {
+    private fun fetchRssitems() {
         viewModelScope.launch {
             val allItems = mutableListOf<RssItem>()
             rssRepo.getChannels().forEach {channel ->

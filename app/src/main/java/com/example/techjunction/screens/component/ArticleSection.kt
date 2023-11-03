@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -46,9 +47,13 @@ fun ArticleSection() {
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
         Column {
-            Text("Zenn Trend")
+            Text(
+                text = "Qiita Trend",
+                fontWeight = FontWeight.Bold
+                )
+            Spacer(modifier = Modifier.padding(vertical = 20.dp))
             observeQiitaArticles?.value?.forEach { article ->
-                Text(text = article.title)
+                Text(text = article.title,)
                 Spacer(modifier = Modifier.padding(vertical = 10.dp))
                 Divider()
             }
@@ -56,23 +61,23 @@ fun ArticleSection() {
 
         Spacer(modifier = Modifier.padding(vertical = 30.dp))
 
-        Column {
-            Text("Qiita Trend")
-            zennItems?.forEach { item ->
-                Text(text = item.title)
-                Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                Divider()
-            }
-        }
-
-        Spacer(modifier = Modifier.padding(vertical = 30.dp))
-
-        Column {
-            Text("Hatena Bookmark")
-            hatenaItems?.forEach { item ->
-                Text(text = item.title)
-                Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                Divider()
+        observeRssChannels?.value?.let { channels ->
+            repeat(channels.size) { id ->
+                Column {
+                    val items = observeRssItems?.value?.filter { it.channelId == id + 1 }
+                    val channel = observeRssChannels.value?.first() { it.id == id + 1 }
+                    Text(
+                        text = requireNotNull(channel?.title),
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.padding(vertical = 20.dp))
+                    items?.forEach { item ->
+                        Text(text = item.title)
+                        Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                        Divider()
+                    }
+                }
+                Spacer(modifier = Modifier.padding(vertical = 30.dp))
             }
         }
     }
