@@ -13,6 +13,9 @@ interface RssChannelDao {
     @Query("SELECT * FROM rss_channels WHERE rss_url = :rssUrl")
     suspend fun findChannelByUrl(rssUrl: String): RssChannel?
 
+    @Query("SELECT * FROM rss_channels WHERE id = :id")
+    suspend fun findChannelById(id: Int): RssChannel?
+
     @Insert
     suspend fun insert(channel: RssChannel)
 
