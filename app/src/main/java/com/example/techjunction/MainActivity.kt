@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.techjunction.screens.ArticleDetailScreen
 import com.example.techjunction.screens.HomeScreen
 import com.example.techjunction.ui.theme.TechJunctionTheme
 import com.example.techjunction.worker.RssDownloadWorker
@@ -25,7 +27,25 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    HomeScreen()
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = "home",
+                        builder = {
+                            composable("home") {
+                                HomeScreen(
+                                    onClick = { url ->
+                                    navController.navigate("detail/$url")
+                                    }
+                                )
+                            }
+                            composable("detail/{url}") { navBackStackEntry ->
+                                navBackStackEntry.arguments?.getString("url")?.let {
+                                    ArticleDetailScreen(url = it)
+                                }
+                            }
+                        }
+                    )
                 }
             }
         }

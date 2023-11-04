@@ -1,6 +1,7 @@
 package com.example.techjunction.screens.component
 
 import android.app.Application
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -18,9 +19,13 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.example.techjunction.viewmodel.ArticlesViewModelFactory
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
-fun ArticleSection() {
+fun ArticleSection(
+    onClick: (String) -> Unit
+) {
     var vm: ArticlesViewModel? = null
     LocalViewModelStoreOwner.current?.let {
         vm = viewModel(
@@ -34,8 +39,6 @@ fun ArticleSection() {
     val observeQiitaArticles = vm?.articles?.observeAsState()
     val observeRssChannels = vm?.rssChannels?.observeAsState()
     val observeRssItems = vm?.rssItems?.observeAsState()
-    val zennItems = observeRssItems?.value?.filter { it.channelId == 1 }
-    val hatenaItems = observeRssItems?.value?.filter { it.channelId == 2 }
     observeQiitaArticles?.value?.let {
         channels.add(it)
     }
@@ -72,9 +75,14 @@ fun ArticleSection() {
                     )
                     Spacer(modifier = Modifier.padding(vertical = 20.dp))
                     items?.forEach { item ->
-                        Text(text = item.title)
-                        Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                        Divider()
+                        val encoderUrl = URLEncoder.encode(item.link, StandardCharsets.UTF_8.toString())
+                        Column(
+                            modifier = Modifier.clickable { onClick(encoderUrl) }
+                        ) {
+                            Text(text = item.title)
+                            Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                            Divider()
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.padding(vertical = 30.dp))

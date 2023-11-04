@@ -11,12 +11,14 @@ import com.example.techjunction.screens.component.CategoryTab
 import com.example.techjunction.screens.component.Header
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onClick: (String) -> Unit
+) {
     Column {
         Header()
         Spacer(modifier = Modifier.padding(vertical = 10.dp))
         CategoryTab()
         Spacer(modifier = Modifier.padding(vertical = 10.dp))
-        ArticleSection()
+        ArticleSection(onClick)
     }
 }
