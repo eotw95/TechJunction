@@ -1,6 +1,8 @@
 package com.example.techjunction.screens.component
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,13 +17,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.techjunction.util.DateConverter
 import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.example.techjunction.viewmodel.ArticlesViewModelFactory
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ArticleSection(
     onClick: (String) -> Unit
@@ -52,7 +57,8 @@ fun ArticleSection(
         Column {
             Text(
                 text = "Qiita Trend",
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
                 )
             Spacer(modifier = Modifier.padding(vertical = 20.dp))
             observeQiitaArticles?.value?.forEach { article ->
@@ -71,21 +77,33 @@ fun ArticleSection(
                     val channel = observeRssChannels.value?.first() { it.id == id + 1 }
                     Text(
                         text = requireNotNull(channel?.title),
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
                     )
-                    Spacer(modifier = Modifier.padding(vertical = 20.dp))
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
                     items?.forEach { item ->
                         val encoderUrl = URLEncoder.encode(item.link, StandardCharsets.UTF_8.toString())
                         Column(
                             modifier = Modifier.clickable { onClick(encoderUrl) }
                         ) {
-                            Text(text = item.title)
+                            Column {
+                                Text(
+                                    text = item.title,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 15.sp
+                                )
+                                val dateStr = DateConverter.asDate(item.pubDate.toString()).toString()
+                                Text(
+                                    text = dateStr,
+                                    fontSize = 10.sp
+                                )
+                            }
                             Spacer(modifier = Modifier.padding(vertical = 10.dp))
                             Divider()
                         }
                     }
                 }
-                Spacer(modifier = Modifier.padding(vertical = 30.dp))
+                Spacer(modifier = Modifier.padding(vertical = 15.dp))
             }
         }
     }
