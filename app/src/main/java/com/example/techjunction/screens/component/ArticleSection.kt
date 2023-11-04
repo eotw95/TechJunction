@@ -92,9 +92,9 @@ fun ArticleSection(
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 15.sp
                                 )
-                                val dateStr = DateConverter.asDate(item.pubDate.toString()).toString()
+                                Spacer(modifier = Modifier.padding(vertical = 5.dp))
                                 Text(
-                                    text = dateStr,
+                                    text = DateConverter.asDate(item.pubDate.toString()).toString(),
                                     fontSize = 10.sp
                                 )
                             }
