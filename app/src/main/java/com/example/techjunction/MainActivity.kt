@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.techjunction.screens.ArticleDetailScreen
 import com.example.techjunction.screens.HomeScreen
+import com.example.techjunction.screens.component.MainNavHost
 import com.example.techjunction.ui.theme.TechJunctionTheme
 import com.example.techjunction.worker.RssDownloadWorker
 
@@ -28,24 +29,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(
-                        navController = navController,
-                        startDestination = "home",
-                        builder = {
-                            composable("home") {
-                                HomeScreen(
-                                    onClick = { url ->
-                                    navController.navigate("detail/$url")
-                                    }
-                                )
-                            }
-                            composable("detail/{url}") { navBackStackEntry ->
-                                navBackStackEntry.arguments?.getString("url")?.let {
-                                    ArticleDetailScreen(url = it)
-                                }
-                            }
-                        }
-                    )
+                    MainNavHost(navController = navController)
                 }
             }
         }
