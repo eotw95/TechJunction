@@ -23,6 +23,7 @@ interface RssRepository {
         title: String,
         desc: String,
         link: String,
+        imgSrc: String,
         latestDate: Date
     )
 }

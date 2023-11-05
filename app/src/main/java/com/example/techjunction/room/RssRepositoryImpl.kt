@@ -64,6 +64,7 @@ class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
         title: String,
         desc: String,
         link: String,
+        imgSrc: String,
         latestDate: Date
     ) {
         Log.d(TAG, "insertOrUpdateItem()" +
@@ -71,6 +72,7 @@ class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
                 " title=$title" +
                 " desc=$desc" +
                 " link=$link" +
+                " imgSrc=$imgSrc" +
                 " latestDat=$latestDate")
         val channelDao = db.rssChannelDao()
         val itemDao = db.rssItemDao()
@@ -99,6 +101,7 @@ class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
                         title,
                         desc,
                         link,
+                        imgSrc,
                         latestDate.time
                     )
                 )

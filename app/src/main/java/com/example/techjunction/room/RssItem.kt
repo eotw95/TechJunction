@@ -11,5 +11,6 @@ data class RssItem(
     var title: String,
     var description: String,
     var link: String,
+    @ColumnInfo("img_src") val imgSrc: String,
     @ColumnInfo("pub_date") var pubDate: Long?
 )

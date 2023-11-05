@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [RssChannel::class, RssItem::class],
-    version = 1,
+    version = 2,
     exportSchema = false
     )
 abstract class RssDatabase: RoomDatabase() {
@@ -20,7 +20,7 @@ abstract class RssDatabase: RoomDatabase() {
                     context,
                     RssDatabase::class.java,
                     "rss-database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
             }
             return instance as RssDatabase
         }
