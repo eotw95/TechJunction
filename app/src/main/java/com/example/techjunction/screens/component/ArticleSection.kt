@@ -3,9 +3,12 @@ package com.example.techjunction.screens.component
 import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -20,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
 import com.example.techjunction.util.DateConverter
 import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.example.techjunction.viewmodel.ArticlesViewModelFactory
@@ -86,16 +91,23 @@ fun ArticleSection(
                         Column(
                             modifier = Modifier.clickable { onClick(encoderUrl) }
                         ) {
-                            Column {
-                                Text(
-                                    text = item.title,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 15.sp
-                                )
-                                Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                                Text(
-                                    text = DateConverter.asDate(item.pubDate.toString()).toString(),
-                                    fontSize = 10.sp
+                            Row {
+                                Column {
+                                    Text(
+                                        text = item.title,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 15.sp
+                                    )
+                                    Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                                    Text(
+                                        text = DateConverter.asDate(item.pubDate.toString()).toString(),
+                                        fontSize = 10.sp
+                                    )
+                                }
+                                AsyncImage(
+                                    model = item.imgSrc,
+                                    contentDescription = null,
+                                    modifier = Modifier.aspectRatio(1f)
                                 )
                             }
                             Spacer(modifier = Modifier.padding(vertical = 10.dp))

@@ -29,6 +29,7 @@ class RdfTag(name: String, private val rssUrl: String): Tag(name) {
                 tag.title,
                 tag.desc,
                 tag.link,
+                tag.imgSrc,
                 tag.pubDate
             )
         }
@@ -52,6 +53,7 @@ private class RdfItemTag(name: String): Tag(name) {
     var title: String = ""
     var desc: String = ""
     var link: String = ""
+    var imgSrc: String = ""
     var pubDate: Date = Date()
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun handleChildTagEnd(tag: Tag, repo: RssRepository, date: Date) {
@@ -59,6 +61,8 @@ private class RdfItemTag(name: String): Tag(name) {
             "title" -> title = tag.text
             "description" -> desc = tag.text
             "link" -> link = tag.text
+            //Todo: get imgSrc text
+            "hatena:imageurl" -> imgSrc = tag.text
             "dc:date" -> pubDate = DateConverter.asDate(tag.text)
         }
     }

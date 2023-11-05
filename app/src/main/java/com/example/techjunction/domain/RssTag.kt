@@ -60,6 +60,7 @@ private class RssChannelTag(name: String, private val channelLink: String): Tag(
                 tag.title,
                 tag.desc,
                 tag.link,
+                tag.imgSrc,
                 DateConverter.asDate(tag.pubDate)
             )
         } else {
@@ -80,12 +81,18 @@ private class RssItemTag(name: String): Tag(name) {
     var title = ""
     var desc = ""
     var link = ""
+    var imgSrc = ""
     var pubDate = ""
     override suspend fun handleChildTagEnd(tag: Tag, repo: RssRepository, date: Date) {
         when(tag.name) {
             "title" -> title = tag.text
             "description" -> desc = tag.text
             "link" -> link = tag.text
+            //Todo: get imgSrc text
+            "enclosure url" -> {
+                println("RssItemTag handleChildTagEnd() enclosure url=${tag.text}")
+                imgSrc = tag.text
+            }
             "pubDate" -> pubDate = tag.text
         }
     }
