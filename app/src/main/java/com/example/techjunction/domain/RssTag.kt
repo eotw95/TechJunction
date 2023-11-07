@@ -88,11 +88,7 @@ private class RssItemTag(name: String): Tag(name) {
             "title" -> title = tag.text
             "description" -> desc = tag.text
             "link" -> link = tag.text
-            //Todo: get imgSrc text
-            "enclosure url" -> {
-                println("RssItemTag handleChildTagEnd() enclosure url=${tag.text}")
-                imgSrc = tag.text
-            }
+            "enclosure" -> imgSrc = tag.attribute
             "pubDate" -> pubDate = tag.text
         }
     }

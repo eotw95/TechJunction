@@ -6,6 +6,7 @@ import java.util.Date
 abstract class Tag(val name: String) {
 
     var text: String = ""
+    var attribute: String = ""
 
     open fun createChildTag(name: String): Tag {
         return OtherTag(name)

@@ -12,6 +12,7 @@ class RssParser(private val repo: RssRepository) {
         const val TEXT = XmlPullParser.TEXT
         const val END_TAG = XmlPullParser.END_TAG
         const val END_DOCUMENT = XmlPullParser.END_DOCUMENT
+        const val ENCLOSURE = "enclosure"
     }
 
     suspend fun parse(input: InputStream, rssUrl: String) {
@@ -23,6 +24,11 @@ class RssParser(private val repo: RssRepository) {
             when (event) {
                 START_TAG -> {
                     val childTag = stack.first().createChildTag(parser.name)
+                    when (parser.name) {
+                        ENCLOSURE -> {
+                            childTag.attribute = parser.getAttributeValue(null, "url")
+                        }
+                    }
                     stack.addFirst(childTag)
                 }
                 TEXT -> {

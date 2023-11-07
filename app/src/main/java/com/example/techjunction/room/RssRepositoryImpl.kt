@@ -110,6 +110,7 @@ class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
                     it.title = title
                     it.description = desc
                     it.link = link
+                    it.imgSrc = imgSrc
                     it.pubDate = latestDate.time
                 }
                 itemDao.update(item)
