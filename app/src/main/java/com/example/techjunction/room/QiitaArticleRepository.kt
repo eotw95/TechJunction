@@ -3,7 +3,7 @@ package com.example.techjunction.room
 interface QiitaArticleRepository {
     suspend fun getAll(): List<QiitaArticle>
 
-    suspend fun insert(article: QiitaArticle)
+    suspend fun getAllByQuery(query: String): List<QiitaArticle>
 
-    suspend fun update(article: QiitaArticle)
+    suspend fun insertOrUpdate(article: QiitaArticle)
 }

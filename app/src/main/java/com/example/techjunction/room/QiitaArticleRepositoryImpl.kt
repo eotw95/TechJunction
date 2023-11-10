@@ -5,11 +5,11 @@ class QiitaArticleRepositoryImpl: QiitaArticleRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun insert(article: QiitaArticle) {
+    override suspend fun getAllByQuery(query: String): List<QiitaArticle> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun update(article: QiitaArticle) {
+    override suspend fun insertOrUpdate(article: QiitaArticle) {
         TODO("Not yet implemented")
     }
 }
