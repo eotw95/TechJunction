@@ -22,7 +22,7 @@ class QiitaApiDataSourceImpl: QiitaApiDataSource {
             .build()
             .create(QiitaApi::class.java)
     }
-    override suspend fun fetchQiitaArticles(query: String): List<QiitaArticlesResponse> {
+    override suspend fun getArticlesByQuery(query: String): List<QiitaArticlesResponse> {
         val response = retrofit.fetchQiitaArticles(query)
         if (response.isSuccessful) {
             Log.d(TAG, "success http request. response=${response.body()}")
