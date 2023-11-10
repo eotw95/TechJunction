@@ -5,16 +5,19 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -65,7 +68,20 @@ fun ArticleSection(
                 )
             Spacer(modifier = Modifier.padding(vertical = 20.dp))
             observeQiitaArticles?.value?.forEach { article ->
-                Text(text = article.title,)
+                Column {
+                    Text(text = article.title,)
+                    Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                    Row {
+                        AsyncImage(
+                            model = article.user.profileImageUrl,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.clip(shape = CircleShape)
+                        )
+                        Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                        Text(text = article.user.id)
+                    }
+                }
                 Spacer(modifier = Modifier.padding(vertical = 10.dp))
                 Divider()
             }
