@@ -10,9 +10,8 @@ interface QiitaArticleDao {
     @Query("SELECT * FROM qiita_articles")
     suspend fun getAll(): List<QiitaArticle>
 
-    // Todo: queryで一致する記事を取得するようにする
-    @Query("SELECT * FROM qiita_articles WHERE ")
-    suspend fun getAllByQuery(query: String): List<QiitaArticle>
+    @Query("DELETE FROM qiita_articles")
+    suspend fun deleteAll()
 
     @Insert
     suspend fun insert(article: QiitaArticle)

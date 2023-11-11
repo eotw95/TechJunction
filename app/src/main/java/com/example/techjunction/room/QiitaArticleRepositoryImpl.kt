@@ -1,15 +1,23 @@
 package com.example.techjunction.room
 
-class QiitaArticleRepositoryImpl: QiitaArticleRepository {
+import com.example.techjunction.network.QiitaApiDataSourceImpl
+import com.example.techjunction.network.model.asDatabaseModel
+
+class QiitaArticleRepositoryImpl(private val db: QiitaArticleDatabase): QiitaArticleRepository {
+
+    private val qiitaApiDataSource = QiitaApiDataSourceImpl()
+
     override suspend fun getAll(): List<QiitaArticle> {
-        TODO("Not yet implemented")
+        val dao = db.qiitaArticleDao()
+        return dao.getAll()
     }
 
-    override suspend fun getAllByQuery(query: String): List<QiitaArticle> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun insertOrUpdate(article: QiitaArticle) {
-        TODO("Not yet implemented")
+    override suspend fun storeArticles(query: String) {
+        val dao = db.qiitaArticleDao()
+        val articles = qiitaApiDataSource.getArticlesByQuery(query)
+        dao.deleteAll()
+        articles.forEach { article ->
+            dao.insert(article.asDatabaseModel())
+        }
     }
 }
