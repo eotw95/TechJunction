@@ -12,7 +12,7 @@ data class QiitaArticle(
     val user: User
 ) {
     data class User(
-        val id: String,
+        val userId: String,
         @ColumnInfo("profile_image_url") val profileImageUrl: String
     )
 }

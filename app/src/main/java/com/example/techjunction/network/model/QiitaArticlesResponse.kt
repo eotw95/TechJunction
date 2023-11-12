@@ -20,7 +20,7 @@ fun QiitaArticlesResponse.asDatabaseModel(): QiitaArticle {
         this.title,
         this.url,
         QiitaArticle.User(
-            0,
+            this.user.id,
             this.user.profileImageUrl
         )
     )

@@ -79,7 +79,7 @@ fun ArticleSection(
                             modifier = Modifier.clip(shape = CircleShape)
                         )
                         Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-                        Text(text = article.user.id)
+                        Text(text = article.user.userId)
                     }
                 }
                 Spacer(modifier = Modifier.padding(vertical = 10.dp))
