@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.techjunction.util.UserConverter
 
-@Database(entities = [QiitaArticle::class], version = 1)
+@Database(entities = [QiitaArticle::class], version = 2, exportSchema = false)
 @TypeConverters(UserConverter::class)
 abstract class QiitaArticleDatabase: RoomDatabase() {
     companion object {
@@ -15,12 +15,14 @@ abstract class QiitaArticleDatabase: RoomDatabase() {
 
         fun getInstance(context: Context): QiitaArticleDatabase {
             return instance ?: synchronized(this) {
-                instance = Room.databaseBuilder(
+                val tmpInstance = Room.databaseBuilder(
                     context,
                     QiitaArticleDatabase::class.java,
                     "QiitaArticleDatabase"
                 ).fallbackToDestructiveMigration().build()
-            } as QiitaArticleDatabase
+                instance = tmpInstance
+                return instance as QiitaArticleDatabase
+            }
         }
     }
     abstract fun qiitaArticleDao(): QiitaArticleDao
