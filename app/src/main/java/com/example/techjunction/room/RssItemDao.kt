@@ -7,7 +7,7 @@ import androidx.room.Update
 
 @Dao
 interface RssItemDao {
-    @Query("SELECT * FROM rss_items WHERE channel_id = :channelId ORDER BY pub_date DESC")
+    @Query("SELECT * FROM rss_items WHERE channel_id = :channelId ORDER BY pub_date DESC LIMIT 5")
     suspend fun getAllByChannelId(channelId: Int): List<RssItem>
 
     /**
