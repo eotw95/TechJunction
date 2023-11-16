@@ -10,6 +10,8 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.example.techjunction.constants.CHANNEL_URL_HATENA
+import com.example.techjunction.constants.CHANNEL_URL_ZENN
 import com.example.techjunction.domain.RssParser
 import com.example.techjunction.room.RssDatabase
 import com.example.techjunction.room.RssRepositoryImpl
@@ -84,14 +86,14 @@ class RssDownloadWorker(
     private suspend fun setUpChannels(repo: RssRepositoryImpl) {
         if (repo.getChannels().isEmpty()) {
             repo.insertOrUpdateChannel(
-                "https://b.hatena.ne.jp/hotentry/it.rss",
+                CHANNEL_URL_HATENA,
                 null,
                 null,
                 null,
                 Date()
             )
             repo.insertOrUpdateChannel(
-                "https://zenn.dev/topics/android/feed",
+                CHANNEL_URL_ZENN,
                 null,
                 null,
                 null,
