@@ -73,7 +73,12 @@ fun ArticleSection(
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
             observeQiitaArticles?.value?.forEach { article ->
                 Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                Column {
+                val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
+                Column(
+                    modifier = Modifier
+                        .clickable { onClick(encoderUrl) }
+                        .fillMaxWidth()
+                ) {
                     Text(text = article.title,)
                     Spacer(modifier = Modifier.padding(vertical = 5.dp))
                     Row(
@@ -114,7 +119,9 @@ fun ArticleSection(
                     items?.forEach { item ->
                         val encoderUrl = URLEncoder.encode(item.link, StandardCharsets.UTF_8.toString())
                         Column(
-                            modifier = Modifier.clickable { onClick(encoderUrl) }
+                            modifier = Modifier
+                                .clickable { onClick(encoderUrl) }
+                                .fillMaxWidth()
                         ) {
                             Column {
                                 AsyncImage(

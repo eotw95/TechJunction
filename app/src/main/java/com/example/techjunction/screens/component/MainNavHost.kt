@@ -22,7 +22,10 @@ fun MainNavHost(navController: NavHostController) {
             }
             composable("detail/{url}") { navBackStackEntry ->
                 navBackStackEntry.arguments?.getString("url")?.let {
-                    ArticleDetailScreen(url = it)
+                    ArticleDetailScreen(
+                        url = it,
+                        onClick = { navController.navigateUp() }
+                    )
                 }
             }
         }
