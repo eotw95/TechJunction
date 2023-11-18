@@ -105,12 +105,16 @@ fun ArticleSection(
 
         Spacer(modifier = Modifier.padding(vertical = 10.dp))
 
+        println("observeRssChannels?.value=${observeRssChannels?.value}")
         observeRssChannels?.value?.let { channels ->
+            println("channels.size=${channels.size}")
             repeat(channels.size) { id ->
                 Column {
                     val items = observeRssItems?.value?.filter { it.channelId == id + 1 }
                     val channel = observeRssChannels.value?.first() { it.id == id + 1 }
+                    println("channel?.title=${channel?.title}")
                     Text(
+                        // Todo: 新規のエミュレータで、アプリ起動すると、channel?.titleがnullでException発生するので、修正が必要。
                         text = requireNotNull(channel?.title),
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
