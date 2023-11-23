@@ -1,5 +1,7 @@
 package com.example.techjunction.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -10,6 +12,7 @@ import com.example.techjunction.screens.component.ArticleSection
 import com.example.techjunction.screens.component.CategoryTab
 import com.example.techjunction.screens.component.Header
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(
     onClick: (String) -> Unit

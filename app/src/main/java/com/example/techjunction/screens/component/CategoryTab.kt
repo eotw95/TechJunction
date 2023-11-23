@@ -13,13 +13,10 @@ import com.example.techjunction.constants.*
 @Composable
 fun CategoryTab() {
     val dummyList = listOf(
-        KEY_APP_NAME,
-        KEY_QIITA,
-        KEY_ZEN,
-        KEY_HATENA,
-        KEY_KOTLIN,
-        KEY_COMPOSE,
-        KEY_ANDROID
+        TOP,
+        QIITA,
+        ZEN,
+        HATENA,
     )
 
     LazyRow(content = {
