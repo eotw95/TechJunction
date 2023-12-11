@@ -9,11 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.techjunction.screens.ArticleDetailScreen
-import com.example.techjunction.screens.HomeScreen
 import com.example.techjunction.screens.component.MainNavHost
 import com.example.techjunction.ui.theme.TechJunctionTheme
 import com.example.techjunction.worker.RssDownloadWorker

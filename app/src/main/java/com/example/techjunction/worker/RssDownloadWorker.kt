@@ -48,13 +48,11 @@ class RssDownloadWorker(
                 .setRequiresStorageNotLow(true)
                 .build()
 
-            val request = OneTimeWorkRequest.Builder(RssDownloadWorker::class.java)
+            return OneTimeWorkRequest.Builder(RssDownloadWorker::class.java)
                 .setConstraints(constraints)
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 1, TimeUnit.MINUTES)
                 .addTag(TAG)
                 .build()
-
-            return request
         }
     }
     override suspend fun doWork(): Result {
