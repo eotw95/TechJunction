@@ -30,6 +30,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.techjunction.constants.HATENA
+import com.example.techjunction.constants.QIITA
+import com.example.techjunction.constants.TOP
+import com.example.techjunction.constants.ZENN
 import com.example.techjunction.util.DateConverter
 import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.example.techjunction.viewmodel.ArticlesViewModelFactory
@@ -39,6 +43,95 @@ import java.nio.charset.StandardCharsets
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ArticleSection(
+    onClick: (String) -> Unit,
+    name: String
+) {
+    when (name) {
+        TOP -> AllArticle(onClick)
+        QIITA -> QiitaArticle(onClick)
+        ZENN -> ZennArticle()
+        HATENA -> HatenaArticle()
+    }
+}
+
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun QiitaArticle(
+    onClick: (String) -> Unit
+) {
+    var vm: ArticlesViewModel? = null
+    LocalViewModelStoreOwner.current?.let {
+        vm = viewModel(
+            it,
+            "ArticlesViewModel",
+            ArticlesViewModelFactory(LocalContext.current.applicationContext as Application)
+        )
+    }
+
+    val observeQiitaArticles = vm?.articles?.observeAsState()
+
+    Column(
+        modifier = Modifier.verticalScroll(rememberScrollState())
+    ) {
+        Column {
+            Spacer(modifier = Modifier.padding(vertical = 10.dp))
+            Text(
+                text = "Qiita Trend",
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                modifier = Modifier.padding(horizontal = 5.dp)
+            )
+            Spacer(modifier = Modifier.padding(vertical = 7.dp))
+            observeQiitaArticles?.value?.forEach { article ->
+                val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
+                Column(
+                    modifier = Modifier
+                        .clickable { onClick(encoderUrl) }
+                        .fillMaxWidth()
+                        .padding(horizontal = 5.dp)
+                ) {
+                    Text(
+                        text = article.title,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                    Row(
+                        modifier = Modifier.height(32.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        AsyncImage(
+                            model = article.user.profileImageUrl,
+                            contentDescription = "author icon",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .fillMaxHeight(1f)
+                                .aspectRatio(1f)
+                                .clip(CircleShape)
+                        )
+                        Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                        Text(text = article.user.userId)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ZennArticle() {
+
+}
+
+@Composable
+fun HatenaArticle() {
+
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun AllArticle(
     onClick: (String) -> Unit
 ) {
     var vm: ArticlesViewModel? = null
@@ -71,7 +164,7 @@ fun ArticleSection(
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
                 modifier = Modifier.padding(horizontal = 5.dp)
-                )
+            )
             Spacer(modifier = Modifier.padding(vertical = 7.dp))
             observeQiitaArticles?.value?.forEach { article ->
                 val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
