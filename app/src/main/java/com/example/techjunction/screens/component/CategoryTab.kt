@@ -18,7 +18,7 @@ fun CategoryTab() {
     val categories = listOf(
         TOP,
         QIITA,
-        ZEN,
+        ZENN,
         HATENA,
     )
     Divider()

@@ -6,6 +6,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.runtime.Composable
+import com.example.techjunction.constants.services
 import com.example.techjunction.screens.component.ArticleSection
 import com.example.techjunction.screens.component.CategoryTab
 import com.example.techjunction.screens.component.Header
@@ -21,8 +22,14 @@ fun HomeScreen(
         CategoryTab()
 
         // Todo: 各サービスの記事一覧ページを独立させて、HorizontalPagerで横スクロールできるようにする
-        HorizontalPager(pageCount = 3) {
-            ArticleSection(onClick)
+        //  →　独立させずに分岐させる、独立させると似たようなコードが重複する
+        HorizontalPager(pageCount = services.size) {
+            when (it) {
+                1 -> ArticleSection(onClick)
+                2 -> ArticleSection(onClick)
+                3 -> ArticleSection(onClick)
+                4 -> ArticleSection(onClick)
+            }
         }
     }
 }
