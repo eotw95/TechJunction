@@ -27,6 +27,9 @@ fun HomeScreen(
 
         // Todo: 各サービスの記事一覧ページを独立させて、HorizontalPagerで横スクロールできるようにする
         //  →　独立させずに分岐させる、独立させると似たようなコードが重複する
+
+        // Todo: スクリーンの数が5ページある。期待は4
+        //  しかも最初のページは白紙
         HorizontalPager(pageCount = services.size) {
             when (it) {
                 1 -> ArticleSection(onClick, TOP)
