@@ -1,6 +1,5 @@
 package com.example.techjunction.constants
 
-// Todo: カテゴリーの定数名は修正したほうがいい
 const val APP_NAME = "TechJunction"
 
 const val TOP = "トップ"
