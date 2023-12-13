@@ -3,6 +3,8 @@ package com.example.techjunction.screens.component
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import com.example.techjunction.constants.CHANNEL_URL_HATENA
+import com.example.techjunction.constants.CHANNEL_URL_ZENN
 import com.example.techjunction.constants.HATENA
 import com.example.techjunction.constants.QIITA
 import com.example.techjunction.constants.TOP
@@ -15,12 +17,12 @@ import com.example.techjunction.screens.articles.ArticlesByRssFeed
 @Composable
 fun ArticleSection(
     onClick: (String) -> Unit,
-    name: String
+    categoryName: String
 ) {
-    when (name) {
+    when (categoryName) {
         TOP -> ArticlesAll(onClick)
         QIITA -> ArticlesByQiitaApi(onClick)
-        ZENN -> ArticlesByRssFeed(onClick, name)
-        HATENA -> ArticlesByRssFeed(onClick, name)
+        ZENN -> ArticlesByRssFeed(onClick, CHANNEL_URL_ZENN)
+        HATENA -> ArticlesByRssFeed(onClick, CHANNEL_URL_HATENA)
     }
 }
