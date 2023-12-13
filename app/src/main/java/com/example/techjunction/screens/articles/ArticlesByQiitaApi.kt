@@ -25,7 +25,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -50,48 +49,35 @@ fun ArticlesByQiitaApi(
 
     val observeQiitaArticles = vm?.articles?.observeAsState()
 
-    Column(
-        modifier = Modifier.verticalScroll(rememberScrollState())
-    ) {
-        Column {
-            Spacer(modifier = Modifier.padding(vertical = 10.dp))
+    observeQiitaArticles?.value?.forEach { article ->
+        val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
+        Column(
+            modifier = Modifier
+                .clickable { onClick(encoderUrl) }
+                .fillMaxWidth()
+                .padding(horizontal = 5.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
             Text(
-                text = "Qiita Trend",
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                modifier = Modifier.padding(horizontal = 5.dp)
+                text = article.title,
+                fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.padding(vertical = 7.dp))
-            observeQiitaArticles?.value?.forEach { article ->
-                val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
-                Column(
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            Row(
+                modifier = Modifier.height(32.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AsyncImage(
+                    model = article.user.profileImageUrl,
+                    contentDescription = "author icon",
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .clickable { onClick(encoderUrl) }
-                        .fillMaxWidth()
-                        .padding(horizontal = 5.dp)
-                ) {
-                    Text(
-                        text = article.title,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                    Row(
-                        modifier = Modifier.height(32.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        AsyncImage(
-                            model = article.user.profileImageUrl,
-                            contentDescription = "author icon",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .fillMaxHeight(1f)
-                                .aspectRatio(1f)
-                                .clip(CircleShape)
-                        )
-                        Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-                        Text(text = article.user.userId)
-                    }
-                }
+                        .fillMaxHeight(1f)
+                        .aspectRatio(1f)
+                        .clip(CircleShape)
+                )
+                Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                Text(text = article.user.userId)
             }
         }
     }

@@ -53,14 +53,6 @@ fun ArticlesByRssFeed(
         val channel = observeRssChannels?.value?.first() { it.rssUrl == channelUri }
         val items = observeRssItems?.value?.filter { it.channelId == channel?.id }
 
-        Text(
-            // Todo: 新規のエミュレータで、アプリ起動すると、channel?.titleがnullでException発生するので、修正が必要。
-            text = requireNotNull(channel?.title),
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            modifier = Modifier.padding(horizontal = 5.dp)
-        )
-        Spacer(modifier = Modifier.padding(vertical = 10.dp))
         items?.forEach { item ->
             val encoderUrl = URLEncoder.encode(item.link, StandardCharsets.UTF_8.toString())
             Column(

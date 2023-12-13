@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.techjunction.constants.CHANNEL_URL_HATENA
+import com.example.techjunction.constants.CHANNEL_URL_ZENN
 import com.example.techjunction.util.DateConverter
 import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.example.techjunction.viewmodel.ArticlesViewModelFactory
@@ -67,9 +69,9 @@ fun ArticlesAll(
         Column {
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
             Text(
-                text = "Qiita Trend",
+                text = "Qiita",
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
+                fontSize = 30.sp,
                 modifier = Modifier.padding(horizontal = 5.dp)
             )
             Spacer(modifier = Modifier.padding(vertical = 7.dp))
@@ -117,9 +119,9 @@ fun ArticlesAll(
                     val channel = observeRssChannels.value?.first() { it.id == id + 1 }
                     Text(
                         // Todo: 新規のエミュレータで、アプリ起動すると、channel?.titleがnullでException発生するので、修正が必要。
-                        text = requireNotNull(channel?.title),
+                        text = convertUriToName(channel?.rssUrl),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
+                        fontSize = 30.sp,
                         modifier = Modifier.padding(horizontal = 5.dp)
                     )
                     Spacer(modifier = Modifier.padding(vertical = 10.dp))
@@ -162,5 +164,13 @@ fun ArticlesAll(
                 Spacer(modifier = Modifier.padding(vertical = 15.dp))
             }
         }
+    }
+}
+
+private fun convertUriToName(channelUri: String?): String {
+    return when (channelUri) {
+        CHANNEL_URL_HATENA -> "Hatena Bookmark"
+        CHANNEL_URL_ZENN -> "Zenn"
+        else -> throw IllegalArgumentException("Channel Uri is invalid")
     }
 }
