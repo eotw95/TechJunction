@@ -49,35 +49,39 @@ fun ArticlesByQiitaApi(
 
     val observeQiitaArticles = vm?.articles?.observeAsState()
 
-    observeQiitaArticles?.value?.forEach { article ->
-        val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
-        Column(
-            modifier = Modifier
-                .clickable { onClick(encoderUrl) }
-                .fillMaxWidth()
-                .padding(horizontal = 5.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Text(
-                text = article.title,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
-            Row(
-                modifier = Modifier.height(32.dp),
-                verticalAlignment = Alignment.CenterVertically
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+    ) {
+        observeQiitaArticles?.value?.forEach { article ->
+            val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
+            Column(
+                modifier = Modifier
+                    .clickable { onClick(encoderUrl) }
+                    .fillMaxWidth()
+                    .padding(horizontal = 5.dp)
             ) {
-                AsyncImage(
-                    model = article.user.profileImageUrl,
-                    contentDescription = "author icon",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxHeight(1f)
-                        .aspectRatio(1f)
-                        .clip(CircleShape)
+                Text(
+                    text = article.title,
+                    fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-                Text(text = article.user.userId)
+                Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                Row(
+                    modifier = Modifier.height(32.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AsyncImage(
+                        model = article.user.profileImageUrl,
+                        contentDescription = "author icon",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxHeight(1f)
+                            .aspectRatio(1f)
+                            .clip(CircleShape)
+                    )
+                    Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                    Text(text = article.user.userId)
+                }
             }
         }
     }
