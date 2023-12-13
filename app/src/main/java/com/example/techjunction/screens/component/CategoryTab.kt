@@ -9,6 +9,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.techjunction.constants.*
@@ -30,7 +33,18 @@ fun CategoryTab() {
             ) {
                 Text(
                     text = item,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.drawBehind {
+                        // Todo: カテゴリ名の下部に水平線を表示させる。
+                        //  記事リストの横スクロールと連動させる。
+                        val borderSize = 2.dp.toPx()
+                        drawLine(
+                            color = Color.Black,
+                            start = Offset(0f, size.height),
+                            end = Offset(size.width, size.height),
+                            strokeWidth = borderSize
+                        )
+                    }
                 )
             }
         }
