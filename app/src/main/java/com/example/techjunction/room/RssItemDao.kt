@@ -7,8 +7,8 @@ import androidx.room.Update
 
 @Dao
 interface RssItemDao {
-    @Query("SELECT * FROM rss_items WHERE channel_id = :channelId ORDER BY pub_date DESC LIMIT 5")
-    suspend fun getAllByChannelId(channelId: Int): List<RssItem>
+    @Query("SELECT * FROM rss_items WHERE channel_id = :channelId ORDER BY pub_date DESC LIMIT :limit")
+    suspend fun getAllByChannelId(channelId: Int, limit: Int): List<RssItem>
 
     /**
      * はてなブックマークのitemは、Zennのitemを含んでいる可能性があるため、channelIdも条件に含める

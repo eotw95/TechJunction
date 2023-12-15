@@ -32,6 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.techjunction.constants.CHANNEL_URL_HATENA
 import com.example.techjunction.constants.CHANNEL_URL_ZENN
+import com.example.techjunction.constants.LIMIT_NUMBER_5
 import com.example.techjunction.util.DateConverter
 import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.example.techjunction.viewmodel.ArticlesViewModelFactory
@@ -51,17 +52,13 @@ fun ArticlesAll(
             ArticlesViewModelFactory(LocalContext.current.applicationContext as Application)
         )
     }
+    vm?.fetchQiitaArticles("kotlin", LIMIT_NUMBER_5)
+    vm?.fetchRssChannels()
+    vm?.fetchRssitems(LIMIT_NUMBER_5)
 
-    val channels = mutableListOf<List<Any>>()
     val observeQiitaArticles = vm?.articles?.observeAsState()
     val observeRssChannels = vm?.rssChannels?.observeAsState()
     val observeRssItems = vm?.rssItems?.observeAsState()
-    observeQiitaArticles?.value?.let {
-        channels.add(it)
-    }
-    observeRssItems?.value?.let {
-        channels.add(it)
-    }
 
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState())

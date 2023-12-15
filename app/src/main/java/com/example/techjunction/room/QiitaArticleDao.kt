@@ -7,8 +7,8 @@ import androidx.room.Update
 
 @Dao
 interface QiitaArticleDao {
-    @Query("SELECT * FROM qiita_articles LIMIT 5")
-    suspend fun getAll(): List<QiitaArticle>
+    @Query("SELECT * FROM qiita_articles LIMIT :limit")
+    suspend fun getAll(limit: Int): List<QiitaArticle>
 
     @Query("DELETE FROM qiita_articles")
     suspend fun deleteAll()
