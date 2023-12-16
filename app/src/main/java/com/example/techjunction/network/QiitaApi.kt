@@ -9,6 +9,6 @@ interface QiitaApi {
     companion object {
         const val BASE_URL = "https://qiita.com/"
     }
-    @GET("/api/v2/items?page=1&per_page=5")
+    @GET("/api/v2/items?page=1&per_page=15")
     suspend fun fetchQiitaArticles(@Query("query") query: String): Response<List<QiitaArticlesResponse>>
 }
