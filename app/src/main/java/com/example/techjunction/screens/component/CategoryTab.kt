@@ -14,7 +14,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.techjunction.constants.*
+import com.example.techjunction.constants.HATENA
+import com.example.techjunction.constants.QIITA
+import com.example.techjunction.constants.TOP
+import com.example.techjunction.constants.ZENN
 
 @Composable
 fun CategoryTab() {
@@ -29,7 +32,7 @@ fun CategoryTab() {
     LazyRow(content = {
         items(categories) { item ->
             Surface(
-                modifier = Modifier.padding(horizontal = 10.dp)
+                modifier = Modifier.padding(horizontal = 15.dp)
             ) {
                 Text(
                     text = item,

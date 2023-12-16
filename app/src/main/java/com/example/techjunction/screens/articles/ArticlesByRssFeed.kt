@@ -9,12 +9,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -60,18 +61,21 @@ fun ArticlesByRssFeed(
                     .clickable { onClick(encoderUrl) }
                     .fillMaxWidth()
             ) {
-                Column {
+                Column(
+                    modifier = Modifier.padding(horizontal = 15.dp)
+                ) {
                     AsyncImage(
                         model = item.imgSrc,
                         contentDescription = null,
                         contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .padding(top = 15.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(16.dp)),
                         onError = { println("image error") }
                     )
                     Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                    Column(
-                        modifier = Modifier.padding(horizontal = 5.dp)
-                    ) {
+                    Column {
                         Text(
                             text = item.title,
                             fontWeight = FontWeight.Bold,
@@ -83,9 +87,8 @@ fun ArticlesByRssFeed(
                             fontSize = 10.sp
                         )
                     }
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
                 }
-                Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                Divider()
             }
         }
     }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -83,6 +84,8 @@ fun ArticlesByQiitaApi(
                     Text(text = article.user.userId)
                 }
             }
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            Divider()
         }
     }
 }

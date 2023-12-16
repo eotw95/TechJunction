@@ -3,6 +3,7 @@ package com.example.techjunction.screens.articles
 import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,10 +13,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -38,6 +40,7 @@ import com.example.techjunction.viewmodel.ArticlesViewModelFactory
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
+@OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ArticlesAll(
@@ -52,61 +55,63 @@ fun ArticlesAll(
         )
     }
 
-    val channels = mutableListOf<List<Any>>()
     val observeQiitaArticles = vm?.articles?.observeAsState()
     val observeRssChannels = vm?.rssChannels?.observeAsState()
     val observeRssItems = vm?.rssItems?.observeAsState()
-    observeQiitaArticles?.value?.let {
-        channels.add(it)
-    }
-    observeRssItems?.value?.let {
-        channels.add(it)
-    }
 
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
-        Column {
-            Spacer(modifier = Modifier.padding(vertical = 10.dp))
-            Text(
-                text = "Qiita",
-                fontWeight = FontWeight.Bold,
-                fontSize = 30.sp,
-                modifier = Modifier.padding(horizontal = 5.dp)
-            )
-            Spacer(modifier = Modifier.padding(vertical = 7.dp))
-            observeQiitaArticles?.value?.forEach { article ->
-                val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
-                Column(
-                    modifier = Modifier
-                        .clickable { onClick(encoderUrl) }
-                        .fillMaxWidth()
-                        .padding(horizontal = 5.dp)
-                ) {
-                    Text(
-                        text = article.title,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                    Row(
-                        modifier = Modifier.height(32.dp),
-                        verticalAlignment = Alignment.CenterVertically
+        val articles = observeQiitaArticles?.value
+        val size = observeQiitaArticles?.value?.size
+        if (size != null) {
+            Column(
+                modifier = Modifier.padding(horizontal = 15.dp)
+            ) {
+                Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                Text(
+                    text = "Qiita",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 30.sp,
+                    modifier = Modifier.padding(horizontal = 5.dp)
+                )
+                Spacer(modifier = Modifier.padding(vertical = 7.dp))
+                HorizontalPager(
+                    pageCount = size
+                ) { index ->
+                    val encoderUrl = URLEncoder.encode(articles?.get(index)?.url, StandardCharsets.UTF_8.toString())
+                    Column(
+                        modifier = Modifier
+                            .clickable { onClick(encoderUrl) }
+                            .fillMaxWidth()
+                            .padding(horizontal = 15.dp)
                     ) {
-                        AsyncImage(
-                            model = article.user.profileImageUrl,
-                            contentDescription = "author icon",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .fillMaxHeight(1f)
-                                .aspectRatio(1f)
-                                .clip(CircleShape)
-                        )
-                        Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-                        Text(text = article.user.userId)
+                        if (articles?.get(index) != null) {
+                            Text(
+                                text = articles[index].title,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                            Row(
+                                modifier = Modifier.height(32.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                AsyncImage(
+                                    model = articles?.get(index)?.user?.profileImageUrl,
+                                    contentDescription = "author icon",
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier
+                                        .fillMaxHeight(1f)
+                                        .aspectRatio(1f)
+                                        .clip(CircleShape)
+                                )
+                                Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                                Text(text = articles[index].user.userId)
+                            }
+                        }
                     }
+                    Spacer(modifier = Modifier.padding(vertical = 5.dp))
                 }
-                Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                Divider()
             }
         }
 
@@ -114,50 +119,52 @@ fun ArticlesAll(
 
         observeRssChannels?.value?.let { channels ->
             repeat(channels.size) { id ->
-                Column {
+                Column(
+                    modifier = Modifier.padding(horizontal = 15.dp)
+                ) {
                     val items = observeRssItems?.value?.filter { it.channelId == id + 1 }
                     val channel = observeRssChannels.value?.first() { it.id == id + 1 }
                     Text(
                         // Todo: 新規のエミュレータで、アプリ起動すると、channel?.titleがnullでException発生するので、修正が必要。
                         text = convertUriToName(channel?.rssUrl),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 30.sp,
-                        modifier = Modifier.padding(horizontal = 5.dp)
+                        fontSize = 30.sp
                     )
                     Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                    items?.forEach { item ->
-                        val encoderUrl = URLEncoder.encode(item.link, StandardCharsets.UTF_8.toString())
-                        Column(
-                            modifier = Modifier
-                                .clickable { onClick(encoderUrl) }
-                                .fillMaxWidth()
-                        ) {
-                            Column {
-                                AsyncImage(
-                                    model = item.imgSrc,
-                                    contentDescription = null,
-                                    contentScale = ContentScale.FillWidth,
-                                    modifier = Modifier.fillMaxWidth(),
-                                    onError = { println("image error") }
-                                )
-                                Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                                Column(
-                                    modifier = Modifier.padding(horizontal = 5.dp)
-                                ) {
-                                    Text(
-                                        text = item.title,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 15.sp
+                    if (items != null) {
+                        HorizontalPager(pageCount = items.size) { index ->
+                            val encoderUrl = URLEncoder.encode(items[index].link, StandardCharsets.UTF_8.toString())
+                            Column(
+                                modifier = Modifier
+                                    .clickable { onClick(encoderUrl) }
+                                    .fillMaxWidth()
+                            ) {
+                                Column {
+                                    AsyncImage(
+                                        model = items[index].imgSrc,
+                                        contentDescription = null,
+                                        contentScale = ContentScale.FillWidth,
+                                        modifier = Modifier
+                                            .clip(RoundedCornerShape(16.dp))
+                                            .fillMaxWidth(),
+                                        onError = { println("image error") }
                                     )
                                     Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                                    Text(
-                                        text = DateConverter.asDate(item.pubDate.toString()).toString(),
-                                        fontSize = 10.sp
-                                    )
+                                    Column {
+                                        Text(
+                                            text = items[index].title,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 15.sp
+                                        )
+                                        Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                                        Text(
+                                            text = DateConverter.asDate(items[index].pubDate.toString()).toString(),
+                                            fontSize = 10.sp
+                                        )
+                                    }
                                 }
+                                Spacer(modifier = Modifier.padding(vertical = 10.dp))
                             }
-                            Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                            Divider()
                         }
                     }
                 }
