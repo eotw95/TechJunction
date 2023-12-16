@@ -29,26 +29,32 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
     private val _rssItems = MutableLiveData<List<RssItem>>()
     val rssItems: LiveData<List<RssItem>> = _rssItems
 
-    internal fun fetchQiitaArticles(query: String, limit: Int) {
+    init {
+        fetchQiitaArticles("kotlin")
+        fetchRssChannels()
+        fetchRssitems()
+    }
+
+    private fun fetchQiitaArticles(query: String) {
         viewModelScope.launch {
             qiitaArtRepo.storeArticles(query)
-            val articles = qiitaArtRepo.getAll(limit)
+            val articles = qiitaArtRepo.getAll()
             _articles.postValue(articles)
         }
     }
 
-    internal fun fetchRssChannels() {
+    private fun fetchRssChannels() {
         viewModelScope.launch {
             val channels = rssRepo.getChannels()
             _rssChannels.postValue(channels)
         }
     }
 
-    internal fun fetchRssitems(limit: Int) {
+    private fun fetchRssitems() {
         viewModelScope.launch {
             val allItems = mutableListOf<RssItem>()
             rssRepo.getChannels().forEach {channel ->
-                val items = rssRepo.getItemsByChannelId(channel.id, limit)
+                val items = rssRepo.getItemsByChannelId(channel.id)
                 allItems.addAll(items)
             }
             _rssItems.postValue(allItems)

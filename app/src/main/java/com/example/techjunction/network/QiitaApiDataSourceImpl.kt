@@ -29,7 +29,6 @@ class QiitaApiDataSourceImpl: QiitaApiDataSource {
             return requireNotNull(response.body())
         } else {
             Log.e(TAG, "fail http request. errorCode=${response.code()}")
-            // Todo: このルートに入ってしまうので調査
             throw HttpException()
         }
     }

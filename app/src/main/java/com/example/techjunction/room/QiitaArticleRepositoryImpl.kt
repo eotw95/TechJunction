@@ -7,9 +7,9 @@ class QiitaArticleRepositoryImpl(private val db: QiitaArticleDatabase): QiitaArt
 
     private val qiitaApiDataSource = QiitaApiDataSourceImpl()
 
-    override suspend fun getAll(limit: Int): List<QiitaArticle> {
+    override suspend fun getAll(): List<QiitaArticle> {
         val dao = db.qiitaArticleDao()
-        return dao.getAll(limit)
+        return dao.getAll()
     }
 
     override suspend fun storeArticles(query: String) {

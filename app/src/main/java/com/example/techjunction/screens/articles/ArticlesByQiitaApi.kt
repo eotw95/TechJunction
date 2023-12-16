@@ -28,9 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.example.techjunction.constants.LIMIT_NUMBER_15
-import com.example.techjunction.constants.LIMIT_NUMBER_5
-import com.example.techjunction.constants.QUERY_KOTLIN
 import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.example.techjunction.viewmodel.ArticlesViewModelFactory
 import java.net.URLEncoder
@@ -49,7 +46,6 @@ fun ArticlesByQiitaApi(
             ArticlesViewModelFactory(LocalContext.current.applicationContext as Application)
         )
     }
-    vm?.fetchQiitaArticles(QUERY_KOTLIN, LIMIT_NUMBER_15)
 
     val observeQiitaArticles = vm?.articles?.observeAsState()
 
