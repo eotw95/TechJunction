@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -87,7 +90,12 @@ fun ArticlesAll(
                         StandardCharsets.UTF_8.toString()
                     )
                     Card(
-                        modifier = Modifier.padding(horizontal = 10.dp)
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.background
+                        ),
+                        modifier = Modifier
+                            .padding(horizontal = 10.dp)
+                            .background(Color.White)
                     ) {
                         Column(
                             modifier = Modifier
@@ -150,7 +158,12 @@ fun ArticlesAll(
                             contentPadding = PaddingValues(horizontal = 30.dp)
                             ) { index ->
                             val encoderUrl = URLEncoder.encode(items[index].link, StandardCharsets.UTF_8.toString())
-                            Card(modifier = Modifier.padding(horizontal = 10.dp)) {
+                            Card(
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.background
+                                ),
+                                modifier = Modifier.padding(horizontal = 10.dp)
+                            ) {
                                 Column(
                                     modifier = Modifier
                                         .clickable { onClick(encoderUrl) }
