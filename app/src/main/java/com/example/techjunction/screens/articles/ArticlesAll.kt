@@ -4,8 +4,10 @@ import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -18,12 +20,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -65,52 +69,62 @@ fun ArticlesAll(
         val articles = observeQiitaArticles?.value
         val size = observeQiitaArticles?.value?.size
         if (size != null) {
-            Column(
-                modifier = Modifier.padding(horizontal = 15.dp)
-            ) {
+            Column {
                 Spacer(modifier = Modifier.padding(vertical = 10.dp))
                 Text(
                     text = "Qiita",
                     fontWeight = FontWeight.Bold,
                     fontSize = 30.sp,
-                    modifier = Modifier.padding(horizontal = 5.dp)
+                    modifier = Modifier.padding(horizontal = 15.dp)
                 )
                 Spacer(modifier = Modifier.padding(vertical = 7.dp))
                 HorizontalPager(
-                    pageCount = size
+                    pageCount = size,
+                    contentPadding = PaddingValues(horizontal = 30.dp)
                 ) { index ->
-                    val encoderUrl = URLEncoder.encode(articles?.get(index)?.url, StandardCharsets.UTF_8.toString())
-                    Column(
-                        modifier = Modifier
-                            .clickable { onClick(encoderUrl) }
-                            .fillMaxWidth()
-                            .padding(horizontal = 15.dp)
+                    val encoderUrl = URLEncoder.encode(
+                        articles?.get(index)?.url,
+                        StandardCharsets.UTF_8.toString()
+                    )
+                    Card(
+                        modifier = Modifier.padding(horizontal = 10.dp)
                     ) {
-                        if (articles?.get(index) != null) {
-                            Text(
-                                text = articles[index].title,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                            Row(
-                                modifier = Modifier.height(32.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                AsyncImage(
-                                    model = articles?.get(index)?.user?.profileImageUrl,
-                                    contentDescription = "author icon",
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .fillMaxHeight(1f)
-                                        .aspectRatio(1f)
-                                        .clip(CircleShape)
+                        Column(
+                            modifier = Modifier
+                                .clickable { onClick(encoderUrl) }
+                                .fillMaxWidth()
+                                .border(
+                                    width = 0.5.dp,
+                                    color = Color.Gray,
+                                    shape = RoundedCornerShape(16.dp)
                                 )
-                                Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-                                Text(text = articles[index].user.userId)
+                                .padding(10.dp)
+                        ) {
+                            if (articles?.get(index) != null) {
+                                Text(
+                                    text = articles[index].title,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                                Row(
+                                    modifier = Modifier.height(32.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    AsyncImage(
+                                        model = articles?.get(index)?.user?.profileImageUrl,
+                                        contentDescription = "author icon",
+                                        contentScale = ContentScale.Crop,
+                                        modifier = Modifier
+                                            .fillMaxHeight(1f)
+                                            .aspectRatio(1f)
+                                            .clip(CircleShape)
+                                    )
+                                    Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                                    Text(text = articles[index].user.userId)
+                                }
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.padding(vertical = 5.dp))
                 }
             }
         }
@@ -119,51 +133,67 @@ fun ArticlesAll(
 
         observeRssChannels?.value?.let { channels ->
             repeat(channels.size) { id ->
-                Column(
-                    modifier = Modifier.padding(horizontal = 15.dp)
-                ) {
+                Column {
                     val items = observeRssItems?.value?.filter { it.channelId == id + 1 }
                     val channel = observeRssChannels.value?.first() { it.id == id + 1 }
                     Text(
                         // Todo: 新規のエミュレータで、アプリ起動すると、channel?.titleがnullでException発生するので、修正が必要。
                         text = convertUriToName(channel?.rssUrl),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 30.sp
+                        fontSize = 30.sp,
+                        modifier = Modifier.padding(horizontal = 15.dp)
                     )
                     Spacer(modifier = Modifier.padding(vertical = 10.dp))
                     if (items != null) {
-                        HorizontalPager(pageCount = items.size) { index ->
+                        HorizontalPager(
+                            pageCount = items.size,
+                            contentPadding = PaddingValues(horizontal = 30.dp)
+                            ) { index ->
                             val encoderUrl = URLEncoder.encode(items[index].link, StandardCharsets.UTF_8.toString())
-                            Column(
-                                modifier = Modifier
-                                    .clickable { onClick(encoderUrl) }
-                                    .fillMaxWidth()
-                            ) {
-                                Column {
-                                    AsyncImage(
-                                        model = items[index].imgSrc,
-                                        contentDescription = null,
-                                        contentScale = ContentScale.FillWidth,
-                                        modifier = Modifier
-                                            .clip(RoundedCornerShape(16.dp))
-                                            .fillMaxWidth(),
-                                        onError = { println("image error") }
-                                    )
-                                    Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                            Card(modifier = Modifier.padding(horizontal = 10.dp)) {
+                                Column(
+                                    modifier = Modifier
+                                        .clickable { onClick(encoderUrl) }
+                                        .fillMaxWidth()
+                                        .border(
+                                            width = 0.5.dp,
+                                            color = Color.Gray,
+                                            shape = RoundedCornerShape(16.dp)
+                                        )
+                                ) {
                                     Column {
-                                        Text(
-                                            text = items[index].title,
-                                            fontWeight = FontWeight.Bold,
-                                            fontSize = 15.sp
+                                        AsyncImage(
+                                            model = items[index].imgSrc,
+                                            contentDescription = null,
+                                            contentScale = ContentScale.FillWidth,
+                                            modifier = Modifier
+                                                .clip(
+                                                    RoundedCornerShape(
+                                                        topStart = 16.dp,
+                                                        topEnd = 16.dp
+                                                    )
+                                                )
+                                                .fillMaxWidth(),
+                                            onError = { println("image error") }
                                         )
                                         Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                                        Text(
-                                            text = DateConverter.asDate(items[index].pubDate.toString()).toString(),
-                                            fontSize = 10.sp
-                                        )
+                                        Column(
+                                            modifier = Modifier.padding(horizontal = 10.dp)
+                                        ) {
+                                            Text(
+                                                text = items[index].title,
+                                                fontWeight = FontWeight.Bold,
+                                                fontSize = 15.sp
+                                            )
+                                            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                                            Text(
+                                                text = DateConverter.asDate(items[index].pubDate.toString()).toString(),
+                                                fontSize = 10.sp
+                                            )
+                                        }
                                     }
+                                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
                                 }
-                                Spacer(modifier = Modifier.padding(vertical = 10.dp))
                             }
                         }
                     }
