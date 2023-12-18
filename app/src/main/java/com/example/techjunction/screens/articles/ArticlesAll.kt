@@ -181,10 +181,11 @@ fun ArticlesAll(
                                         .height(300.dp)
                                 ) {
                                     Column {
+                                        // Todo: Zennの場合は、画像が全て入るように分岐させる
                                         AsyncImage(
                                             model = items[index].imgSrc,
                                             contentDescription = null,
-                                            contentScale = ContentScale.FillWidth,
+                                            contentScale = ContentScale.Crop,
                                             modifier = Modifier
                                                 .clip(
                                                     RoundedCornerShape(
@@ -192,7 +193,8 @@ fun ArticlesAll(
                                                         topEnd = 16.dp
                                                     )
                                                 )
-                                                .fillMaxWidth(),
+                                                .fillMaxWidth()
+                                                .height(200.dp),
                                             onError = { println("image error") }
                                         )
                                         Spacer(modifier = Modifier.padding(vertical = 5.dp))
