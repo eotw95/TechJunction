@@ -107,10 +107,15 @@ fun ArticlesAll(
                                     shape = RoundedCornerShape(16.dp)
                                 )
                                 .padding(10.dp)
+                                .height(100.dp)
                         ) {
                             if (articles?.get(index) != null) {
+                                var title = articles[index].title
+                                if (title.length > 80) {
+                                    title = title.take(80) + "..."
+                                }
                                 Text(
-                                    text = articles[index].title,
+                                    text = title,
                                     fontWeight = FontWeight.Bold
                                 )
                                 Spacer(modifier = Modifier.padding(vertical = 5.dp))
@@ -173,6 +178,7 @@ fun ArticlesAll(
                                             color = Color.Gray,
                                             shape = RoundedCornerShape(16.dp)
                                         )
+                                        .height(300.dp)
                                 ) {
                                     Column {
                                         AsyncImage(
@@ -193,8 +199,12 @@ fun ArticlesAll(
                                         Column(
                                             modifier = Modifier.padding(horizontal = 10.dp)
                                         ) {
+                                            var title = items[index].title
+                                            if (title.length > 80) {
+                                                title = title.take(80) + "..."
+                                            }
                                             Text(
-                                                text = items[index].title,
+                                                text = title,
                                                 fontWeight = FontWeight.Bold,
                                                 fontSize = 15.sp
                                             )
