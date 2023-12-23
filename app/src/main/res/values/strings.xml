@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TechJunction</string>
-    <string name="overview">Overview</string>
-    <string name="channel">Channel</string>
+    <string name="overview">トップ</string>
+    <string name="channel">ヘッドライン</string>
     <string name="detail">Detail</string>
-    <string name="favorite">Favorite</string>
+    <string name="favorite">フォロー中</string>
 </resources>
