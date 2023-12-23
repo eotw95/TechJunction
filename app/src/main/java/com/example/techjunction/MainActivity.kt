@@ -25,8 +25,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.techjunction.screens.ArticleDetailScreen
-import com.example.techjunction.screens.HomeScreen
+import com.example.techjunction.screens.ArticleDetail
+import com.example.techjunction.screens.ArticlesOverView
 import com.example.techjunction.ui.theme.TechJunctionTheme
 import com.example.techjunction.worker.RssDownloadWorker
 
@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     val items = listOf(
-                        Screen.ArticlesAll,
+                        Screen.MultiArticlesOverview,
                         Screen.Channel
                     )
                     Scaffold(
@@ -74,10 +74,10 @@ class MainActivity : ComponentActivity() {
                     ) {
                         NavHost(
                             navController = navController,
-                            startDestination = Screen.ArticlesAll.route,
+                            startDestination = Screen.MultiArticlesOverview.route,
                             builder = {
-                                composable(Screen.ArticlesAll.route) {
-                                    HomeScreen(
+                                composable(Screen.MultiArticlesOverview.route) {
+                                    ArticlesOverView(
                                         onClick = { url ->
                                             navController.navigate("detail/$url")
                                         }
@@ -88,7 +88,7 @@ class MainActivity : ComponentActivity() {
                                 }
                                 composable("detail/{url}") { navBackStackEntry ->
                                     navBackStackEntry.arguments?.getString("url")?.let {
-                                        ArticleDetailScreen(
+                                        ArticleDetail(
                                             url = it,
                                             onClick = { navController.navigateUp() }
                                         )
@@ -107,7 +107,7 @@ sealed class Screen(
     val route: String,
     val resourceId: Int
 ) {
-    object ArticlesAll: Screen("articlesAll", R.string.articlesAll)
+    object MultiArticlesOverview: Screen("MultiArticlesOverview", R.string.multiArticlesOverview)
     object Channel: Screen("channel", R.string.channel)
     object Detail: Screen("detail", R.string.detail)
 }

@@ -50,7 +50,7 @@ import java.nio.charset.StandardCharsets
 @OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ArticlesAll(
+fun MultiArticlesOverview(
     onClick: (String) -> Unit
 ) {
     var vm: ArticlesViewModel? = null

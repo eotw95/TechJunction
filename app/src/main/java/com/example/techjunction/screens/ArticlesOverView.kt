@@ -14,7 +14,7 @@ import com.example.techjunction.screens.component.Header
 @OptIn(ExperimentalFoundationApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun HomeScreen(
+fun ArticlesOverView(
     onClick: (String) -> Unit
 ) {
     Column {

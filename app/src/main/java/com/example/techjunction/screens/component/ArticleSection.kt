@@ -9,7 +9,7 @@ import com.example.techjunction.constants.HATENA
 import com.example.techjunction.constants.QIITA
 import com.example.techjunction.constants.TOP
 import com.example.techjunction.constants.ZENN
-import com.example.techjunction.screens.articles.ArticlesAll
+import com.example.techjunction.screens.articles.MultiArticlesOverview
 import com.example.techjunction.screens.articles.ArticlesByQiitaApi
 import com.example.techjunction.screens.articles.ArticlesByRssFeed
 
@@ -20,7 +20,7 @@ fun ArticleSection(
     categoryName: String
 ) {
     when (categoryName) {
-        TOP -> ArticlesAll(onClick)
+        TOP -> MultiArticlesOverview(onClick)
         QIITA -> ArticlesByQiitaApi(onClick)
         ZENN -> ArticlesByRssFeed(onClick, CHANNEL_URL_ZENN)
         HATENA -> ArticlesByRssFeed(onClick, CHANNEL_URL_HATENA)

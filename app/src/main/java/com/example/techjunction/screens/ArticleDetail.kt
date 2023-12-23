@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 
 @Composable
-fun ArticleDetailScreen(
+fun ArticleDetail(
     url: String,
     onClick: () -> Unit
 ) {
