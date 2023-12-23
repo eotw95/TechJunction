@@ -27,6 +27,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.techjunction.screens.ArticleDetail
 import com.example.techjunction.screens.ArticlesOverView
+import com.example.techjunction.screens.ArticlesPager
+import com.example.techjunction.screens.component.Header
 import com.example.techjunction.ui.theme.TechJunctionTheme
 import com.example.techjunction.worker.RssDownloadWorker
 
@@ -45,10 +47,13 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     val items = listOf(
-                        Screen.MultiArticlesOverview,
+                        Screen.Overview,
                         Screen.Channel
                     )
                     Scaffold(
+                        topBar = {
+                            Header()
+                        },
                         bottomBar = {
                             BottomNavigation {
                                 val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -74,9 +79,9 @@ class MainActivity : ComponentActivity() {
                     ) {
                         NavHost(
                             navController = navController,
-                            startDestination = Screen.MultiArticlesOverview.route,
+                            startDestination = Screen.Overview.route,
                             builder = {
-                                composable(Screen.MultiArticlesOverview.route) {
+                                composable(Screen.Overview.route) {
                                     ArticlesOverView(
                                         onClick = { url ->
                                             navController.navigate("detail/$url")
@@ -84,7 +89,11 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
                                 composable("channel") {
-
+                                    ArticlesPager(
+                                        onClick = { url ->
+                                            navController.navigate("detail/$url")
+                                        }
+                                    )
                                 }
                                 composable("detail/{url}") { navBackStackEntry ->
                                     navBackStackEntry.arguments?.getString("url")?.let {
@@ -107,7 +116,7 @@ sealed class Screen(
     val route: String,
     val resourceId: Int
 ) {
-    object MultiArticlesOverview: Screen("MultiArticlesOverview", R.string.multiArticlesOverview)
+    object Overview: Screen("Overview", R.string.overview)
     object Channel: Screen("channel", R.string.channel)
     object Detail: Screen("detail", R.string.detail)
 }

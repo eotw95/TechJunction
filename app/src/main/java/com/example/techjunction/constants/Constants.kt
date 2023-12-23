@@ -11,7 +11,6 @@ const val COMPOSE = "Compose"
 const val ANDROID = "Android"
 
 internal val services = listOf(
-    TOP,
     QIITA,
     ZENN,
     HATENA
