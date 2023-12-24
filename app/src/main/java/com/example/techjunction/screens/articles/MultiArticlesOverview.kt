@@ -91,7 +91,9 @@ fun MultiArticlesOverview(
                     )
                     Card(
                         colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.background
+//                            containerColor = MaterialTheme.colorScheme.background
+                            // Todo: WA setting color
+                              containerColor = Color.White
                         ),
                         modifier = Modifier
                             .padding(horizontal = 10.dp)
@@ -165,7 +167,9 @@ fun MultiArticlesOverview(
                             val encoderUrl = URLEncoder.encode(items[index].link, StandardCharsets.UTF_8.toString())
                             Card(
                                 colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.background
+//                                    containerColor = MaterialTheme.colorScheme.background
+                                    // Todo: WA setting color
+                                    containerColor = Color.White
                                 ),
                                 modifier = Modifier.padding(horizontal = 10.dp)
                             ) {
