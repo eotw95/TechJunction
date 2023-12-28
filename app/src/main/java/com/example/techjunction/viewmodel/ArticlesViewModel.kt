@@ -68,20 +68,20 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
         }
     }
 
-    private fun fetchFollowArticles() {
+    fun fetchFollowArticles() {
         viewModelScope.launch {
             val articles = followArticleRepo.getAll()
             _followArticle.postValue(articles)
         }
     }
 
-    private fun storeArticle(article: FollowArticle) {
+    fun storeArticle(article: FollowArticle) {
         viewModelScope.launch {
             followArticleRepo.storeArticle(article)
         }
     }
 
-    private fun deleteArticle(article: FollowArticle) {
+    fun deleteArticle(article: FollowArticle) {
         viewModelScope.launch {
             followArticleRepo.deleteArticle(article)
         }
