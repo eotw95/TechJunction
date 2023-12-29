@@ -34,6 +34,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -72,6 +73,7 @@ fun ArticlesByQiitaApi(
                     .fillMaxWidth()
                     .padding(horizontal = 5.dp)
             ) {
+                Spacer(modifier = Modifier.padding(vertical = 5.dp))
                 Text(
                     text = article.title,
                     fontWeight = FontWeight.Bold
@@ -106,7 +108,7 @@ fun ArticlesByQiitaApi(
                         Button(
                             modifier = Modifier
                                 .border(
-                                    width = 0.5.dp,
+                                    width = 0.3.dp,
                                     color = Color.Gray,
                                     shape = RoundedCornerShape(16.dp)
                                 )
@@ -126,9 +128,9 @@ fun ArticlesByQiitaApi(
                         }
                     }
                 }
+                Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                Divider(thickness = 0.5.dp)
             }
-            Spacer(modifier = Modifier.padding(vertical = 5.dp))
-            Divider()
         }
     }
 }

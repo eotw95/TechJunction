@@ -104,7 +104,7 @@ fun MultiArticlesOverview(
                                 .clickable { onClick(encoderUrl) }
                                 .fillMaxWidth()
                                 .border(
-                                    width = 0.5.dp,
+                                    width = 0.1.dp,
                                     color = Color.Gray,
                                     shape = RoundedCornerShape(16.dp)
                                 )
@@ -178,7 +178,7 @@ fun MultiArticlesOverview(
                                         .clickable { onClick(encoderUrl) }
                                         .fillMaxWidth()
                                         .border(
-                                            width = 0.5.dp,
+                                            width = 0.1.dp,
                                             color = Color.Gray,
                                             shape = RoundedCornerShape(16.dp)
                                         )
