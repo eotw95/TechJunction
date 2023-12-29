@@ -85,6 +85,7 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
     fun deleteArticle(article: FollowArticle) {
         viewModelScope.launch {
             followArticleRepo.deleteArticle(article)
+            fetchFollowArticles()
         }
     }
 }

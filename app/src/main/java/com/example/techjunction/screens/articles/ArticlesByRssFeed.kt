@@ -35,6 +35,10 @@ import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.techjunction.R
+import com.example.techjunction.constants.CHANNEL_URL_HATENA
+import com.example.techjunction.constants.CHANNEL_URL_ZENN
+import com.example.techjunction.constants.HATENA
+import com.example.techjunction.constants.ZENN
 import com.example.techjunction.room.FollowArticle
 import com.example.techjunction.util.DateConverter
 import com.example.techjunction.viewmodel.ArticlesViewModel
@@ -104,7 +108,12 @@ fun ArticlesByRssFeed(
                             )
                             val followArticle = FollowArticle(
                                 title = item.title,
-                                link = item.link
+                                link = item.link,
+                                channel = when (channelUri) {
+                                    CHANNEL_URL_ZENN -> ZENN
+                                    CHANNEL_URL_HATENA -> HATENA
+                                    else -> throw IllegalArgumentException("Invalid channel uri: $channelUri")
+                                }
                             )
                             Box(
                                 contentAlignment = Alignment.CenterEnd,

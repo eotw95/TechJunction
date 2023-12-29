@@ -34,11 +34,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.techjunction.R
+import com.example.techjunction.constants.QIITA
 import com.example.techjunction.room.FollowArticle
 import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.example.techjunction.viewmodel.ArticlesViewModelFactory
@@ -97,7 +97,8 @@ fun ArticlesByQiitaApi(
                     Spacer(modifier = Modifier.padding(horizontal = 5.dp))
                     val followArticle = FollowArticle(
                         title = article.title,
-                        link = article.url
+                        link = article.url,
+                        channel = QIITA
                     )
                     Box(
                         contentAlignment = Alignment.CenterEnd,

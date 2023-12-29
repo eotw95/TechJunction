@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class FollowArticle(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
-    val link: String
+    val link: String,
+    val channel: String
 )
