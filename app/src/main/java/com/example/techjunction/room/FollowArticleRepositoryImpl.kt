@@ -9,6 +9,12 @@ class FollowArticleRepositoryImpl(private val db: FollowArticleDatabase): Follow
     }
 
     override suspend fun storeArticle(article: FollowArticle) {
+        val currentArticles = getAll()
+        currentArticles.forEach {
+            if (it.link == article.link) {
+                return
+            }
+        }
         dao.insert(article)
     }
 
