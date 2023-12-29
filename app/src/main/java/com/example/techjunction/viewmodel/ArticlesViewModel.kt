@@ -40,6 +40,7 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
         fetchQiitaArticles("kotlin")
         fetchRssChannels()
         fetchRssitems()
+        fetchFollowArticles()
     }
 
     private fun fetchQiitaArticles(query: String) {

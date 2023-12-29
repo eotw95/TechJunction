@@ -3,12 +3,10 @@ package com.example.techjunction.navigation
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.ThumbUp
@@ -16,10 +14,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -31,6 +27,7 @@ import com.example.techjunction.R
 import com.example.techjunction.screens.ArticleDetail
 import com.example.techjunction.screens.ArticlesOverView
 import com.example.techjunction.screens.ArticlesPager
+import com.example.techjunction.screens.FollowArticles
 import com.example.techjunction.screens.component.Header
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -62,7 +59,7 @@ fun MainNavHost(navController: NavHostController) {
                                        Icon(Icons.Filled.Home, null)
                                    Screen.Channel.route ->
                                        Icon(Icons.Outlined.List, null)
-                                   Screen.Favorite.route ->
+                                   Screen.Follow.route ->
                                        Icon(Icons.Outlined.ThumbUp, null)
                                }
                         },
@@ -106,8 +103,12 @@ fun MainNavHost(navController: NavHostController) {
                         )
                     }
                 }
-                composable(Screen.Favorite.route) {
-                    // Todo: Implement.
+                composable(Screen.Follow.route) {
+                    FollowArticles(
+                        onClick =  { url ->
+                            navController.navigate("detail/$url")
+                        }
+                    )
                 }
             }
         )
@@ -122,12 +123,12 @@ sealed class Screen(
         val items = listOf(
             Overview,
             Channel,
-            Favorite
+            Follow
         )
     }
 
     object Overview: Screen("Overview", R.string.overview)
     object Channel: Screen("channel", R.string.channel)
     object Detail: Screen("detail", R.string.detail)
-    object Favorite: Screen("favorite", R.string.favorite)
+    object Follow: Screen("follow", R.string.favorite)
 }
