@@ -6,18 +6,24 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -54,22 +60,25 @@ fun MultiArticlesOverviewGrid(
 
     val allArticles = mutableListOf<ArticleOverview>()
     allArticles.apply {
-        observeQiitaArticles?.value?.let {
-            it.map {
+        observeQiitaArticles?.value?.let { items ->
+            items.map {
                 ArticleOverview(
-                    it.title,
-                    it.url
+                    title = it.title,
+                    link = it.url,
+                    userId = it.user.userId,
+                    userImg = it.user.profileImageUrl
                 )
             }
         }?.let {
             addAll(it)
         }
-        observeRssItems?.value?.let {
-            it.map {
+        observeRssItems?.value?.let { items ->
+            items.map {
                 ArticleOverview(
-                    it.title,
-                    it.link,
-                    it.imgSrc
+                    title = it.title,
+                    link = it.link,
+                    imgSrc = it.imgSrc,
+                    date = it.pubDate.toString()
                 )
             }
         }?.let {
@@ -133,6 +142,24 @@ fun MultiArticlesOverviewGrid(
                                 fontSize = 15.sp
                             )
                         }
+                        Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                        Row(
+                            modifier = Modifier.height(32.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            AsyncImage(
+                                model = article.userImg,
+                                contentDescription = "author icon",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .fillMaxHeight(1f)
+                                    .aspectRatio(1f)
+                                    .clip(CircleShape)
+                            )
+                            Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                            article.date?.let { Text(text = it) }
+                            article.userId?.let { Text(text = it) }
+                        }
                     }
                     Spacer(modifier = Modifier.padding(vertical = 10.dp))
                 }
@@ -144,5 +171,8 @@ fun MultiArticlesOverviewGrid(
 data class ArticleOverview(
     val title: String,
     val link: String,
-    val imgSrc: String? = null
+    val imgSrc: String? = null,
+    val userImg: String? = null,
+    val userId: String? = null,
+    val date: String? = null
 )
