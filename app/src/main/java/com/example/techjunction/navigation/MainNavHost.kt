@@ -28,6 +28,7 @@ import com.example.techjunction.screens.ArticleDetail
 import com.example.techjunction.screens.ArticlesOverView
 import com.example.techjunction.screens.ArticlesPager
 import com.example.techjunction.screens.FollowArticles
+import com.example.techjunction.screens.articles.MultiArticlesOverviewGrid
 import com.example.techjunction.screens.component.Header
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -82,7 +83,12 @@ fun MainNavHost(navController: NavHostController) {
             startDestination = Screen.Overview.route,
             builder = {
                 composable(Screen.Overview.route) {
-                    ArticlesOverView(
+//                    ArticlesOverView(
+//                        onClick = { url ->
+//                            navController.navigate("detail/$url")
+//                        }
+//                    )
+                    MultiArticlesOverviewGrid(
                         onClick = { url ->
                             navController.navigate("detail/$url")
                         }
