@@ -27,7 +27,7 @@ fun CategoryTab() {
         ZENN,
         HATENA,
     )
-    Divider()
+    Divider(thickness = 0.5.dp)
     Spacer(modifier = Modifier.padding(vertical = 5.dp))
     LazyRow(content = {
         items(categories) { item ->
@@ -53,5 +53,5 @@ fun CategoryTab() {
         }
     })
     Spacer(modifier = Modifier.padding(vertical = 5.dp))
-    Divider()
+    Divider(thickness = 0.5.dp)
 }

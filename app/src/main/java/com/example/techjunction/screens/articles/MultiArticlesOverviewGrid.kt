@@ -55,7 +55,6 @@ fun MultiArticlesOverviewGrid(
     }
 
     val observeQiitaArticles = vm?.articles?.observeAsState()
-    val observeRssChannels = vm?.rssChannels?.observeAsState()
     val observeRssItems = vm?.rssItems?.observeAsState()
 
     val allArticles = mutableListOf<ArticleOverview>()
@@ -84,13 +83,13 @@ fun MultiArticlesOverviewGrid(
         }?.let {
             addAll(it)
         }
-    }
+    }.shuffle()
 
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalItemSpacing = 5.dp
+        verticalItemSpacing = 10.dp
     ) {
         items(allArticles) { article ->
             val encoderUrl = URLEncoder.encode(article.link, StandardCharsets.UTF_8.toString())
@@ -113,11 +112,9 @@ fun MultiArticlesOverviewGrid(
                         )
                 ) {
                     Column {
-                        // Todo: Zennの場合は、画像が全て入るように分岐させる
                         AsyncImage(
                             model = article.imgSrc,
                             contentDescription = null,
-                            contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .clip(
                                     RoundedCornerShape(
@@ -144,7 +141,9 @@ fun MultiArticlesOverviewGrid(
                         }
                         Spacer(modifier = Modifier.padding(vertical = 5.dp))
                         Row(
-                            modifier = Modifier.height(32.dp),
+                            modifier = Modifier
+                                .height(32.dp)
+                                .padding(horizontal = 10.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             AsyncImage(
