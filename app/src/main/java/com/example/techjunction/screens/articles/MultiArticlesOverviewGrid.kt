@@ -1,6 +1,8 @@
 package com.example.techjunction.screens.articles
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -8,38 +10,43 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.techjunction.R
+import com.example.techjunction.constants.CHANNEL_URL_HATENA
+import com.example.techjunction.constants.CHANNEL_URL_QIITA
+import com.example.techjunction.constants.CHANNEL_URL_ZENN
+import com.example.techjunction.util.DateConverter
 import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.example.techjunction.viewmodel.ArticlesViewModelFactory
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MultiArticlesOverviewGrid(
@@ -55,6 +62,7 @@ fun MultiArticlesOverviewGrid(
     }
 
     val observeQiitaArticles = vm?.articles?.observeAsState()
+    val observeRssChannels = vm?.rssChannels?.observeAsState()
     val observeRssItems = vm?.rssItems?.observeAsState()
 
     val allArticles = mutableListOf<ArticleOverview>()
@@ -62,6 +70,7 @@ fun MultiArticlesOverviewGrid(
         observeQiitaArticles?.value?.let { items ->
             items.map {
                 ArticleOverview(
+                    channelUrl = CHANNEL_URL_QIITA,
                     title = it.title,
                     link = it.url,
                     userId = it.user.userId,
@@ -72,16 +81,19 @@ fun MultiArticlesOverviewGrid(
             addAll(it)
         }
         observeRssItems?.value?.let { items ->
-            items.map {
-                ArticleOverview(
-                    title = it.title,
-                    link = it.link,
-                    imgSrc = it.imgSrc,
-                    date = it.pubDate.toString()
-                )
-            }
-        }?.let {
-            addAll(it)
+            addAll(
+                items.mapNotNull { item ->
+                    observeRssChannels?.value?.find { it.id == item.channelId }?.let {
+                        ArticleOverview(
+                            channelUrl = it.rssUrl,
+                            title = item.title,
+                            link = item.link,
+                            imgSrc = item.imgSrc,
+                            date = DateConverter.asDate(item.pubDate.toString()).toString()
+                        )
+                    }
+                }
+            )
         }
     }.shuffle()
 
@@ -146,21 +158,32 @@ fun MultiArticlesOverviewGrid(
                                 .padding(horizontal = 10.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            AsyncImage(
-                                model = article.userImg,
-                                contentDescription = "author icon",
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .fillMaxHeight(1f)
-                                    .aspectRatio(1f)
-                                    .clip(CircleShape)
+                            Icon(
+                                painter = when (article.channelUrl) {
+                                    CHANNEL_URL_ZENN -> painterResource(id = R.drawable.zenn)
+                                    CHANNEL_URL_HATENA -> painterResource(id = R.drawable.hatenabookmark)
+                                    CHANNEL_URL_QIITA -> painterResource(id = R.drawable.qiita)
+                                    else -> throw IllegalArgumentException("Invalid channel: ${article.channelUrl}")
+                                },
+                                contentDescription = null,
+                                modifier = when (article.channelUrl) {
+                                    CHANNEL_URL_ZENN,
+                                    CHANNEL_URL_HATENA -> Modifier.scale(0.6f)
+                                    CHANNEL_URL_QIITA -> Modifier.scale(1f)
+                                    else -> throw IllegalArgumentException("Invalid channel: ${article.channelUrl}")
+                                },
+                                tint = Color.Unspecified
                             )
-                            Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-                            article.date?.let { Text(text = it) }
-                            article.userId?.let { Text(text = it) }
+                            Spacer(modifier = Modifier.padding(horizontal = 1.dp))
+
+                            val date = DateConverter.asDate(article.date.toString())
+                            Text(
+                                text = DateConverter.dataFormat(date),
+                                fontSize = 10.sp
+                            )
                         }
                     }
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = Modifier.padding(vertical = 1.dp))
                 }
             }
         }
@@ -168,6 +191,7 @@ fun MultiArticlesOverviewGrid(
 }
 
 data class ArticleOverview(
+    val channelUrl: String,
     val title: String,
     val link: String,
     val imgSrc: String? = null,

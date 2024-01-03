@@ -1,5 +1,7 @@
 package com.example.techjunction.constants
 
+import com.example.techjunction.network.QiitaApi
+
 const val APP_NAME = "TechJunction"
 
 const val TOP = "トップ"
@@ -18,3 +20,4 @@ internal val services = listOf(
 
 const val CHANNEL_URL_HATENA = "https://b.hatena.ne.jp/hotentry/it.rss"
 const val CHANNEL_URL_ZENN = "https://zenn.dev/topics/android/feed"
+const val CHANNEL_URL_QIITA = QiitaApi.BASE_URL

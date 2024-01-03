@@ -1,7 +1,6 @@
 package com.example.techjunction.screens
 
 import android.app.Application
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,13 +20,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.techjunction.R
 import com.example.techjunction.constants.HATENA
 import com.example.techjunction.constants.QIITA
 import com.example.techjunction.constants.ZENN
@@ -66,22 +67,21 @@ fun FollowArticles(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = when (article.channel) {
-                            ZENN -> "Z"
-                            HATENA -> "H"
-                            QIITA -> "Q"
+                    Icon(
+                        painter = when (article.channel) {
+                            ZENN -> painterResource(id = R.drawable.zenn)
+                            HATENA -> painterResource(id = R.drawable.hatenabookmark)
+                            QIITA -> painterResource(id = R.drawable.qiita)
                             else -> throw IllegalArgumentException("Invalid channel: ${article.channel}")
                         },
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Black,
-                        color = Color.White,
-                        modifier = Modifier
-                            .background(
-                            color = Color.Black
-                            )
-                            .padding(5.dp)
-
+                        contentDescription = null,
+                        modifier = when (article.channel) {
+                            ZENN,
+                            HATENA -> Modifier.scale(0.6f)
+                            QIITA -> Modifier.scale(1f)
+                            else -> throw IllegalArgumentException("Invalid channel: ${article.channel}")
+                        },
+                        tint = Color.Unspecified
                     )
                     Spacer(modifier = Modifier.padding(horizontal = 15.dp))
                     Text(

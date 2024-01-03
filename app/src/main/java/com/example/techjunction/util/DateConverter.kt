@@ -1,5 +1,6 @@
 package com.example.techjunction.util
 
+import android.icu.text.SimpleDateFormat
 import android.os.Build
 import androidx.annotation.RequiresApi
 import java.time.DateTimeException
@@ -34,6 +35,11 @@ class DateConverter {
             }
 
             return Date()
+        }
+
+        fun dataFormat(date: Date): String {
+            val sdf = SimpleDateFormat("yyyy/MM/dd")
+            return sdf.format(date)
         }
     }
 }

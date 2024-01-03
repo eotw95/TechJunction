@@ -102,8 +102,9 @@ fun ArticlesByRssFeed(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.height(35.dp)
                         ) {
+                            val date = DateConverter.asDate(item.pubDate.toString())
                             Text(
-                                text = DateConverter.asDate(item.pubDate.toString()).toString(),
+                                text = DateConverter.dataFormat(date),
                                 fontSize = 10.sp
                             )
                             val followArticle = FollowArticle(
