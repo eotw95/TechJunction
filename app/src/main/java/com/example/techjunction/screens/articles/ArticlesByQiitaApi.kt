@@ -22,28 +22,38 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.techjunction.R
+import com.example.techjunction.constants.CHANNEL_URL_HATENA
+import com.example.techjunction.constants.CHANNEL_URL_QIITA
+import com.example.techjunction.constants.CHANNEL_URL_ZENN
 import com.example.techjunction.constants.QIITA
 import com.example.techjunction.room.FollowArticle
+import com.example.techjunction.util.DateConverter
 import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.example.techjunction.viewmodel.ArticlesViewModelFactory
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.util.Date
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -78,23 +88,50 @@ fun ArticlesByQiitaApi(
                     text = article.title,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                Spacer(modifier = Modifier.padding(vertical = 10.dp))
                 Row(
                     modifier = Modifier.height(50.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    AsyncImage(
-                        model = article.user.profileImageUrl,
-                        contentDescription = "author icon",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxHeight(1f)
-                            .aspectRatio(1f)
-                            .clip(CircleShape)
-                    )
-                    Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-                    Text(text = article.user.userId)
-                    Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                    Column {
+                        Row(
+                            modifier = Modifier.height(20.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            AsyncImage(
+                                model = article.user.profileImageUrl,
+                                contentDescription = "author icon",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .fillMaxHeight(1f)
+                                    .aspectRatio(1f)
+                                    .clip(CircleShape)
+                            )
+                            Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                            Text(
+                                text = article.user.userId,
+                                fontSize = 15.sp
+                            )
+                        }
+                        Row(
+                            modifier = Modifier.height(50.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.qiita),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .scale(1f)
+                                    .padding(end = 5.dp),
+                                tint = Color.Unspecified
+                            )
+                            Text(
+                                text = DateConverter.dataFormat(Date(article.createdDate)),
+                                fontSize = 10.sp
+                            )
+                        }
+                    }
+
                     val followArticle = FollowArticle(
                         title = article.title,
                         link = article.url,

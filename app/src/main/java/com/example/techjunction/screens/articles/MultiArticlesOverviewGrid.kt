@@ -170,13 +170,12 @@ fun MultiArticlesOverviewGrid(
                                 contentDescription = null,
                                 modifier = when (article.channelUrl) {
                                     CHANNEL_URL_ZENN,
-                                    CHANNEL_URL_HATENA -> Modifier.scale(0.6f)
-                                    CHANNEL_URL_QIITA -> Modifier.scale(1f)
+                                    CHANNEL_URL_HATENA -> Modifier.scale(0.6f).padding(end = 1.dp)
+                                    CHANNEL_URL_QIITA -> Modifier.scale(1f).padding(end = 5.dp)
                                     else -> throw IllegalArgumentException("Invalid channel: ${article.channelUrl}")
                                 },
                                 tint = Color.Unspecified
                             )
-                            Spacer(modifier = Modifier.padding(horizontal = 1.dp))
                             if (article.date != null) {
                                 Text(
                                     text = article.date,

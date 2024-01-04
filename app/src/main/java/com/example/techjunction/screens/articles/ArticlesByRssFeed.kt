@@ -18,15 +18,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,6 +39,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.techjunction.R
 import com.example.techjunction.constants.CHANNEL_URL_HATENA
+import com.example.techjunction.constants.CHANNEL_URL_QIITA
 import com.example.techjunction.constants.CHANNEL_URL_ZENN
 import com.example.techjunction.constants.HATENA
 import com.example.techjunction.constants.ZENN
@@ -103,6 +107,16 @@ fun ArticlesByRssFeed(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.height(35.dp)
                         ) {
+                            Icon(
+                                painter = when (channelUri) {
+                                    CHANNEL_URL_ZENN -> painterResource(id = R.drawable.zenn)
+                                    CHANNEL_URL_HATENA -> painterResource(id = R.drawable.hatenabookmark)
+                                    else -> throw IllegalArgumentException("Invalid channel: $channelUri")
+                                },
+                                contentDescription = null,
+                                modifier = Modifier.scale(0.6f),
+                                tint = Color.Unspecified
+                            )
                             Text(
                                 text = DateConverter.dataFormat(Date(item.pubDate ?: Date().time)),
                                 fontSize = 10.sp
