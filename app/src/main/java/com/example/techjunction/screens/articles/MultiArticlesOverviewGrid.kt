@@ -97,7 +97,8 @@ fun MultiArticlesOverviewGrid(
                 }
             )
         }
-    }.shuffle()
+    }.sortWith(compareBy{ it.date })
+    allArticles.reverse()
 
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
