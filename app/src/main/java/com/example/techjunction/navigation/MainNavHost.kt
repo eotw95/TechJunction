@@ -83,12 +83,7 @@ fun MainNavHost(navController: NavHostController) {
             startDestination = Screen.Overview.route,
             builder = {
                 composable(Screen.Overview.route) {
-//                    ArticlesOverView(
-//                        onClick = { url ->
-//                            navController.navigate("detail/$url")
-//                        }
-//                    )
-                    MultiArticlesOverviewGrid(
+                    ArticlesOverView(
                         onClick = { url ->
                             navController.navigate("detail/$url")
                         }

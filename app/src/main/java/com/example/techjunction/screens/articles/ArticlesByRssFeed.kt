@@ -45,6 +45,7 @@ import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.example.techjunction.viewmodel.ArticlesViewModelFactory
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.util.Date
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -102,9 +103,8 @@ fun ArticlesByRssFeed(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.height(35.dp)
                         ) {
-                            val date = DateConverter.asDate(item.pubDate.toString())
                             Text(
-                                text = DateConverter.dataFormat(date),
+                                text = DateConverter.dataFormat(Date(item.pubDate ?: Date().time)),
                                 fontSize = 10.sp
                             )
                             val followArticle = FollowArticle(

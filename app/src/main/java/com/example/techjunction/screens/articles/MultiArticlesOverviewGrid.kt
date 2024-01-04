@@ -45,6 +45,7 @@ import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.example.techjunction.viewmodel.ArticlesViewModelFactory
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.util.Date
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalFoundationApi::class)
@@ -89,7 +90,7 @@ fun MultiArticlesOverviewGrid(
                             title = item.title,
                             link = item.link,
                             imgSrc = item.imgSrc,
-                            date = DateConverter.asDate(item.pubDate.toString()).toString()
+                            date = DateConverter.dataFormat(Date(item.pubDate ?: Date().time))
                         )
                     }
                 }
@@ -175,12 +176,12 @@ fun MultiArticlesOverviewGrid(
                                 tint = Color.Unspecified
                             )
                             Spacer(modifier = Modifier.padding(horizontal = 1.dp))
-
-                            val date = DateConverter.asDate(article.date.toString())
-                            Text(
-                                text = DateConverter.dataFormat(date),
-                                fontSize = 10.sp
-                            )
+                            if (article.date != null) {
+                                Text(
+                                    text = article.date,
+                                    fontSize = 10.sp
+                                )
+                            }
                         }
                     }
                     Spacer(modifier = Modifier.padding(vertical = 1.dp))
