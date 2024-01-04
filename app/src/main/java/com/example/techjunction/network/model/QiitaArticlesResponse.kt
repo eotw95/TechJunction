@@ -1,12 +1,16 @@
 package com.example.techjunction.network.model
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.techjunction.room.QiitaArticle
+import com.example.techjunction.util.DateConverter
 import com.squareup.moshi.Json
 
 data class QiitaArticlesResponse(
     val title: String,
     val url: String,
-    val user: User
+    val user: User,
+    @Json(name = "created_at") val createdDate: String
 ) {
     data class User(
         val id: String,
@@ -14,6 +18,7 @@ data class QiitaArticlesResponse(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun QiitaArticlesResponse.asDatabaseModel(): QiitaArticle {
     return QiitaArticle(
         0,
@@ -22,6 +27,7 @@ fun QiitaArticlesResponse.asDatabaseModel(): QiitaArticle {
         QiitaArticle.User(
             this.user.id,
             this.user.profileImageUrl
-        )
+        ),
+        DateConverter.asDate(this.createdDate).time
     )
 }

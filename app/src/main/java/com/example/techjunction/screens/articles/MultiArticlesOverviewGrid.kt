@@ -75,7 +75,8 @@ fun MultiArticlesOverviewGrid(
                     title = it.title,
                     link = it.url,
                     userId = it.user.userId,
-                    userImg = it.user.profileImageUrl
+                    userImg = it.user.profileImageUrl,
+                    date = DateConverter.dataFormat(Date(it.createdDate))
                 )
             }
         }?.let {

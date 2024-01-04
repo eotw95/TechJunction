@@ -9,7 +9,8 @@ data class QiitaArticle(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
     val url: String,
-    val user: User
+    val user: User,
+    @ColumnInfo("created_at") val createdDate: Long
 ) {
     data class User(
         val userId: String,
