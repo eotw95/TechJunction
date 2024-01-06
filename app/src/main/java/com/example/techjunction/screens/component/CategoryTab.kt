@@ -22,7 +22,6 @@ import com.example.techjunction.constants.ZENN
 @Composable
 fun CategoryTab() {
     val categories = listOf(
-        TOP,
         QIITA,
         ZENN,
         HATENA,

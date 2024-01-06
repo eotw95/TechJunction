@@ -17,7 +17,6 @@ fun ArticlesPager(
     onClick: (String) -> Unit
 ) {
     Column {
-        CategoryTab()
         HorizontalPager(pageCount = services.size) { index ->
             findArticleByName(onClick = onClick, categoryName = services[index])
         }
