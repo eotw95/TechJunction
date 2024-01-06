@@ -102,9 +102,9 @@ fun MultiArticlesOverviewGrid(
 
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalItemSpacing = 10.dp
+        verticalItemSpacing = 5.dp
     ) {
         items(allArticles) { article ->
             val encoderUrl = URLEncoder.encode(article.link, StandardCharsets.UTF_8.toString())
@@ -114,7 +114,7 @@ fun MultiArticlesOverviewGrid(
                     // Todo: WA setting color
                     containerColor = Color.White
                 ),
-                modifier = Modifier.padding(horizontal = 10.dp)
+                modifier = Modifier.padding(horizontal = 2.5.dp)
             ) {
                 Column(
                     modifier = Modifier

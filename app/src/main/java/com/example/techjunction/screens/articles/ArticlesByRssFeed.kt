@@ -178,6 +178,7 @@ fun ArticlesByRssFeed(
                             }
                         }
                         Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                        Divider(thickness = 0.5.dp)
                     }
                 }
             }
