@@ -33,8 +33,7 @@ import com.example.techjunction.constants.APP_NAME
 fun Header() {
     Surface(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 10.dp),
+            .fillMaxWidth(),
         color = Color.White
     ) {
         Row(
@@ -47,7 +46,7 @@ fun Header() {
                 text = APP_NAME,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.displayLarge,
-                fontSize = 30.sp
+                fontSize = 25.sp
             )
             CustomSwitch()
         }

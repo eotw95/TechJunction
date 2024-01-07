@@ -12,10 +12,14 @@ val AbrilFatface = FontFamily(
     Font(R.font.abril_fatface_regular)
 )
 
+val kanit = FontFamily(
+    Font(R.font.kanit_medium)
+)
+
 // Set of Material typography styles to start with
 val Typography = Typography(
     displayLarge = TextStyle(
-        fontFamily = AbrilFatface,
+        fontFamily = kanit,
         fontWeight = FontWeight.Bold,
         fontSize = 36.sp
     ),

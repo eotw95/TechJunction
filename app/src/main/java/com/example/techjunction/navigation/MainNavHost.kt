@@ -28,7 +28,6 @@ import com.example.techjunction.screens.ArticleDetail
 import com.example.techjunction.screens.ArticlesOverView
 import com.example.techjunction.screens.ArticlesPager
 import com.example.techjunction.screens.FollowArticles
-import com.example.techjunction.screens.articles.MultiArticlesOverviewGrid
 import com.example.techjunction.screens.component.Header
 
 @RequiresApi(Build.VERSION_CODES.O)

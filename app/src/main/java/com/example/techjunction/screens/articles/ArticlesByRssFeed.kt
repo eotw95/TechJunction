@@ -40,10 +40,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.techjunction.R
 import com.example.techjunction.constants.CHANNEL_URL_HATENA
-import com.example.techjunction.constants.CHANNEL_URL_QIITA
 import com.example.techjunction.constants.CHANNEL_URL_ZENN
 import com.example.techjunction.constants.HATENA
-import com.example.techjunction.constants.QIITA
 import com.example.techjunction.constants.ZENN
 import com.example.techjunction.room.FollowArticle
 import com.example.techjunction.util.DateConverter
