@@ -70,21 +70,6 @@ fun ArticlesByRssFeed(
     val observeRssItems = vm?.rssItems?.observeAsState()
 
     Column {
-        Divider(thickness = 0.5.dp)
-        Spacer(modifier = Modifier.padding(vertical = 5.dp))
-        Text(
-            text = when (channelUri) {
-                CHANNEL_URL_ZENN -> ZENN
-                CHANNEL_URL_HATENA -> HATENA
-                else -> throw IllegalArgumentException("invalid arg")
-            },
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            modifier = Modifier.padding(horizontal = 15.dp)
-        )
-        Spacer(modifier = Modifier.padding(vertical = 5.dp))
-        Divider(thickness = 0.5.dp)
-
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {

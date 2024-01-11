@@ -92,4 +92,7 @@ dependencies {
 
     // WorkManager
     implementation ("androidx.work:work-runtime-ktx:2.8.1")
+
+    // pager indicator
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.30.1")
 }

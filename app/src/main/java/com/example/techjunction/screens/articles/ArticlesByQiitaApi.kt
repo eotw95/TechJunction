@@ -68,17 +68,6 @@ fun ArticlesByQiitaApi(
     val observeQiitaArticles = vm?.articles?.observeAsState()
 
     Column {
-        Divider(thickness = 0.5.dp)
-        Spacer(modifier = Modifier.padding(vertical = 5.dp))
-        Text(
-            text = QIITA,
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            modifier = Modifier.padding(horizontal = 15.dp)
-        )
-        Spacer(modifier = Modifier.padding(vertical = 5.dp))
-        Divider(thickness = 0.5.dp)
-
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
