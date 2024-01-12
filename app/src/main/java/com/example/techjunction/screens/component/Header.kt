@@ -1,6 +1,7 @@
 package com.example.techjunction.screens.component
 
 import android.os.Build
+import android.widget.Switch
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +31,9 @@ import com.example.techjunction.constants.APP_NAME
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Header() {
+fun Header(
+    onChangeTheme: () -> Unit
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth(),
@@ -48,22 +51,24 @@ fun Header() {
                 style = MaterialTheme.typography.displayLarge,
                 fontSize = 25.sp
             )
-            CustomSwitch()
+            CustomSwitch(onChangeTheme)
         }
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CustomSwitch() {
-    val darkTheme = isSystemInDarkTheme()
-    var checked by remember { mutableStateOf(darkTheme) }
+fun CustomSwitch(
+    onSwitch: () -> Unit
+) {
+    var checked by remember { mutableStateOf(false) }
 
     Switch(
         checked = checked,
         modifier = Modifier.scale(0.7f),
         onCheckedChange = {
-            checked = it
+            checked = !checked
+            onSwitch()
         }
     )
 }

@@ -33,10 +33,13 @@ import com.example.techjunction.screens.component.Header
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainNavHost(navController: NavHostController) {
+fun MainNavHost(
+    navController: NavHostController,
+    onChangeTheme: () -> Unit
+    ) {
     Scaffold(
         topBar = {
-            Header()
+            Header(onChangeTheme)
         },
         bottomBar = {
             BottomNavigation(
