@@ -43,7 +43,7 @@ fun MainNavHost(
     onChangeTheme: () -> Unit
     ) {
     var iconState by remember { mutableStateOf(Icons.Filled.Search) }
-    var currentRoot = CurrentRoot.OVERVIEW
+    var currentRoot by remember { mutableStateOf(CurrentRoot.OVERVIEW) }
     Scaffold(
         topBar = {
             Header(
@@ -81,27 +81,30 @@ fun MainNavHost(
                                        Icon(
                                            imageVector = Icons.Filled.Home,
                                            contentDescription = null,
-                                           tint = when (currentRoot) {
-                                               CurrentRoot.OVERVIEW -> Color.Black
-                                               else -> Color.LightGray
+                                           tint = if (currentRoot == CurrentRoot.OVERVIEW) {
+                                               Color.Black
+                                           } else {
+                                               Color.LightGray
                                            }
                                        )
                                    Screen.Channel.route ->
                                        Icon(
                                            imageVector = Icons.Filled.List,
                                            contentDescription = null,
-                                           tint = when (currentRoot) {
-                                               CurrentRoot.CHANNEL -> Color.Black
-                                               else -> Color.LightGray
+                                           tint = if (currentRoot == CurrentRoot.CHANNEL) {
+                                               Color.Black
+                                           } else {
+                                               Color.LightGray
                                            }
                                        )
                                    Screen.Follow.route ->
                                        Icon(
                                            imageVector = Icons.Filled.ThumbUp,
                                            contentDescription = null,
-                                           tint = when (currentRoot) {
-                                               CurrentRoot.FOLLOW -> Color.Black
-                                               else -> Color.LightGray
+                                           tint = if (currentRoot == CurrentRoot.FOLLOW) {
+                                               Color.Black
+                                           } else {
+                                               Color.LightGray
                                            }
                                        )
                                }
@@ -127,6 +130,9 @@ fun MainNavHost(
                                 }
                                 Screen.Follow.route -> {
                                     currentRoot = CurrentRoot.FOLLOW
+                                }
+                                Screen.Detail.route -> {
+                                    // TODO: detailページに遷移した場合、BottomNavigationItemのアイコンの色をブラックに変更する
                                 }
                             }
                         }
