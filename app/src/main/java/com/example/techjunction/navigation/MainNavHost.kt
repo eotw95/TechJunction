@@ -7,13 +7,18 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.List
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
@@ -37,9 +42,17 @@ fun MainNavHost(
     navController: NavHostController,
     onChangeTheme: () -> Unit
     ) {
+    var iconState by remember { mutableStateOf(Icons.Filled.Search) }
     Scaffold(
         topBar = {
-            Header(onChangeTheme)
+            Header(
+                icon = iconState,
+                onClick = {
+                    navController.navigateUp()
+                    iconState = Icons.Filled.Search
+                },
+                onChangeTheme = onChangeTheme
+            )
         },
         bottomBar = {
             BottomNavigation(
@@ -88,6 +101,7 @@ fun MainNavHost(
                     ArticlesOverView(
                         onClick = { url ->
                             navController.navigate("detail/$url")
+                            iconState = Icons.Filled.ArrowBack
                         }
                     )
                 }
@@ -95,14 +109,14 @@ fun MainNavHost(
                     ArticlesPager(
                         onClick = { url ->
                             navController.navigate("detail/$url")
+                            iconState = Icons.Filled.ArrowBack
                         }
                     )
                 }
                 composable("detail/{url}") { navBackStackEntry ->
                     navBackStackEntry.arguments?.getString("url")?.let {
                         ArticleDetail(
-                            url = it,
-                            onClick = { navController.navigateUp() }
+                            url = it
                         )
                     }
                 }
@@ -110,6 +124,7 @@ fun MainNavHost(
                     FollowArticles(
                         onClick =  { url ->
                             navController.navigate("detail/$url")
+                            iconState = Icons.Filled.ArrowBack
                         }
                     )
                 }

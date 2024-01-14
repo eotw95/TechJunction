@@ -1,14 +1,14 @@
 package com.example.techjunction.screens.component
 
 import android.os.Build
-import android.widget.Switch
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,6 +33,8 @@ import com.example.techjunction.constants.APP_NAME
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Header(
+    icon: ImageVector,
+    onClick: () -> Unit,
     onChangeTheme: () -> Unit
 ) {
     Surface(
@@ -44,7 +47,21 @@ fun Header(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(horizontal = 15.dp)
         ) {
-            Icon(imageVector = Icons.Filled.Search, contentDescription = null)
+            when (icon) {
+                Icons.Filled.Search -> {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null
+                    )
+                }
+                Icons.Filled.ArrowBack -> {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        modifier = Modifier.clickable { onClick() }
+                    )
+                }
+            }
             Text(
                 text = APP_NAME,
                 textAlign = TextAlign.Center,
