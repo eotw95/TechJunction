@@ -80,12 +80,16 @@ fun MainNavHost(
                                }
                         },
                         onClick = {
+                            iconState = Icons.Filled.Search
                             navController.navigate(screen.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
                                 }
                                 launchSingleTop = true
                                 restoreState = true
+                            }
+                            if (navController.currentDestination?.route == Screen.Detail.route) {
+                                iconState = Icons.Filled.ArrowBack
                             }
                         }
                     )
@@ -147,6 +151,6 @@ sealed class Screen(
 
     object Overview: Screen("Overview", R.string.overview)
     object Channel: Screen("channel", R.string.channel)
-    object Detail: Screen("detail", R.string.detail)
+    object Detail: Screen("detail/{url}", R.string.detail)
     object Follow: Screen("follow", R.string.favorite)
 }
