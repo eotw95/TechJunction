@@ -9,9 +9,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.List
-import androidx.compose.material.icons.outlined.ThumbUp
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,6 +43,7 @@ fun MainNavHost(
     onChangeTheme: () -> Unit
     ) {
     var iconState by remember { mutableStateOf(Icons.Filled.Search) }
+    var currentRoot = CurrentRoot.OVERVIEW
     Scaffold(
         topBar = {
             Header(
@@ -65,18 +66,44 @@ fun MainNavHost(
                         label = {
                             Text(
                                 text = stringResource(id = screen.resourceId),
-                                fontSize = 12.sp
+                                fontSize = 12.sp,
+                                color = if (currentRoot == screen.currentRoot) {
+                                    Color.Black
+                                } else {
+                                    Color.LightGray
+                                }
                             )
                         },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         icon = {
                                when (screen.route) {
                                    Screen.Overview.route ->
-                                       Icon(Icons.Filled.Home, null)
+                                       Icon(
+                                           imageVector = Icons.Filled.Home,
+                                           contentDescription = null,
+                                           tint = when (currentRoot) {
+                                               CurrentRoot.OVERVIEW -> Color.Black
+                                               else -> Color.LightGray
+                                           }
+                                       )
                                    Screen.Channel.route ->
-                                       Icon(Icons.Outlined.List, null)
+                                       Icon(
+                                           imageVector = Icons.Filled.List,
+                                           contentDescription = null,
+                                           tint = when (currentRoot) {
+                                               CurrentRoot.CHANNEL -> Color.Black
+                                               else -> Color.LightGray
+                                           }
+                                       )
                                    Screen.Follow.route ->
-                                       Icon(Icons.Outlined.ThumbUp, null)
+                                       Icon(
+                                           imageVector = Icons.Filled.ThumbUp,
+                                           contentDescription = null,
+                                           tint = when (currentRoot) {
+                                               CurrentRoot.FOLLOW -> Color.Black
+                                               else -> Color.LightGray
+                                           }
+                                       )
                                }
                         },
                         onClick = {
@@ -90,6 +117,17 @@ fun MainNavHost(
                             }
                             if (navController.currentDestination?.route == Screen.Detail.route) {
                                 iconState = Icons.Filled.ArrowBack
+                            }
+                            when (navController.currentDestination?.route) {
+                                Screen.Overview.route -> {
+                                    currentRoot = CurrentRoot.OVERVIEW
+                                }
+                                Screen. Channel.route -> {
+                                    currentRoot = CurrentRoot.CHANNEL
+                                }
+                                Screen.Follow.route -> {
+                                    currentRoot = CurrentRoot.FOLLOW
+                                }
                             }
                         }
                     )
@@ -139,7 +177,8 @@ fun MainNavHost(
 
 sealed class Screen(
     val route: String,
-    val resourceId: Int
+    val resourceId: Int,
+    val currentRoot: CurrentRoot
 ) {
     companion object {
         val items = listOf(
@@ -149,8 +188,15 @@ sealed class Screen(
         )
     }
 
-    object Overview: Screen("Overview", R.string.overview)
-    object Channel: Screen("channel", R.string.channel)
-    object Detail: Screen("detail/{url}", R.string.detail)
-    object Follow: Screen("follow", R.string.favorite)
+    object Overview: Screen("Overview", R.string.overview, CurrentRoot.OVERVIEW)
+    object Channel: Screen("channel", R.string.channel, CurrentRoot.CHANNEL)
+    object Detail: Screen("detail/{url}", R.string.detail, CurrentRoot.DETAIL)
+    object Follow: Screen("follow", R.string.favorite, CurrentRoot.FOLLOW)
+}
+
+enum class CurrentRoot {
+    OVERVIEW,
+    CHANNEL,
+    DETAIL,
+    FOLLOW
 }
