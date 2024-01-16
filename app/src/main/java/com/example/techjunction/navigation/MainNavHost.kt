@@ -33,6 +33,7 @@ import com.example.techjunction.screens.ArticleDetail
 import com.example.techjunction.screens.ArticlesOverView
 import com.example.techjunction.screens.ArticlesPager
 import com.example.techjunction.screens.FollowArticles
+import com.example.techjunction.screens.SearchArticles
 import com.example.techjunction.screens.component.Header
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -48,7 +49,10 @@ fun MainNavHost(
         topBar = {
             Header(
                 icon = iconState,
-                onClick = {
+                onClickSearch = {
+                    navController.navigate(Screen.Search.route)
+                },
+                onClickBack = {
                     navController.navigateUp()
                     iconState = Icons.Filled.Search
                 },
@@ -176,6 +180,9 @@ fun MainNavHost(
                         }
                     )
                 }
+                composable(Screen.Search.route) {
+                    SearchArticles()
+                }
             }
         )
     }
@@ -198,11 +205,13 @@ sealed class Screen(
     object Channel: Screen("channel", R.string.channel, CurrentRoot.CHANNEL)
     object Detail: Screen("detail/{url}", R.string.detail, CurrentRoot.DETAIL)
     object Follow: Screen("follow", R.string.favorite, CurrentRoot.FOLLOW)
+    object Search: Screen("search", R.string.search, CurrentRoot.SEARCH)
 }
 
 enum class CurrentRoot {
     OVERVIEW,
     CHANNEL,
     DETAIL,
-    FOLLOW
+    FOLLOW,
+    SEARCH
 }

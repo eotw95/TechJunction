@@ -5,4 +5,5 @@
     <string name="detail">Detail</string>
     <string name="favorite">フォロー中</string>
     <string name="save_text">＋ あとで見る</string>
+    <string name="search">検索</string>
 </resources>
