@@ -8,8 +8,6 @@ import com.example.techjunction.constants.CHANNEL_URL_ZENN
 import com.example.techjunction.constants.HATENA
 import com.example.techjunction.constants.QIITA
 import com.example.techjunction.constants.ZENN
-import com.example.techjunction.screens.articles.ArticlesByQiitaApi
-import com.example.techjunction.screens.articles.ArticlesByRssFeed
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

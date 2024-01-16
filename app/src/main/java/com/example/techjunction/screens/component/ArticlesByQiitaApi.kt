@@ -1,4 +1,4 @@
-package com.example.techjunction.screens.articles
+package com.example.techjunction.screens.component
 
 import android.app.Application
 import android.os.Build
