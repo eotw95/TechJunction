@@ -45,6 +45,7 @@ fun MainNavHost(
     ) {
     var iconState by remember { mutableStateOf(Icons.Filled.Search) }
     var currentRoot by remember { mutableStateOf(CurrentRoot.OVERVIEW) }
+    var isShowBottomBar by remember { mutableStateOf(true) }
     Scaffold(
         topBar = {
             Header(
@@ -55,92 +56,92 @@ fun MainNavHost(
                 onClickBack = {
                     navController.navigateUp()
                     iconState = Icons.Filled.Search
+                    isShowBottomBar = true
                 },
                 onChangeTheme = onChangeTheme
             )
         },
         bottomBar = {
-            BottomNavigation(
-                backgroundColor = Color.White
-            ) {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-                Screen.items.forEach { screen ->
-                    BottomNavigationItem(
-                        label = {
-                            Text(
-                                text = stringResource(id = screen.resourceId),
-                                fontSize = 12.sp,
-                                color = if (currentRoot == screen.currentRoot) {
-                                    Color.Black
-                                } else {
-                                    Color.LightGray
+            if (isShowBottomBar) {
+                BottomNavigation(
+                    backgroundColor = Color.White
+                ) {
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val currentDestination = navBackStackEntry?.destination
+                    Screen.items.forEach { screen ->
+                        BottomNavigationItem(
+                            label = {
+                                Text(
+                                    text = stringResource(id = screen.resourceId),
+                                    fontSize = 12.sp,
+                                    color = if (currentRoot == screen.currentRoot) {
+                                        Color.Black
+                                    } else {
+                                        Color.LightGray
+                                    }
+                                )
+                            },
+                            selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                            icon = {
+                                when (screen.route) {
+                                    Screen.Overview.route ->
+                                        Icon(
+                                            imageVector = Icons.Filled.Home,
+                                            contentDescription = null,
+                                            tint = if (currentRoot == CurrentRoot.OVERVIEW) {
+                                                Color.Black
+                                            } else {
+                                                Color.LightGray
+                                            }
+                                        )
+                                    Screen.Channel.route ->
+                                        Icon(
+                                            imageVector = Icons.Filled.List,
+                                            contentDescription = null,
+                                            tint = if (currentRoot == CurrentRoot.CHANNEL) {
+                                                Color.Black
+                                            } else {
+                                                Color.LightGray
+                                            }
+                                        )
+                                    Screen.Follow.route ->
+                                        Icon(
+                                            imageVector = Icons.Filled.ThumbUp,
+                                            contentDescription = null,
+                                            tint = if (currentRoot == CurrentRoot.FOLLOW) {
+                                                Color.Black
+                                            } else {
+                                                Color.LightGray
+                                            }
+                                        )
                                 }
-                            )
-                        },
-                        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                        icon = {
-                               when (screen.route) {
-                                   Screen.Overview.route ->
-                                       Icon(
-                                           imageVector = Icons.Filled.Home,
-                                           contentDescription = null,
-                                           tint = if (currentRoot == CurrentRoot.OVERVIEW) {
-                                               Color.Black
-                                           } else {
-                                               Color.LightGray
-                                           }
-                                       )
-                                   Screen.Channel.route ->
-                                       Icon(
-                                           imageVector = Icons.Filled.List,
-                                           contentDescription = null,
-                                           tint = if (currentRoot == CurrentRoot.CHANNEL) {
-                                               Color.Black
-                                           } else {
-                                               Color.LightGray
-                                           }
-                                       )
-                                   Screen.Follow.route ->
-                                       Icon(
-                                           imageVector = Icons.Filled.ThumbUp,
-                                           contentDescription = null,
-                                           tint = if (currentRoot == CurrentRoot.FOLLOW) {
-                                               Color.Black
-                                           } else {
-                                               Color.LightGray
-                                           }
-                                       )
-                               }
-                        },
-                        onClick = {
-                            iconState = Icons.Filled.Search
-                            navController.navigate(screen.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+                            },
+                            onClick = {
+                                iconState = Icons.Filled.Search
+                                navController.navigate(screen.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                                launchSingleTop = true
-                                restoreState = true
+                                if (navController.currentDestination?.route == Screen.Detail.route) {
+                                    iconState = Icons.Filled.ArrowBack
+                                }
+                                when (navController.currentDestination?.route) {
+                                    Screen.Overview.route -> {
+                                        currentRoot = CurrentRoot.OVERVIEW
+                                    }
+                                    Screen.Channel.route -> {
+                                        currentRoot = CurrentRoot.CHANNEL
+                                    }
+                                    Screen.Follow.route -> {
+                                        currentRoot = CurrentRoot.FOLLOW
+                                    }
+                                }
                             }
-                            if (navController.currentDestination?.route == Screen.Detail.route) {
-                                iconState = Icons.Filled.ArrowBack
-                            }
-                            when (navController.currentDestination?.route) {
-                                Screen.Overview.route -> {
-                                    currentRoot = CurrentRoot.OVERVIEW
-                                }
-                                Screen. Channel.route -> {
-                                    currentRoot = CurrentRoot.CHANNEL
-                                }
-                                Screen.Follow.route -> {
-                                    currentRoot = CurrentRoot.FOLLOW
-                                }
-                                Screen.Detail.route -> {
-                                    // TODO: detailページに遷移した場合、BottomNavigationItemのアイコンの色をブラックに変更する
-                                }
-                            }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }
@@ -154,6 +155,7 @@ fun MainNavHost(
                         onClick = { url ->
                             navController.navigate("detail/$url")
                             iconState = Icons.Filled.ArrowBack
+                            isShowBottomBar = false
                         }
                     )
                 }
@@ -162,6 +164,7 @@ fun MainNavHost(
                         onClick = { url ->
                             navController.navigate("detail/$url")
                             iconState = Icons.Filled.ArrowBack
+                            isShowBottomBar = false
                         }
                     )
                 }
@@ -177,11 +180,13 @@ fun MainNavHost(
                         onClick =  { url ->
                             navController.navigate("detail/$url")
                             iconState = Icons.Filled.ArrowBack
+                            isShowBottomBar = false
                         }
                     )
                 }
                 composable(Screen.Search.route) {
                     SearchArticles()
+                    isShowBottomBar = false
                 }
             }
         )
