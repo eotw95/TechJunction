@@ -52,6 +52,7 @@ fun MainNavHost(
                 icon = iconState,
                 onClickSearch = {
                     navController.navigate(Screen.Search.route)
+                    iconState = Icons.Filled.ArrowBack
                 },
                 onClickBack = {
                     navController.navigateUp()

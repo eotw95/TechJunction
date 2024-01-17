@@ -48,16 +48,12 @@ fun Header(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(horizontal = 15.dp)
         ) {
-            var iconState by remember { mutableStateOf(Icons.Filled.Search) }
-
             when (icon) {
                 Icons.Filled.Search -> {
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
                         modifier = Modifier.clickable {
-                            // TODO: SearchアイコンタップしてもBackアイコンに切り替わらないので修正
-                            iconState = Icons.Filled.ArrowBack
                             onClickSearch()
                         }
                     )
