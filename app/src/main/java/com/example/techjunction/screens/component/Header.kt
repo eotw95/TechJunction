@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.techjunction.constants.APP_NAME
 
+@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Header(
@@ -38,6 +41,8 @@ fun Header(
     onClickBack: () -> Unit,
     onChangeTheme: () -> Unit
 ) {
+    var isShowTextField by remember { mutableStateOf(false) }
+    
     Surface(
         modifier = Modifier
             .fillMaxWidth(),
@@ -55,6 +60,7 @@ fun Header(
                         contentDescription = null,
                         modifier = Modifier.clickable {
                             onClickSearch()
+                            isShowTextField = true
                         }
                     )
                 }
@@ -62,16 +68,29 @@ fun Header(
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        modifier = Modifier.clickable { onClickBack() }
+                        modifier = Modifier.clickable {
+                            onClickBack()
+                            isShowTextField = false
+                        }
                     )
                 }
             }
-            Text(
-                text = APP_NAME,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.displayLarge,
-                fontSize = 25.sp
-            )
+            if (isShowTextField) {
+                var inputText by remember { mutableStateOf("") }
+                TextField(
+                    value = inputText,
+                    onValueChange = {
+                        inputText = it
+                    }
+                )
+            } else {
+                Text(
+                    text = APP_NAME,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.displayLarge,
+                    fontSize = 25.sp
+                )
+            }
             CustomSwitch(onChangeTheme)
         }
     }

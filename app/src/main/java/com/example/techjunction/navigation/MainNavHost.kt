@@ -46,6 +46,7 @@ fun MainNavHost(
     var iconState by remember { mutableStateOf(Icons.Filled.Search) }
     var currentRoot by remember { mutableStateOf(CurrentRoot.OVERVIEW) }
     var isShowBottomBar by remember { mutableStateOf(true) }
+
     Scaffold(
         topBar = {
             Header(
