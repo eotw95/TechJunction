@@ -23,4 +23,9 @@ class QiitaArticleRepositoryImpl(private val db: QiitaArticleDatabase): QiitaArt
             dao.insert(article.asDatabaseModel())
         }
     }
+
+    override suspend fun getAllByQuery(query: String): List<QiitaArticle> {
+        val dao = db.qiitaArticleDao()
+        return dao.getAllByQuery(query)
+    }
 }

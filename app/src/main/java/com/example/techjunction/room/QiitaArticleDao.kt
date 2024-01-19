@@ -13,6 +13,9 @@ interface QiitaArticleDao {
     @Query("DELETE FROM qiita_articles")
     suspend fun deleteAll()
 
+    @Query("SELECT * FROM qiita_articles WHERE title LIKE '%' || :query || '%'")
+    suspend fun getAllByQuery(query: String): List<QiitaArticle>
+
     @Insert
     suspend fun insert(article: QiitaArticle)
 

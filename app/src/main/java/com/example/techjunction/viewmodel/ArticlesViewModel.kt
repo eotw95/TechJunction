@@ -1,6 +1,8 @@
 package com.example.techjunction.viewmodel
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,6 +19,7 @@ import com.example.techjunction.room.RssItem
 import com.example.techjunction.room.RssRepositoryImpl
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 class ArticlesViewModel(private val application: Application): ViewModel() {
     companion object {
         private const val TAG = "ArticlesViewModel"
@@ -35,6 +38,8 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
     val rssItems: LiveData<List<RssItem>> = _rssItems
     private val _followArticle = MutableLiveData<List<FollowArticle>>()
     val followArticle: LiveData<List<FollowArticle>> = _followArticle
+    private val _searchArticles = MutableLiveData<List<QiitaArticle>>()
+    val searchArticles: LiveData<List<QiitaArticle>> = _searchArticles
 
     init {
         fetchQiitaArticles("kotlin")
@@ -43,6 +48,7 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
         fetchFollowArticles()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun fetchQiitaArticles(query: String) {
         viewModelScope.launch {
             qiitaArtRepo.storeArticles(query)
@@ -86,6 +92,13 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
         viewModelScope.launch {
             followArticleRepo.deleteArticle(article)
             fetchFollowArticles()
+        }
+    }
+
+    fun getAllByQuery(query: String) {
+        viewModelScope.launch {
+            _searchArticles.postValue(qiitaArtRepo.getAllByQuery(query))
+            println("qiitaArtRepo.getAllByQuery(query)=${qiitaArtRepo.getAllByQuery(query)}")
         }
     }
 }
