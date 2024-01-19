@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
@@ -27,16 +29,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.techjunction.constants.APP_NAME
+import com.example.techjunction.viewmodel.ArticlesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Header(
     icon: ImageVector,
+    viewModel: ArticlesViewModel?,
     onClickSearch: () -> Unit,
     onClickBack: () -> Unit,
     onChangeTheme: () -> Unit
@@ -81,7 +86,17 @@ fun Header(
                     value = inputText,
                     onValueChange = {
                         inputText = it
-                    }
+                    },
+                    placeholder = { Text(text = "記事を検索") },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            viewModel?.getAllByQuery(inputText)
+                        }
+                    ),
+                    modifier = Modifier.scale(0.8f)
                 )
             } else {
                 Text(

@@ -36,9 +36,9 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
     val rssChannels: LiveData<List<RssChannel>> = _rssChannels
     private val _rssItems = MutableLiveData<List<RssItem>>()
     val rssItems: LiveData<List<RssItem>> = _rssItems
-    private val _followArticle = MutableLiveData<List<FollowArticle>>()
-    val followArticle: LiveData<List<FollowArticle>> = _followArticle
-    private val _searchArticles = MutableLiveData<List<QiitaArticle>>()
+    private val _followArticles = MutableLiveData<List<FollowArticle>>()
+    val followArticles: LiveData<List<FollowArticle>> = _followArticles
+    private var _searchArticles = MutableLiveData<List<QiitaArticle>>()
     val searchArticles: LiveData<List<QiitaArticle>> = _searchArticles
 
     init {
@@ -78,7 +78,7 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
     fun fetchFollowArticles() {
         viewModelScope.launch {
             val articles = followArticleRepo.getAll()
-            _followArticle.postValue(articles)
+            _followArticles.postValue(articles)
         }
     }
 
@@ -98,7 +98,6 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
     fun getAllByQuery(query: String) {
         viewModelScope.launch {
             _searchArticles.postValue(qiitaArtRepo.getAllByQuery(query))
-            println("qiitaArtRepo.getAllByQuery(query)=${qiitaArtRepo.getAllByQuery(query)}")
         }
     }
 }

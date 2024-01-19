@@ -1,6 +1,7 @@
 package com.example.techjunction.navigation
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.material.BottomNavigation
@@ -20,8 +21,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -35,6 +39,8 @@ import com.example.techjunction.screens.ArticlesPager
 import com.example.techjunction.screens.FollowArticles
 import com.example.techjunction.screens.SearchArticles
 import com.example.techjunction.screens.component.Header
+import com.example.techjunction.viewmodel.ArticlesViewModel
+import com.example.techjunction.viewmodel.ArticlesViewModelFactory
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -43,6 +49,14 @@ fun MainNavHost(
     navController: NavHostController,
     onChangeTheme: () -> Unit
     ) {
+    var viewModel: ArticlesViewModel? = null
+    LocalViewModelStoreOwner.current?.let {
+        viewModel = viewModel(
+            it,
+            "ArticleViewModel",
+            ArticlesViewModelFactory(LocalContext.current.applicationContext as Application)
+        )
+    }
     var iconState by remember { mutableStateOf(Icons.Filled.Search) }
     var currentRoot by remember { mutableStateOf(CurrentRoot.OVERVIEW) }
     var isShowBottomBar by remember { mutableStateOf(true) }
@@ -51,6 +65,7 @@ fun MainNavHost(
         topBar = {
             Header(
                 icon = iconState,
+                viewModel = viewModel,
                 onClickSearch = {
                     navController.navigate(Screen.Search.route)
                     iconState = Icons.Filled.ArrowBack
@@ -187,7 +202,7 @@ fun MainNavHost(
                     )
                 }
                 composable(Screen.Search.route) {
-                    SearchArticles()
+                    SearchArticles(viewModel)
                     isShowBottomBar = false
                 }
             }

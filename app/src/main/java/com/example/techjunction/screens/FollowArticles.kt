@@ -1,6 +1,8 @@
 package com.example.techjunction.screens
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +39,7 @@ import com.example.techjunction.viewmodel.ArticlesViewModelFactory
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun FollowArticles(
     onClick: (String) -> Unit
@@ -49,8 +52,7 @@ fun FollowArticles(
             ArticlesViewModelFactory(LocalContext.current.applicationContext as Application)
         )
     }
-
-    val followArticleObserver = vm?.followArticle?.observeAsState()
+    val followArticleObserver = vm?.followArticles?.observeAsState()
 
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState())
