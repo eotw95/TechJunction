@@ -55,19 +55,11 @@ import java.util.Date
 @Composable
 fun ArticlesByRssFeed(
     onClick: (String) -> Unit,
-    channelUri: String
+    channelUri: String,
+    viewModel: ArticlesViewModel?
 ) {
-    var vm: ArticlesViewModel? = null
-    LocalViewModelStoreOwner.current?.let {
-        vm = viewModel(
-            it,
-            "ArticlesViewModel",
-            ArticlesViewModelFactory(LocalContext.current.applicationContext as Application)
-        )
-    }
-
-    val observeRssChannels = vm?.rssChannels?.observeAsState()
-    val observeRssItems = vm?.rssItems?.observeAsState()
+    val observeRssChannels = viewModel?.rssChannels?.observeAsState()
+    val observeRssItems = viewModel?.rssItems?.observeAsState()
 
     Column {
         Column(
@@ -149,7 +141,7 @@ fun ArticlesByRssFeed(
                                             contentColor = Color.Black,
                                         ),
                                         onClick = {
-                                            vm?.storeArticle(followArticle)
+                                            viewModel.storeArticle(followArticle)
                                         }
                                     ) {
                                         Text(

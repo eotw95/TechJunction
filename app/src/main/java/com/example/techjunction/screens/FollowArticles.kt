@@ -42,22 +42,15 @@ import java.nio.charset.StandardCharsets
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun FollowArticles(
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit,
+    viewModel: ArticlesViewModel?
 ) {
-    var vm: ArticlesViewModel? = null
-    LocalViewModelStoreOwner.current?.let {
-        vm = viewModel(
-            it,
-            "ArticleViewModel",
-            ArticlesViewModelFactory(LocalContext.current.applicationContext as Application)
-        )
-    }
-    val followArticleObserver = vm?.followArticles?.observeAsState()
+    val followArticleObserver = viewModel?.followArticles?.observeAsState()
 
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
-        vm?.fetchFollowArticles()
+        viewModel?.fetchFollowArticles()
         followArticleObserver?.value?.forEach { article ->
             val encodeUrl = URLEncoder.encode(article.link, StandardCharsets.UTF_8.toString())
             Column(
@@ -99,7 +92,7 @@ fun FollowArticles(
                         Icon(
                             imageVector = Icons.Filled.Delete,
                             contentDescription = null,
-                            modifier = Modifier.clickable { vm?.deleteArticle(article) }
+                            modifier = Modifier.clickable { viewModel.deleteArticle(article) }
                         )
                     }
 

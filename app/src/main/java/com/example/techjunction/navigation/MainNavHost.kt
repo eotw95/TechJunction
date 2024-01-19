@@ -182,7 +182,8 @@ fun MainNavHost(
                             navController.navigate("detail/$url")
                             iconState = Icons.Filled.ArrowBack
                             isShowBottomBar = false
-                        }
+                        },
+                        viewModel = viewModel
                     )
                 }
                 composable("detail/{url}") { navBackStackEntry ->
@@ -198,7 +199,8 @@ fun MainNavHost(
                             navController.navigate("detail/$url")
                             iconState = Icons.Filled.ArrowBack
                             isShowBottomBar = false
-                        }
+                        },
+                        viewModel = viewModel
                     )
                 }
                 composable(Screen.Search.route) {

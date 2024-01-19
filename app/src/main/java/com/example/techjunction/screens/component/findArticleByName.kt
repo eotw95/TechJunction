@@ -8,16 +8,18 @@ import com.example.techjunction.constants.CHANNEL_URL_ZENN
 import com.example.techjunction.constants.HATENA
 import com.example.techjunction.constants.QIITA
 import com.example.techjunction.constants.ZENN
+import com.example.techjunction.viewmodel.ArticlesViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun findArticleByName(
     onClick: (String) -> Unit,
-    categoryName: String
+    categoryName: String,
+    viewModel: ArticlesViewModel?
 ) {
     when (categoryName) {
-        QIITA -> ArticlesByQiitaApi(onClick)
-        ZENN -> ArticlesByRssFeed(onClick, CHANNEL_URL_ZENN)
-        HATENA -> ArticlesByRssFeed(onClick, CHANNEL_URL_HATENA)
+        QIITA -> ArticlesByQiitaApi(onClick, viewModel)
+        ZENN -> ArticlesByRssFeed(onClick, CHANNEL_URL_ZENN, viewModel)
+        HATENA -> ArticlesByRssFeed(onClick, CHANNEL_URL_HATENA, viewModel)
     }
 }

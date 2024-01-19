@@ -22,13 +22,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.techjunction.constants.services
 import com.example.techjunction.screens.component.findArticleByName
+import com.example.techjunction.viewmodel.ArticlesViewModel
 import com.google.accompanist.pager.HorizontalPagerIndicator
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ArticlesPager(
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit,
+    viewModel: ArticlesViewModel?
 ) {
     Column {
         val state = rememberPagerState()
@@ -63,8 +65,7 @@ fun ArticlesPager(
                         indicatorWidth = 100.dp,
                         indicatorHeight = 3.dp,
                         spacing = 0.dp,
-                        inactiveColor = Color.Transparent,
-//                        modifier = Modifier.padding(start = 20.dp)
+                        inactiveColor = Color.Transparent
                     )
                 }
             }
@@ -73,7 +74,11 @@ fun ArticlesPager(
             state = state,
             pageCount = count
         ) { index ->
-            findArticleByName(onClick = onClick, categoryName = services[index])
+            findArticleByName(
+                onClick = onClick,
+                categoryName = services[index],
+                viewModel = viewModel
+            )
         }
     }
 }

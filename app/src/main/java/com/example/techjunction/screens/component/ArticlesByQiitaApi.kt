@@ -54,18 +54,10 @@ import java.util.Date
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ArticlesByQiitaApi(
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit,
+    viewModel: ArticlesViewModel?
 ) {
-    var vm: ArticlesViewModel? = null
-    LocalViewModelStoreOwner.current?.let {
-        vm = viewModel(
-            it,
-            "ArticlesViewModel",
-            ArticlesViewModelFactory(LocalContext.current.applicationContext as Application)
-        )
-    }
-
-    val observeQiitaArticles = vm?.articles?.observeAsState()
+    val observeQiitaArticles = viewModel?.articles?.observeAsState()
 
     Column {
         Column(
@@ -153,7 +145,7 @@ fun ArticlesByQiitaApi(
                                     contentColor = Color.Black,
                                 ),
                                 onClick = {
-                                    vm?.storeArticle(followArticle)
+                                    viewModel.storeArticle(followArticle)
                                 }
                             ) {
                                 Text(
