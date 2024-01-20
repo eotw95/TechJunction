@@ -7,6 +7,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.techjunction.constants.CHANNEL_URL_HATENA
+import com.example.techjunction.constants.CHANNEL_URL_ZENN
+import com.example.techjunction.constants.HATENA
+import com.example.techjunction.constants.QIITA
+import com.example.techjunction.constants.ZENN
 import com.example.techjunction.room.FollowArticle
 import com.example.techjunction.room.FollowArticleDatabase
 import com.example.techjunction.room.FollowArticleRepositoryImpl
@@ -44,8 +49,8 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
     val rssItems: LiveData<List<RssItem>> = _rssItems
     private val _followArticles = MutableLiveData<List<FollowArticle>>()
     val followArticles: LiveData<List<FollowArticle>> = _followArticles
-    private var _searchArticles = MutableLiveData<List<QiitaArticle>>()
-    val searchArticles: LiveData<List<QiitaArticle>> = _searchArticles
+    private var _searchArticles = MutableLiveData<List<SearchArticle>>()
+    val searchArticles: LiveData<List<SearchArticle>> = _searchArticles
 
     init {
         fetchQiitaArticles("kotlin")
@@ -107,7 +112,53 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
 
     fun getAllByQuery(query: String) {
         viewModelScope.launch {
-            _searchArticles.postValue(qiitaArtRepo.getAllByQuery(query))
+            val qiitaArticles = qiitaArtRepo.getAllByQuery(query)
+            val rssItem = rssRepo.getAllByQuery(query)
+            val rssChannel = rssRepo.getChannels()
+            val searchList = mutableListOf<SearchArticle>()
+            val tmpList = mutableListOf<Any>()
+            tmpList.addAll(
+                qiitaArticles +
+                        rssItem
+            )
+            tmpList.forEach { item ->
+                when (item) {
+                    is QiitaArticle -> {
+                        searchList.add(
+                            SearchArticle(
+                                item.title,
+                                "dummy",
+                                QIITA
+                            )
+                        )
+                    }
+                    is RssItem -> {
+                        rssChannel.forEach { channel ->
+                            if (channel.id == item.channelId) {
+                                val channelName = when (channel.rssUrl) {
+                                    CHANNEL_URL_ZENN -> ZENN
+                                    CHANNEL_URL_HATENA -> HATENA
+                                    else -> throw IllegalArgumentException("Invalid rssUrl")
+                                }
+                                searchList.add(
+                                    SearchArticle(
+                                        item.title,
+                                        item.description,
+                                        channelName
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+            _searchArticles.postValue(searchList)
         }
     }
 }
+
+data class SearchArticle(
+    val title: String,
+    val description: String,
+    val channel: String
+)
