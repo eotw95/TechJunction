@@ -16,6 +16,9 @@ interface RssItemDao {
     @Query("SELECT * FROM rss_items WHERE channel_id = :channelId AND link = :link")
     suspend fun findItemByUrl(channelId: Int, link: String): RssItem?
 
+    @Query("SELECT * FROM rss_items WHERE title LIKE '%' || :query || '%'")
+    suspend fun getAllByQuery(query: String): List<RssItem>
+
     @Insert
     suspend fun insert(rssItem: RssItem)
 

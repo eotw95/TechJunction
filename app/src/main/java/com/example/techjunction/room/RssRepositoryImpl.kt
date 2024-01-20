@@ -27,6 +27,11 @@ class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
         return dao.findItemByUrl(channelId, link)
     }
 
+    override suspend fun getAllByQuery(query: String): List<RssItem> {
+        val dao = db.rssItemDao()
+        return dao.getAllByQuery(query)
+    }
+
     override suspend fun insertOrUpdateChannel(
         rssUrl: String,
         title: String?,

@@ -1,5 +1,6 @@
 package com.example.techjunction.room
 
+import androidx.room.Query
 import java.util.Date
 
 interface RssRepository {
@@ -9,6 +10,8 @@ interface RssRepository {
     suspend fun getItemsByChannelId(channelId: Int): List<RssItem>
 
     suspend fun findItemByUrl(channelId: Int, link: String): RssItem?
+
+    suspend fun getAllByQuery(query: String): List<RssItem>
 
     suspend fun insertOrUpdateChannel(
         rssUrl: String,
