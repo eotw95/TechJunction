@@ -61,7 +61,11 @@ fun SearchArticles(viewModel: ArticlesViewModel?) {
                         modifier = Modifier.width(300.dp)
                     )
                 }
-                Text(text = article.description)
+                var desc = article.description
+                if (desc.length > 80) {
+                    desc = desc.take(80) + "..."
+                }
+                Text(text = desc)
                 Spacer(modifier = Modifier.padding(vertical = 5.dp))
                 Divider()
             }
