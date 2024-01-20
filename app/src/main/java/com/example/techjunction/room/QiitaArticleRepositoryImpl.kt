@@ -26,7 +26,6 @@ class QiitaArticleRepositoryImpl(private val db: QiitaArticleDatabase): QiitaArt
 
     override suspend fun getAllByQuery(query: String): List<QiitaArticle> {
         val dao = db.qiitaArticleDao()
-        println("dao.getAllByQuery(query)=${dao.getAllByQuery(query)}")
         return dao.getAllByQuery(query)
     }
 }

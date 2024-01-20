@@ -17,12 +17,18 @@ import com.example.techjunction.room.RssChannel
 import com.example.techjunction.room.RssDatabase
 import com.example.techjunction.room.RssItem
 import com.example.techjunction.room.RssRepositoryImpl
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ArticlesViewModel(private val application: Application): ViewModel() {
     companion object {
         private const val TAG = "ArticlesViewModel"
+        // インスタンス変数としてしまうと、排他制御できなくなるので、companion objectとして定義する
+        private val mutex = Mutex()
     }
 
     private val db = QiitaArticleDatabase.getInstance(application)
@@ -51,9 +57,13 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun fetchQiitaArticles(query: String) {
         viewModelScope.launch {
-            qiitaArtRepo.storeArticles(query)
-            val articles = qiitaArtRepo.getAll()
-            _articles.postValue(articles)
+            mutex.withLock {
+                withContext(Dispatchers.IO) {
+                    qiitaArtRepo.storeArticles(query)
+                    val articles = qiitaArtRepo.getAll()
+                    _articles.postValue(articles)
+                }
+            }
         }
     }
 
