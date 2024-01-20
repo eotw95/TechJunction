@@ -69,6 +69,7 @@ fun MainNavHost(
                 onClickSearch = {
                     navController.navigate(Screen.Search.route)
                     iconState = Icons.Filled.ArrowBack
+                    isShowBottomBar = false
                 },
                 onClickBack = {
                     navController.navigateUp()
@@ -205,7 +206,6 @@ fun MainNavHost(
                 }
                 composable(Screen.Search.route) {
                     SearchArticles(viewModel)
-                    isShowBottomBar = false
                 }
             }
         )
