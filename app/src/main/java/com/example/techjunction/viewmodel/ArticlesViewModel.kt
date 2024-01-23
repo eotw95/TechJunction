@@ -127,7 +127,7 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
                         searchList.add(
                             SearchArticle(
                                 item.title,
-                                "dummy",
+                                item.user.description,
                                 QIITA
                             )
                         )
@@ -159,6 +159,6 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
 
 data class SearchArticle(
     val title: String,
-    val description: String,
+    val description: String?,
     val channel: String
 )

@@ -14,6 +14,7 @@ data class QiitaArticle(
 ) {
     data class User(
         val userId: String,
+        val description: String?,
         @ColumnInfo("profile_image_url") val profileImageUrl: String
     )
 }

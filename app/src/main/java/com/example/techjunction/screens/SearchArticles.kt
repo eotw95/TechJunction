@@ -55,17 +55,19 @@ fun SearchArticles(viewModel: ArticlesViewModel?) {
                         tint = Color.Unspecified
                     )
                     Spacer(modifier = Modifier.padding(horizontal = 15.dp))
-                    androidx.compose.material3.Text(
+                    Text(
                         text = article.title,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.width(300.dp)
                     )
                 }
-                var desc = article.description
-                if (desc.length > 80) {
-                    desc = desc.take(80) + "..."
+                article.description?.let {
+                    var desc = ""
+                    if (it.length > 80) {
+                        desc = it.take(80) + "..."
+                        Text(text = desc)
+                    }
                 }
-                Text(text = desc)
                 Spacer(modifier = Modifier.padding(vertical = 5.dp))
                 Divider()
             }

@@ -14,6 +14,7 @@ data class QiitaArticlesResponse(
 ) {
     data class User(
         val id: String,
+        val description: String?,
         @Json(name = "profile_image_url") val profileImageUrl: String
     )
 }
@@ -26,6 +27,7 @@ fun QiitaArticlesResponse.asDatabaseModel(): QiitaArticle {
         this.url,
         QiitaArticle.User(
             this.user.id,
+            this.user.description,
             this.user.profileImageUrl
         ),
         DateConverter.asDate(this.createdDate).time
