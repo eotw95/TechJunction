@@ -9,12 +9,12 @@ import com.squareup.moshi.Json
 data class QiitaArticlesResponse(
     val title: String,
     val url: String,
+    val body: String,
     val user: User,
     @Json(name = "created_at") val createdDate: String
 ) {
     data class User(
         val id: String,
-        val description: String?,
         @Json(name = "profile_image_url") val profileImageUrl: String
     )
 }
@@ -25,9 +25,9 @@ fun QiitaArticlesResponse.asDatabaseModel(): QiitaArticle {
         0,
         this.title,
         this.url,
+        this.body,
         QiitaArticle.User(
             this.user.id,
-            this.user.description,
             this.user.profileImageUrl
         ),
         DateConverter.asDate(this.createdDate).time

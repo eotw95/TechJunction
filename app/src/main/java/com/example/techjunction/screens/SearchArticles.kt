@@ -63,8 +63,8 @@ fun SearchArticles(viewModel: ArticlesViewModel?) {
                 }
                 article.description?.let {
                     var desc = ""
-                    if (it.length > 80) {
-                        desc = it.take(80) + "..."
+                    if (it.length > 200) {
+                        desc = it.take(200) + "..."
                         Text(text = desc)
                     }
                 }

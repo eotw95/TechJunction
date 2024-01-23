@@ -127,7 +127,7 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
                         searchList.add(
                             SearchArticle(
                                 item.title,
-                                item.user.description,
+                                item.body,
                                 QIITA
                             )
                         )
