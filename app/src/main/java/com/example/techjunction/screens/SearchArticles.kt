@@ -2,6 +2,7 @@ package com.example.techjunction.screens
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,18 +26,26 @@ import com.example.techjunction.constants.HATENA
 import com.example.techjunction.constants.QIITA
 import com.example.techjunction.constants.ZENN
 import com.example.techjunction.viewmodel.ArticlesViewModel
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun SearchArticles(viewModel: ArticlesViewModel?) {
+fun SearchArticles(
+    viewModel: ArticlesViewModel?,
+    onClick: (String) -> Unit
+    ) {
     val searchArticlesObserver = viewModel?.searchArticles?.observeAsState()
 
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
         searchArticlesObserver?.value?.forEach { article ->
+            val encodeUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
             Column(
-                modifier = Modifier.padding(horizontal = 15.dp)
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+                    .clickable { onClick(encodeUrl) }
             ) {
                 Spacer(modifier = Modifier.padding(vertical = 5.dp))
                 Row {

@@ -128,6 +128,7 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
                             SearchArticle(
                                 item.title,
                                 item.body,
+                                item.url,
                                 QIITA
                             )
                         )
@@ -144,6 +145,7 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
                                     SearchArticle(
                                         item.title,
                                         item.description,
+                                        item.link,
                                         channelName
                                     )
                                 )
@@ -160,5 +162,6 @@ class ArticlesViewModel(private val application: Application): ViewModel() {
 data class SearchArticle(
     val title: String,
     val description: String?,
+    val url: String,
     val channel: String
 )

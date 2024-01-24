@@ -205,7 +205,12 @@ fun MainNavHost(
                     )
                 }
                 composable(Screen.Search.route) {
-                    SearchArticles(viewModel)
+                    SearchArticles(
+                        viewModel = viewModel,
+                        onClick = { url ->
+                            navController.navigate("detail/$url")
+                        }
+                    )
                 }
             }
         )

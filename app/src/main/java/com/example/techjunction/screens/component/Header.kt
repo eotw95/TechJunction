@@ -25,10 +25,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -36,7 +38,7 @@ import androidx.compose.ui.unit.sp
 import com.example.techjunction.constants.APP_NAME
 import com.example.techjunction.viewmodel.ArticlesViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Header(
@@ -82,6 +84,7 @@ fun Header(
             }
             if (isShowTextField) {
                 var inputText by remember { mutableStateOf("") }
+                val keyboardController = LocalSoftwareKeyboardController.current
                 TextField(
                     value = inputText,
                     onValueChange = {
@@ -94,6 +97,7 @@ fun Header(
                     keyboardActions = KeyboardActions(
                         onDone = {
                             viewModel?.getAllByQuery(inputText)
+                            keyboardController?.hide()
                         }
                     ),
                     modifier = Modifier.scale(0.8f)
