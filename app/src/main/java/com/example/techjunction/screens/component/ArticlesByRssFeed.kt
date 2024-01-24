@@ -92,8 +92,7 @@ fun ArticlesByRssFeed(
                         Column {
                             Text(
                                 text = item.title,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 15.sp
+                                fontWeight = FontWeight.Bold
                             )
                             Spacer(modifier = Modifier.padding(vertical = 5.dp))
                             Row(

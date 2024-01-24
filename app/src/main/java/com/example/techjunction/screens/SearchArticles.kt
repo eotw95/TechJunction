@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
@@ -20,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.techjunction.R
 import com.example.techjunction.constants.HATENA
 import com.example.techjunction.constants.QIITA
@@ -35,7 +35,9 @@ fun SearchArticles(viewModel: ArticlesViewModel?) {
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
         searchArticlesObserver?.value?.forEach { article ->
-            Column {
+            Column(
+                modifier = Modifier.padding(horizontal = 15.dp)
+            ) {
                 Spacer(modifier = Modifier.padding(vertical = 5.dp))
                 Row {
                     Icon(
@@ -54,22 +56,23 @@ fun SearchArticles(viewModel: ArticlesViewModel?) {
                         },
                         tint = Color.Unspecified
                     )
-                    Spacer(modifier = Modifier.padding(horizontal = 15.dp))
+                    Spacer(modifier = Modifier.padding(horizontal = 5.dp))
                     Text(
                         text = article.title,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.width(300.dp)
+                        fontSize = 16.sp
                     )
                 }
+                Spacer(modifier = Modifier.padding(vertical = 5.dp))
                 article.description?.let {
-                    var desc = ""
                     if (it.length > 200) {
-                        desc = it.take(200) + "..."
-                        Text(text = desc)
+                        Text(text = it.take(200) + "...")
+                    } else {
+                        Text(text = it)
                     }
                 }
                 Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                Divider()
+                Divider(thickness = 0.5.dp)
             }
         }
     }
