@@ -55,6 +55,7 @@ fun Header(
     
     Surface(
         modifier = Modifier
+            .height(50.dp)
             .fillMaxWidth(),
         color = Color.White
     ) {
