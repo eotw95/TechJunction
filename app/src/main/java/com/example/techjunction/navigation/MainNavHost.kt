@@ -64,7 +64,7 @@ fun MainNavHost(
     Scaffold(
         topBar = {
             Header(
-                icon = iconState,
+                currentRoot = currentRoot,
                 viewModel = viewModel,
                 onClickSearch = {
                     navController.navigate(Screen.Search.route)
@@ -146,17 +146,17 @@ fun MainNavHost(
                                 if (navController.currentDestination?.route == Screen.Detail.route) {
                                     iconState = Icons.Filled.ArrowBack
                                 }
-                                when (navController.currentDestination?.route) {
-                                    Screen.Overview.route -> {
-                                        currentRoot = CurrentRoot.OVERVIEW
-                                    }
-                                    Screen.Channel.route -> {
-                                        currentRoot = CurrentRoot.CHANNEL
-                                    }
-                                    Screen.Follow.route -> {
-                                        currentRoot = CurrentRoot.FOLLOW
-                                    }
-                                }
+//                                when (navController.currentDestination?.route) {
+//                                    Screen.Overview.route -> {
+//                                        currentRoot = CurrentRoot.OVERVIEW
+//                                    }
+//                                    Screen.Channel.route -> {
+//                                        currentRoot = CurrentRoot.CHANNEL
+//                                    }
+//                                    Screen.Follow.route -> {
+//                                        currentRoot = CurrentRoot.FOLLOW
+//                                    }
+//                                }
                             }
                         )
                     }
@@ -169,6 +169,7 @@ fun MainNavHost(
             startDestination = Screen.Overview.route,
             builder = {
                 composable(Screen.Overview.route) {
+                    currentRoot = CurrentRoot.OVERVIEW
                     ArticlesOverView(
                         onClick = { url ->
                             navController.navigate("detail/$url")
@@ -178,6 +179,7 @@ fun MainNavHost(
                     )
                 }
                 composable(Screen.Channel.route) {
+                    currentRoot = CurrentRoot.CHANNEL
                     ArticlesPager(
                         onClick = { url ->
                             navController.navigate("detail/$url")
@@ -188,6 +190,7 @@ fun MainNavHost(
                     )
                 }
                 composable("detail/{url}") { navBackStackEntry ->
+                    currentRoot = CurrentRoot.DETAIL
                     navBackStackEntry.arguments?.getString("url")?.let {
                         ArticleDetail(
                             url = it
@@ -195,6 +198,7 @@ fun MainNavHost(
                     }
                 }
                 composable(Screen.Follow.route) {
+                    currentRoot = CurrentRoot.FOLLOW
                     FollowArticles(
                         onClick =  { url ->
                             navController.navigate("detail/$url")
@@ -205,6 +209,7 @@ fun MainNavHost(
                     )
                 }
                 composable(Screen.Search.route) {
+                    currentRoot = CurrentRoot.SEARCH
                     SearchArticles(
                         viewModel = viewModel,
                         onClick = { url ->

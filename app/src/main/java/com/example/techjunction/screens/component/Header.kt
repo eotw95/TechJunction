@@ -21,7 +21,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,20 +31,20 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.techjunction.constants.APP_NAME
+import com.example.techjunction.navigation.CurrentRoot
 import com.example.techjunction.viewmodel.ArticlesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Header(
-    icon: ImageVector,
+    currentRoot: CurrentRoot,
     viewModel: ArticlesViewModel?,
     onClickSearch: () -> Unit,
     onClickBack: () -> Unit,
@@ -64,24 +63,35 @@ fun Header(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(horizontal = 15.dp)
         ) {
-            when (icon) {
-                Icons.Filled.Search -> {
+            when (currentRoot) {
+                CurrentRoot.SEARCH -> {
                     Icon(
-                        imageVector = icon,
+                        imageVector = Icons.Filled.ArrowBack,
                         contentDescription = null,
                         modifier = Modifier.clickable {
-                            onClickSearch()
+                            onClickBack()
                             isShowTextField = true
                         }
                     )
                 }
-                Icons.Filled.ArrowBack -> {
+                CurrentRoot.DETAIL -> {
                     Icon(
-                        imageVector = icon,
+                        imageVector = Icons.Filled.ArrowBack,
                         contentDescription = null,
                         modifier = Modifier.clickable {
                             onClickBack()
-                            isShowTextField = false
+                        }
+                    )
+                }
+                CurrentRoot.OVERVIEW,
+                CurrentRoot.CHANNEL,
+                CurrentRoot.FOLLOW -> {
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = null,
+                        modifier = Modifier.clickable {
+                            onClickSearch()
+                            isShowTextField = true
                         }
                     )
                 }
