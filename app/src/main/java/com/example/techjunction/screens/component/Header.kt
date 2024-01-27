@@ -70,7 +70,7 @@ fun Header(
                         contentDescription = null,
                         modifier = Modifier.clickable {
                             onClickBack()
-                            isShowTextField = true
+                            isShowTextField = false
                         }
                     )
                 }
