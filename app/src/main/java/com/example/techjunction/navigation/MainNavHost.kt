@@ -14,13 +14,13 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
@@ -82,7 +82,7 @@ fun MainNavHost(
         bottomBar = {
             if (isShowBottomBar) {
                 BottomNavigation(
-                    backgroundColor = Color.White
+                    backgroundColor = MaterialTheme.colorScheme.background
                 ) {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
@@ -93,9 +93,9 @@ fun MainNavHost(
                                     text = stringResource(id = screen.resourceId),
                                     fontSize = 12.sp,
                                     color = if (currentRoot == screen.currentRoot) {
-                                        Color.Black
+                                        MaterialTheme.colorScheme.onSurface
                                     } else {
-                                        Color.LightGray
+                                        MaterialTheme.colorScheme.outline
                                     }
                                 )
                             },
@@ -107,9 +107,9 @@ fun MainNavHost(
                                             imageVector = Icons.Filled.Home,
                                             contentDescription = null,
                                             tint = if (currentRoot == CurrentRoot.OVERVIEW) {
-                                                Color.Black
+                                                MaterialTheme.colorScheme.onSurface
                                             } else {
-                                                Color.LightGray
+                                                MaterialTheme.colorScheme.outline
                                             }
                                         )
                                     Screen.Channel.route ->
@@ -117,9 +117,9 @@ fun MainNavHost(
                                             imageVector = Icons.Filled.List,
                                             contentDescription = null,
                                             tint = if (currentRoot == CurrentRoot.CHANNEL) {
-                                                Color.Black
+                                                MaterialTheme.colorScheme.onSurface
                                             } else {
-                                                Color.LightGray
+                                                MaterialTheme.colorScheme.outline
                                             }
                                         )
                                     Screen.Follow.route ->
@@ -127,9 +127,9 @@ fun MainNavHost(
                                             imageVector = Icons.Filled.ThumbUp,
                                             contentDescription = null,
                                             tint = if (currentRoot == CurrentRoot.FOLLOW) {
-                                                Color.Black
+                                                MaterialTheme.colorScheme.onSurface
                                             } else {
-                                                Color.LightGray
+                                                MaterialTheme.colorScheme.outline
                                             }
                                         )
                                 }
@@ -146,17 +146,6 @@ fun MainNavHost(
                                 if (navController.currentDestination?.route == Screen.Detail.route) {
                                     iconState = Icons.Filled.ArrowBack
                                 }
-//                                when (navController.currentDestination?.route) {
-//                                    Screen.Overview.route -> {
-//                                        currentRoot = CurrentRoot.OVERVIEW
-//                                    }
-//                                    Screen.Channel.route -> {
-//                                        currentRoot = CurrentRoot.CHANNEL
-//                                    }
-//                                    Screen.Follow.route -> {
-//                                        currentRoot = CurrentRoot.FOLLOW
-//                                    }
-//                                }
                             }
                         )
                     }

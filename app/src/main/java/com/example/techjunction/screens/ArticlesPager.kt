@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -65,7 +66,8 @@ fun ArticlesPager(
                         indicatorWidth = 100.dp,
                         indicatorHeight = 3.dp,
                         spacing = 0.dp,
-                        inactiveColor = Color.Transparent
+                        inactiveColor = Color.Transparent,
+                        activeColor = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }

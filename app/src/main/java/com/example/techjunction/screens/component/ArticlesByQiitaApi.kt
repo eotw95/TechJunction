@@ -1,8 +1,8 @@
 package com.example.techjunction.screens.component
 
-import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -20,9 +20,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -32,21 +32,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.techjunction.R
 import com.example.techjunction.constants.QIITA
 import com.example.techjunction.room.FollowArticle
 import com.example.techjunction.util.DateConverter
 import com.example.techjunction.viewmodel.ArticlesViewModel
-import com.example.techjunction.viewmodel.ArticlesViewModelFactory
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.Date
@@ -63,6 +59,7 @@ fun ArticlesByQiitaApi(
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
+                .background(MaterialTheme.colorScheme.background)
         ) {
             observeQiitaArticles?.value?.forEach { article ->
                 val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
@@ -140,10 +137,6 @@ fun ArticlesByQiitaApi(
                                         shape = RoundedCornerShape(16.dp)
                                     )
                                     .width(125.dp),
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color.Transparent,
-                                    contentColor = Color.Black,
-                                ),
                                 onClick = {
                                     viewModel.storeArticle(followArticle)
                                 }

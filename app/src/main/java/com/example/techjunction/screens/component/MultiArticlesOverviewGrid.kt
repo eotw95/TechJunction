@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -100,92 +103,102 @@ fun MultiArticlesOverviewGrid(
     }.sortWith(compareBy{ it.date })
     allArticles.reverse()
 
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalItemSpacing = 5.dp
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
     ) {
-        items(allArticles) { article ->
-            val encoderUrl = URLEncoder.encode(article.link, StandardCharsets.UTF_8.toString())
-            Card(
-                colors = CardDefaults.cardColors(
-//                                    containerColor = MaterialTheme.colorScheme.background
-                    // Todo: WA setting color
-                    containerColor = Color.White
-                ),
-                modifier = Modifier.padding(horizontal = 2.5.dp)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .clickable { onClick(encoderUrl) }
-                        .fillMaxWidth()
-                        .border(
-                            width = 0.1.dp,
-                            color = Color.Gray,
-                            shape = RoundedCornerShape(16.dp)
-                        )
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Fixed(2),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 15.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalItemSpacing = 5.dp
+        ) {
+            items(allArticles) { article ->
+                val encoderUrl = URLEncoder.encode(article.link, StandardCharsets.UTF_8.toString())
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface
+                    ),
+                    modifier = Modifier.padding(horizontal = 2.5.dp)
                 ) {
-                    Column {
-                        AsyncImage(
-                            model = article.imgSrc,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .clip(
-                                    RoundedCornerShape(
-                                        topStart = 16.dp,
-                                        topEnd = 16.dp
-                                    )
-                                )
-                                .fillMaxWidth(),
-                            onError = { println("image error") }
-                        )
-                        Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                        Column(
-                            modifier = Modifier.padding(horizontal = 10.dp)
-                        ) {
-                            var title = article.title
-                            if (title.length > 80) {
-                                title = title.take(80) + "..."
-                            }
-                            Text(
-                                text = title,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 15.sp
+                    Column(
+                        modifier = Modifier
+                            .clickable { onClick(encoderUrl) }
+                            .fillMaxWidth()
+                            .border(
+                                width = 0.1.dp,
+                                color = Color.Gray,
+                                shape = RoundedCornerShape(16.dp)
                             )
-                        }
-                        Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                        Row(
-                            modifier = Modifier
-                                .height(32.dp)
-                                .padding(horizontal = 10.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                painter = when (article.channelUrl) {
-                                    CHANNEL_URL_ZENN -> painterResource(id = R.drawable.zenn)
-                                    CHANNEL_URL_HATENA -> painterResource(id = R.drawable.hatenabookmark)
-                                    CHANNEL_URL_QIITA -> painterResource(id = R.drawable.qiita)
-                                    else -> throw IllegalArgumentException("Invalid channel: ${article.channelUrl}")
-                                },
+                    ) {
+                        Column {
+                            AsyncImage(
+                                model = article.imgSrc,
                                 contentDescription = null,
-                                modifier = when (article.channelUrl) {
-                                    CHANNEL_URL_ZENN,
-                                    CHANNEL_URL_HATENA -> Modifier.scale(0.6f).padding(end = 1.dp)
-                                    CHANNEL_URL_QIITA -> Modifier.scale(1f).padding(end = 5.dp)
-                                    else -> throw IllegalArgumentException("Invalid channel: ${article.channelUrl}")
-                                },
-                                tint = Color.Unspecified
+                                modifier = Modifier
+                                    .clip(
+                                        RoundedCornerShape(
+                                            topStart = 16.dp,
+                                            topEnd = 16.dp
+                                        )
+                                    )
+                                    .fillMaxWidth(),
+                                onError = { println("image error") }
                             )
-                            if (article.date != null) {
+                            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                            Column(
+                                modifier = Modifier.padding(horizontal = 10.dp)
+                            ) {
+                                var title = article.title
+                                if (title.length > 80) {
+                                    title = title.take(80) + "..."
+                                }
                                 Text(
-                                    text = article.date,
-                                    fontSize = 10.sp
+                                    text = title,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 15.sp
                                 )
                             }
+                            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                            Row(
+                                modifier = Modifier
+                                    .height(32.dp)
+                                    .padding(horizontal = 10.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    painter = when (article.channelUrl) {
+                                        CHANNEL_URL_ZENN -> painterResource(id = R.drawable.zenn)
+                                        CHANNEL_URL_HATENA -> painterResource(id = R.drawable.hatenabookmark)
+                                        CHANNEL_URL_QIITA -> painterResource(id = R.drawable.qiita)
+                                        else -> throw IllegalArgumentException("Invalid channel: ${article.channelUrl}")
+                                    },
+                                    contentDescription = null,
+                                    modifier = when (article.channelUrl) {
+                                        CHANNEL_URL_ZENN,
+                                        CHANNEL_URL_HATENA -> Modifier
+                                            .scale(0.6f)
+                                            .padding(end = 1.dp)
+                                        CHANNEL_URL_QIITA -> Modifier
+                                            .scale(1f)
+                                            .padding(end = 5.dp)
+                                        else -> throw IllegalArgumentException("Invalid channel: ${article.channelUrl}")
+                                    },
+                                    tint = Color.Unspecified
+                                )
+                                if (article.date != null) {
+                                    Text(
+                                        text = article.date,
+                                        fontSize = 10.sp
+                                    )
+                                }
+                            }
                         }
+                        Spacer(modifier = Modifier.padding(vertical = 1.dp))
                     }
-                    Spacer(modifier = Modifier.padding(vertical = 1.dp))
                 }
             }
         }
