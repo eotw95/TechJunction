@@ -49,8 +49,8 @@ fun FollowArticles(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight()
-            .background(MaterialTheme.colorScheme.background)
+            .fillMaxHeight(),
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier
