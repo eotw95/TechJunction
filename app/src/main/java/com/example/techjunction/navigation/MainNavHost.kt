@@ -74,9 +74,7 @@ fun MainNavHost(
                 onClickBack = {
                     navController.navigateUp()
                     iconState = Icons.Filled.Search
-                    if (currentRoot == CurrentRoot.SEARCH) {
-                        isShowBottomBar = true
-                    }
+                    isShowBottomBar = navController.currentDestination?.route != Screen.Search.route
                 },
                 onChangeTheme = onChangeTheme
             )
