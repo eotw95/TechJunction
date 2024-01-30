@@ -57,97 +57,96 @@ fun ArticlesByRssFeed(
     val observeRssChannels = viewModel?.rssChannels?.observeAsState()
     val observeRssItems = viewModel?.rssItems?.observeAsState()
 
-    Column {
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .background(MaterialTheme.colorScheme.background)
-        ) {
-            val channel = observeRssChannels?.value?.first() { it.rssUrl == channelUri }
-            val items = observeRssItems?.value?.filter { it.channelId == channel?.id }
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .background(MaterialTheme.colorScheme.background)
+            .padding(bottom = 70.dp)
+    ) {
+        val channel = observeRssChannels?.value?.first() { it.rssUrl == channelUri }
+        val items = observeRssItems?.value?.filter { it.channelId == channel?.id }
 
-            items?.forEach { item ->
-                val encoderUrl = URLEncoder.encode(item.link, StandardCharsets.UTF_8.toString())
+        items?.forEach { item ->
+            val encoderUrl = URLEncoder.encode(item.link, StandardCharsets.UTF_8.toString())
+            Column(
+                modifier = Modifier
+                    .clickable { onClick(encoderUrl) }
+                    .fillMaxWidth()
+            ) {
                 Column(
-                    modifier = Modifier
-                        .clickable { onClick(encoderUrl) }
-                        .fillMaxWidth()
+                    modifier = Modifier.padding(horizontal = 15.dp)
                 ) {
-                    Column(
-                        modifier = Modifier.padding(horizontal = 15.dp)
-                    ) {
-                        AsyncImage(
-                            model = item.imgSrc,
-                            contentDescription = null,
-                            contentScale = ContentScale.FillWidth,
-                            modifier = Modifier
-                                .padding(top = 15.dp)
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(16.dp)),
-                            onError = { println("image error") }
+                    AsyncImage(
+                        model = item.imgSrc,
+                        contentDescription = null,
+                        contentScale = ContentScale.FillWidth,
+                        modifier = Modifier
+                            .padding(top = 15.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(16.dp)),
+                        onError = { println("image error") }
+                    )
+                    Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                    Column {
+                        Text(
+                            text = item.title,
+                            fontWeight = FontWeight.Bold
                         )
                         Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                        Column {
-                            Text(
-                                text = item.title,
-                                fontWeight = FontWeight.Bold
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.height(35.dp)
+                        ) {
+                            Icon(
+                                painter = when (channelUri) {
+                                    CHANNEL_URL_ZENN -> painterResource(id = R.drawable.zenn)
+                                    CHANNEL_URL_HATENA -> painterResource(id = R.drawable.hatenabookmark)
+                                    else -> throw IllegalArgumentException("Invalid channel: $channelUri")
+                                },
+                                contentDescription = null,
+                                modifier = Modifier.scale(0.6f),
+                                tint = Color.Unspecified
                             )
-                            Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.height(35.dp)
+                            Text(
+                                text = DateConverter.dataFormat(Date(item.pubDate ?: Date().time)),
+                                fontSize = 10.sp
+                            )
+                            val followArticle = FollowArticle(
+                                title = item.title,
+                                link = item.link,
+                                channel = when (channelUri) {
+                                    CHANNEL_URL_ZENN -> ZENN
+                                    CHANNEL_URL_HATENA -> HATENA
+                                    else -> throw IllegalArgumentException("Invalid channel uri: $channelUri")
+                                }
+                            )
+                            Box(
+                                contentAlignment = Alignment.CenterEnd,
+                                modifier = Modifier
+                                    .fillMaxWidth()
                             ) {
-                                Icon(
-                                    painter = when (channelUri) {
-                                        CHANNEL_URL_ZENN -> painterResource(id = R.drawable.zenn)
-                                        CHANNEL_URL_HATENA -> painterResource(id = R.drawable.hatenabookmark)
-                                        else -> throw IllegalArgumentException("Invalid channel: $channelUri")
-                                    },
-                                    contentDescription = null,
-                                    modifier = Modifier.scale(0.6f),
-                                    tint = Color.Unspecified
-                                )
-                                Text(
-                                    text = DateConverter.dataFormat(Date(item.pubDate ?: Date().time)),
-                                    fontSize = 10.sp
-                                )
-                                val followArticle = FollowArticle(
-                                    title = item.title,
-                                    link = item.link,
-                                    channel = when (channelUri) {
-                                        CHANNEL_URL_ZENN -> ZENN
-                                        CHANNEL_URL_HATENA -> HATENA
-                                        else -> throw IllegalArgumentException("Invalid channel uri: $channelUri")
-                                    }
-                                )
-                                Box(
-                                    contentAlignment = Alignment.CenterEnd,
+                                Button(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                ) {
-                                    Button(
-                                        modifier = Modifier
-                                            .border(
-                                                width = 0.3.dp,
-                                                color = Color.Gray,
-                                                shape = RoundedCornerShape(16.dp)
-                                            )
-                                            .width(125.dp),
-                                        onClick = {
-                                            viewModel.storeArticle(followArticle)
-                                        }
-                                    ) {
-                                        Text(
-                                            text = stringResource(id = R.string.save_text),
-                                            modifier = Modifier.padding(horizontal = 1.dp)
+                                        .border(
+                                            width = 0.3.dp,
+                                            color = Color.Gray,
+                                            shape = RoundedCornerShape(16.dp)
                                         )
+                                        .width(125.dp),
+                                    onClick = {
+                                        viewModel.storeArticle(followArticle)
                                     }
+                                ) {
+                                    Text(
+                                        text = stringResource(id = R.string.save_text),
+                                        modifier = Modifier.padding(horizontal = 1.dp)
+                                    )
                                 }
                             }
                         }
-                        Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                        Divider(thickness = 0.5.dp)
                     }
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Divider(thickness = 0.5.dp)
                 }
             }
         }

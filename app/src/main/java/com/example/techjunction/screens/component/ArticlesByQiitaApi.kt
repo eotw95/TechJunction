@@ -55,102 +55,101 @@ fun ArticlesByQiitaApi(
 ) {
     val observeQiitaArticles = viewModel?.articles?.observeAsState()
 
-    Column {
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .background(MaterialTheme.colorScheme.background)
-        ) {
-            observeQiitaArticles?.value?.forEach { article ->
-                val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
-                Column(
-                    modifier = Modifier
-                        .clickable { onClick(encoderUrl) }
-                        .fillMaxWidth()
-                        .padding(horizontal = 15.dp)
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .background(MaterialTheme.colorScheme.background)
+            .padding(bottom = 70.dp)
+    ) {
+        observeQiitaArticles?.value?.forEach { article ->
+            val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
+            Column(
+                modifier = Modifier
+                    .clickable { onClick(encoderUrl) }
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp)
+            ) {
+                Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                Text(
+                    text = article.title,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                Row(
+                    modifier = Modifier.height(50.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                    Text(
-                        text = article.title,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                    Row(
-                        modifier = Modifier.height(50.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column {
-                            Row(
-                                modifier = Modifier.height(20.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                AsyncImage(
-                                    model = article.user.profileImageUrl,
-                                    contentDescription = "author icon",
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .fillMaxHeight(1f)
-                                        .aspectRatio(1f)
-                                        .clip(CircleShape)
-                                )
-                                Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-                                Text(
-                                    text = article.user.userId,
-                                    fontSize = 10.sp
-                                )
-                            }
-                            Row(
-                                modifier = Modifier.height(50.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.qiita),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .scale(1f)
-                                        .padding(end = 5.dp),
-                                    tint = Color.Unspecified
-                                )
-                                Text(
-                                    text = DateConverter.dataFormat(Date(article.createdDate)),
-                                    fontSize = 10.sp
-                                )
-                            }
-                        }
-
-                        val followArticle = FollowArticle(
-                            title = article.title,
-                            link = article.url,
-                            channel = QIITA
-                        )
-                        Box(
-                            contentAlignment = Alignment.CenterEnd,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 7.dp)
+                    Column {
+                        Row(
+                            modifier = Modifier.height(20.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Button(
+                            AsyncImage(
+                                model = article.user.profileImageUrl,
+                                contentDescription = "author icon",
+                                contentScale = ContentScale.Crop,
                                 modifier = Modifier
-                                    .border(
-                                        width = 0.3.dp,
-                                        color = Color.Gray,
-                                        shape = RoundedCornerShape(16.dp)
-                                    )
-                                    .width(125.dp),
-                                onClick = {
-                                    viewModel.storeArticle(followArticle)
-                                }
-                            ) {
-                                Text(
-                                    text = stringResource(id = R.string.save_text),
-                                    modifier = Modifier.padding(horizontal = 1.dp)
-                                )
-                            }
+                                    .fillMaxHeight(1f)
+                                    .aspectRatio(1f)
+                                    .clip(CircleShape)
+                            )
+                            Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+                            Text(
+                                text = article.user.userId,
+                                fontSize = 10.sp
+                            )
+                        }
+                        Row(
+                            modifier = Modifier.height(50.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.qiita),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .scale(1f)
+                                    .padding(end = 5.dp),
+                                tint = Color.Unspecified
+                            )
+                            Text(
+                                text = DateConverter.dataFormat(Date(article.createdDate)),
+                                fontSize = 10.sp
+                            )
                         }
                     }
-                    Spacer(modifier = Modifier.padding(vertical = 5.dp))
-                    Divider(thickness = 0.5.dp)
+
+                    val followArticle = FollowArticle(
+                        title = article.title,
+                        link = article.url,
+                        channel = QIITA
+                    )
+                    Box(
+                        contentAlignment = Alignment.CenterEnd,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 7.dp)
+                    ) {
+                        Button(
+                            modifier = Modifier
+                                .border(
+                                    width = 0.3.dp,
+                                    color = Color.Gray,
+                                    shape = RoundedCornerShape(16.dp)
+                                )
+                                .width(125.dp),
+                            onClick = {
+                                viewModel.storeArticle(followArticle)
+                            }
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.save_text),
+                                modifier = Modifier.padding(horizontal = 1.dp)
+                            )
+                        }
+                    }
                 }
+                Spacer(modifier = Modifier.padding(vertical = 5.dp))
+                Divider(thickness = 0.5.dp)
             }
         }
     }
