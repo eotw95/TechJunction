@@ -55,7 +55,7 @@ fun FollowArticles(
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(start = 15.dp, top = 10.dp, end = 15.dp, bottom = 70.dp ),
+                .padding(top = 10.dp, bottom = 70.dp ),
         ) {
             viewModel?.fetchFollowArticles()
             followArticleObserver?.value?.forEach { article ->
