@@ -19,7 +19,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ButtonColors
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -139,11 +141,16 @@ fun ArticlesByQiitaApi(
                                 .width(125.dp),
                             onClick = {
                                 viewModel.storeArticle(followArticle)
-                            }
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = MaterialTheme.colorScheme.background,
+                                contentColor = MaterialTheme.colorScheme.onSurface
+                            )
                         ) {
                             Text(
                                 text = stringResource(id = R.string.save_text),
-                                modifier = Modifier.padding(horizontal = 1.dp)
+                                modifier = Modifier.padding(horizontal = 1.dp),
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }

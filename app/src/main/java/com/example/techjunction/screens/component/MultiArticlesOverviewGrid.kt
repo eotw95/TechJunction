@@ -105,8 +105,8 @@ fun MultiArticlesOverviewGrid(
 
     Surface(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
+            .fillMaxWidth(),
+        color = MaterialTheme.colorScheme.background
     ) {
         LazyVerticalStaggeredGrid(
             columns = StaggeredGridCells.Fixed(2),
@@ -120,7 +120,7 @@ fun MultiArticlesOverviewGrid(
                 val encoderUrl = URLEncoder.encode(article.link, StandardCharsets.UTF_8.toString())
                 Card(
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surface
+                        containerColor = MaterialTheme.colorScheme.background
                     ),
                     modifier = Modifier.padding(horizontal = 2.5.dp)
                 ) {

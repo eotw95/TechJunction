@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -55,7 +56,7 @@ fun Header(
         modifier = Modifier
             .height(50.dp)
             .fillMaxWidth(),
-//        color = Color.White
+        color = MaterialTheme.colorScheme.onPrimary
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

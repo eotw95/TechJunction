@@ -100,7 +100,7 @@ fun SearchArticles(
                     Spacer(modifier = Modifier.padding(vertical = 5.dp))
                     Divider(
                         thickness = 0.5.dp,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.outlineVariant
                     )
                 }
             }

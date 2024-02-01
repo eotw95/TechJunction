@@ -3,10 +3,12 @@ package com.example.techjunction.screens
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -37,7 +39,8 @@ fun ArticlesPager(
         val state = rememberPagerState()
         val count = services.size
         Surface(
-            modifier = Modifier.align(Alignment.Start)
+            modifier = Modifier.align(Alignment.Start),
+            color = MaterialTheme.colorScheme.background
         ) {
             Column {
                 Divider(thickness = 0.5.dp)
@@ -56,10 +59,6 @@ fun ArticlesPager(
                 }
                 Spacer(modifier = Modifier.padding(vertical = 5.dp))
                 Surface {
-                    Divider(
-                        thickness = 0.5.dp,
-                        modifier = Modifier.offset(y = 2.dp)
-                    )
                     HorizontalPagerIndicator(
                         pagerState = state,
                         pageCount = count,
@@ -67,7 +66,14 @@ fun ArticlesPager(
                         indicatorHeight = 3.dp,
                         spacing = 0.dp,
                         inactiveColor = Color.Transparent,
-                        activeColor = MaterialTheme.colorScheme.onSurface
+                        activeColor = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier
+                            .background(MaterialTheme.colorScheme.background)
+                            .fillMaxWidth()
+                    )
+                    Divider(
+                        thickness = 0.5.dp,
+                        modifier = Modifier.offset(y = 2.dp)
                     )
                 }
             }
