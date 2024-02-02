@@ -1,6 +1,6 @@
 # TechJunction
 
-TechJunction is a technology article feed application.
+TechJunction is a technology article feed application.  
 I'm not releasing it publicly, it's an app for my exclusive use.
 
 ### ScreenShots
