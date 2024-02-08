@@ -146,7 +146,8 @@ fun MainNavHost(
                                 if (navController.currentDestination?.route == Screen.Detail.route) {
                                     iconState = Icons.Filled.ArrowBack
                                 }
-                            }
+                            },
+                            alwaysShowLabel = false
                         )
                     }
                 }
