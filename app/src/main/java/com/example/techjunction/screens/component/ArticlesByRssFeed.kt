@@ -62,7 +62,6 @@ fun ArticlesByRssFeed(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .background(MaterialTheme.colorScheme.background)
-            .padding(bottom = 70.dp)
     ) {
         val channel = observeRssChannels?.value?.first() { it.rssUrl == channelUri }
         val items = observeRssItems?.value?.filter { it.channelId == channel?.id }

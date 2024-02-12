@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
@@ -21,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
@@ -154,61 +157,65 @@ fun MainNavHost(
             }
         }
     ) {
-        NavHost(
-            navController = navController,
-            startDestination = Screen.Overview.route,
-            builder = {
-                composable(Screen.Overview.route) {
-                    currentRoot = CurrentRoot.OVERVIEW
-                    ArticlesOverView(
-                        onClick = { url ->
-                            navController.navigate("detail/$url")
-                            iconState = Icons.Filled.ArrowBack
-                            isShowBottomBar = false
+        Surface(
+            modifier = Modifier.padding(it)
+        ) {
+            NavHost(
+                navController = navController,
+                startDestination = Screen.Overview.route,
+                builder = {
+                    composable(Screen.Overview.route) {
+                        currentRoot = CurrentRoot.OVERVIEW
+                        ArticlesOverView(
+                            onClick = { url ->
+                                navController.navigate("detail/$url")
+                                iconState = Icons.Filled.ArrowBack
+                                isShowBottomBar = false
+                            }
+                        )
+                    }
+                    composable(Screen.Channel.route) {
+                        currentRoot = CurrentRoot.CHANNEL
+                        ArticlesPager(
+                            onClick = { url ->
+                                navController.navigate("detail/$url")
+                                iconState = Icons.Filled.ArrowBack
+                                isShowBottomBar = false
+                            },
+                            viewModel = viewModel
+                        )
+                    }
+                    composable("detail/{url}") { navBackStackEntry ->
+                        currentRoot = CurrentRoot.DETAIL
+                        navBackStackEntry.arguments?.getString("url")?.let {
+                            ArticleDetail(
+                                url = it
+                            )
                         }
-                    )
-                }
-                composable(Screen.Channel.route) {
-                    currentRoot = CurrentRoot.CHANNEL
-                    ArticlesPager(
-                        onClick = { url ->
-                            navController.navigate("detail/$url")
-                            iconState = Icons.Filled.ArrowBack
-                            isShowBottomBar = false
-                        },
-                        viewModel = viewModel
-                    )
-                }
-                composable("detail/{url}") { navBackStackEntry ->
-                    currentRoot = CurrentRoot.DETAIL
-                    navBackStackEntry.arguments?.getString("url")?.let {
-                        ArticleDetail(
-                            url = it
+                    }
+                    composable(Screen.Follow.route) {
+                        currentRoot = CurrentRoot.FOLLOW
+                        FollowArticles(
+                            onClick =  { url ->
+                                navController.navigate("detail/$url")
+                                iconState = Icons.Filled.ArrowBack
+                                isShowBottomBar = false
+                            },
+                            viewModel = viewModel
+                        )
+                    }
+                    composable(Screen.Search.route) {
+                        currentRoot = CurrentRoot.SEARCH
+                        SearchArticles(
+                            viewModel = viewModel,
+                            onClick = { url ->
+                                navController.navigate("detail/$url")
+                            }
                         )
                     }
                 }
-                composable(Screen.Follow.route) {
-                    currentRoot = CurrentRoot.FOLLOW
-                    FollowArticles(
-                        onClick =  { url ->
-                            navController.navigate("detail/$url")
-                            iconState = Icons.Filled.ArrowBack
-                            isShowBottomBar = false
-                        },
-                        viewModel = viewModel
-                    )
-                }
-                composable(Screen.Search.route) {
-                    currentRoot = CurrentRoot.SEARCH
-                    SearchArticles(
-                        viewModel = viewModel,
-                        onClick = { url ->
-                            navController.navigate("detail/$url")
-                        }
-                    )
-                }
-            }
-        )
+            )
+        }
     }
 }
 

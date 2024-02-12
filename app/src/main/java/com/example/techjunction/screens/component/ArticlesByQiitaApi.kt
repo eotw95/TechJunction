@@ -61,7 +61,6 @@ fun ArticlesByQiitaApi(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .background(MaterialTheme.colorScheme.background)
-            .padding(bottom = 70.dp)
     ) {
         observeQiitaArticles?.value?.forEach { article ->
             val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())

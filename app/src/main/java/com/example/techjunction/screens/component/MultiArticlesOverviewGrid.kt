@@ -112,7 +112,7 @@ fun MultiArticlesOverviewGrid(
             columns = StaggeredGridCells.Fixed(2),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 15.dp, top = 10.dp, end = 15.dp, bottom = 70.dp ),
+                .padding(horizontal = 15.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalItemSpacing = 5.dp
         ) {
