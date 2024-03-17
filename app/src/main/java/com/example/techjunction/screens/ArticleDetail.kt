@@ -18,6 +18,7 @@ fun ArticleDetail(
             factory = { context ->
                 WebView(context).apply {
                     webViewClient = WebViewClient()
+                    settings.javaScriptEnabled = true
                     loadUrl(url)
                 }
             }

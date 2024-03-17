@@ -8,8 +8,6 @@ import java.net.URL
 
 class HttpDownloadManager {
     companion object {
-        const val TAG = "HttpHelper"
-
         fun writeData(uri: Uri, file: File): Boolean {
             var conn: HttpURLConnection? = null
 

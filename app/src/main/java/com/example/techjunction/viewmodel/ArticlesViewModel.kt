@@ -31,8 +31,6 @@ import kotlinx.coroutines.withContext
 @RequiresApi(Build.VERSION_CODES.O)
 class ArticlesViewModel(private val application: Application): ViewModel() {
     companion object {
-        private const val TAG = "ArticlesViewModel"
-        // インスタンス変数としてしまうと、排他制御できなくなるので、companion objectとして定義する
         private val mutex = Mutex()
     }
 

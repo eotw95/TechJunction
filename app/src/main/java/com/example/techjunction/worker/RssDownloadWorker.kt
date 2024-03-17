@@ -28,7 +28,7 @@ class RssDownloadWorker(
     params: WorkerParameters
 ): CoroutineWorker(context, params) {
     companion object {
-        const val TAG = "com.example.techjunction.worker.RssDownloadWorker"
+        private const val TAG = "com.example.techjunction.worker.RssDownloadWorker"
 
         fun start(context: Context): Boolean {
             if (isWorkScheduled(context)) return false
@@ -69,7 +69,7 @@ class RssDownloadWorker(
         val db = RssDatabase.getInstance(context)
         val repo = RssRepositoryImpl(db)
         val parser = RssParser(repo)
-        setUpChannels(repo)
+        insertChannels(repo)
         repo.getChannels().forEach { channel ->
             val uri = Uri.parse(channel.rssUrl)
             val downloadResult = HttpDownloadManager.writeData(uri, rssFile)
@@ -81,7 +81,7 @@ class RssDownloadWorker(
         }
     }
 
-    private suspend fun setUpChannels(repo: RssRepositoryImpl) {
+    private suspend fun insertChannels(repo: RssRepositoryImpl) {
         if (repo.getChannels().isEmpty()) {
             repo.insertOrUpdateChannel(
                 CHANNEL_URL_HATENA,

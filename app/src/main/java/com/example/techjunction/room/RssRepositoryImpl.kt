@@ -111,14 +111,15 @@ class RssRepositoryImpl(private val db: RssDatabase): RssRepository {
                     )
                 )
             } else {
-                item.also {
-                    it.title = title
-                    it.description = desc
-                    it.link = link
-                    it.imgSrc = imgSrc
-                    it.pubDate = latestDate.time
-                }
-                itemDao.update(item)
+                itemDao.update(
+                    item.apply {
+                        this.title = title
+                        this.description = desc
+                        this.link = link
+                        this.imgSrc = imgSrc
+                        this.pubDate = latestDate.time
+                    }
+                )
             }
         }
     }

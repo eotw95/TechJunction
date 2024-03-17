@@ -4,7 +4,6 @@ import com.example.techjunction.room.RssRepository
 import java.util.Date
 
 abstract class Tag(val name: String) {
-
     var text: String = ""
     var attribute: String = ""
 
@@ -15,8 +14,6 @@ abstract class Tag(val name: String) {
     abstract suspend fun handleChildTagEnd(tag: Tag, repo: RssRepository, date: Date)
 }
 
-// コンストラクタにメンバ変数でrssUrlを持つ必要あるか？
-// rssUrlでどのRootTagかを判別できるようにするため？
 class RootTag(private val rssUrl: String): Tag("Root") {
 
     override fun createChildTag(name: String): Tag {

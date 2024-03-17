@@ -61,30 +61,8 @@ private class RdfItemTag(name: String): Tag(name) {
             "title" -> title = tag.text
             "description" -> desc = tag.text
             "link" -> link = tag.text
-            //Todo: get imgSrc text
             "hatena:imageurl" -> imgSrc = tag.text
             "dc:date" -> pubDate = DateConverter.asDate(tag.text)
         }
     }
 }
-
-//private fun RdfChannelTag.asDatabaseModel(tag: RdfChannelTag):  RssChannel{
-//    return RssChannel(
-//        id = 0,
-//        rssUrl = tag.rssUrl,
-//        title = tag.title,
-//        description = tag.desc,
-//        link = tag.link,
-//        latestDate = tag.latestDate.time
-//    )
-//}
-//
-//private fun RdfItemTag.asDatabaseModel(tag: RdfItemTag):  RssItem{
-//    return RssItem(
-//        id = 0,
-//        title = tag.title,
-//        description = tag.desc,
-//        link = tag.link,
-//        pubDate = tag.latestDate.time
-//    )
-//}

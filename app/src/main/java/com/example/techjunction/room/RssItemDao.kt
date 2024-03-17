@@ -10,9 +10,6 @@ interface RssItemDao {
     @Query("SELECT * FROM rss_items WHERE channel_id = :channelId ORDER BY pub_date DESC LIMIT 15")
     suspend fun getAllByChannelId(channelId: Int): List<RssItem>
 
-    /**
-     * はてなブックマークのitemは、Zennのitemを含んでいる可能性があるため、channelIdも条件に含める
-     */
     @Query("SELECT * FROM rss_items WHERE channel_id = :channelId AND link = :link")
     suspend fun findItemByUrl(channelId: Int, link: String): RssItem?
 
