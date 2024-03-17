@@ -1,8 +1,8 @@
 package com.example.techjunction.network
 
 import com.example.techjunction.network.model.QiitaArticlesResponse
-import retrofit2.http.Query
+import com.example.techjunction.room.Result
 
 interface QiitaApiDataSource {
-    suspend fun getArticlesByQuery(query: String): List<QiitaArticlesResponse>
+    suspend fun getArticlesByQuery(query: String): Result<List<QiitaArticlesResponse>>
 }
