@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -139,13 +138,8 @@ fun MainNavHost(
                             },
                             onClick = {
                                 iconState = Icons.Filled.Search
-                                navController.navigate(screen.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
+                                TechJunctionNavigationActions
+                                    .navigateToRoute(navController, screen.route)
                                 if (navController.currentDestination?.route == Screen.Detail.route) {
                                     iconState = Icons.Filled.ArrowBack
                                 }
@@ -168,7 +162,8 @@ fun MainNavHost(
                         currentRoot = CurrentRoot.OVERVIEW
                         ArticlesOverView(
                             onClick = { url ->
-                                navController.navigate("detail/$url")
+                                TechJunctionNavigationActions
+                                    .navigateToRoute(navController, "detail/$url")
                                 iconState = Icons.Filled.ArrowBack
                                 isShowBottomBar = false
                             }
@@ -178,7 +173,8 @@ fun MainNavHost(
                         currentRoot = CurrentRoot.CHANNEL
                         ArticlesPager(
                             onClick = { url ->
-                                navController.navigate("detail/$url")
+                                TechJunctionNavigationActions
+                                    .navigateToRoute(navController, "detail/$url")
                                 iconState = Icons.Filled.ArrowBack
                                 isShowBottomBar = false
                             },
@@ -197,7 +193,8 @@ fun MainNavHost(
                         currentRoot = CurrentRoot.FOLLOW
                         FollowArticles(
                             onClick =  { url ->
-                                navController.navigate("detail/$url")
+                                TechJunctionNavigationActions
+                                    .navigateToRoute(navController, "detail/$url")
                                 iconState = Icons.Filled.ArrowBack
                                 isShowBottomBar = false
                             },
@@ -209,7 +206,8 @@ fun MainNavHost(
                         SearchArticles(
                             viewModel = viewModel,
                             onClick = { url ->
-                                navController.navigate("detail/$url")
+                                TechJunctionNavigationActions
+                                    .navigateToRoute(navController, "detail/$url")
                             }
                         )
                     }
