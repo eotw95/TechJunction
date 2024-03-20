@@ -34,11 +34,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.techjunction.R
-import com.example.techjunction.screens.ArticleDetail
-import com.example.techjunction.screens.ArticlesOverView
-import com.example.techjunction.screens.ArticlesPager
-import com.example.techjunction.screens.FollowArticles
-import com.example.techjunction.screens.SearchArticles
+import com.example.techjunction.screens.detail.ArticleDetail
+import com.example.techjunction.screens.overview.ArticlesOverview
+import com.example.techjunction.screens.haedline.ArticlesPager
+import com.example.techjunction.screens.follow.FollowArticles
+import com.example.techjunction.screens.search.SearchArticles
 import com.example.techjunction.screens.component.Header
 import com.example.techjunction.viewmodel.ArticlesViewModel
 
@@ -155,7 +155,7 @@ fun MainNavHost(
                 builder = {
                     composable(Screen.Overview.route) {
                         currentRoot = CurrentRoot.OVERVIEW
-                        ArticlesOverView(
+                        ArticlesOverview(
                             onClick = { url ->
                                 navController.navigate("detail/$url")
                                 iconState = Icons.Filled.ArrowBack

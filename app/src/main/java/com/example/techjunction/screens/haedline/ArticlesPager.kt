@@ -1,4 +1,4 @@
-package com.example.techjunction.screens
+package com.example.techjunction.screens.haedline
 
 import android.os.Build
 import androidx.annotation.RequiresApi
