@@ -28,18 +28,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.techjunction.R
-import com.example.techjunction.screens.detail.ArticleDetail
-import com.example.techjunction.screens.overview.ArticlesOverview
-import com.example.techjunction.screens.haedline.ArticlesPager
-import com.example.techjunction.screens.follow.FollowArticles
-import com.example.techjunction.screens.search.SearchArticles
 import com.example.techjunction.screens.component.Header
+import com.example.techjunction.screens.detail.ArticleDetail
+import com.example.techjunction.screens.follow.FollowArticles
+import com.example.techjunction.screens.haedline.ArticlesPager
+import com.example.techjunction.screens.overview.ArticlesOverview
+import com.example.techjunction.screens.search.SearchArticles
 import com.example.techjunction.viewmodel.ArticlesViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -234,4 +236,17 @@ enum class CurrentRoot {
     DETAIL,
     FOLLOW,
     SEARCH
+}
+
+object TechJunctionNavigationActions {
+    fun navigateToRoute(navController: NavController, route: String) {
+        navController.navigate(route) {
+            // Todo: findStartDestination()を指定してpopする実装がよくわかってない
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
 }
