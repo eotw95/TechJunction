@@ -162,8 +162,7 @@ fun MainNavHost(
                         currentRoot = CurrentRoot.OVERVIEW
                         ArticlesOverView(
                             onClick = { url ->
-                                TechJunctionNavigationActions
-                                    .navigateToRoute(navController, "detail/$url")
+                                navController.navigate("detail/$url")
                                 iconState = Icons.Filled.ArrowBack
                                 isShowBottomBar = false
                             }
@@ -173,8 +172,7 @@ fun MainNavHost(
                         currentRoot = CurrentRoot.CHANNEL
                         ArticlesPager(
                             onClick = { url ->
-                                TechJunctionNavigationActions
-                                    .navigateToRoute(navController, "detail/$url")
+                                navController.navigate("detail/$url")
                                 iconState = Icons.Filled.ArrowBack
                                 isShowBottomBar = false
                             },
@@ -193,8 +191,7 @@ fun MainNavHost(
                         currentRoot = CurrentRoot.FOLLOW
                         FollowArticles(
                             onClick =  { url ->
-                                TechJunctionNavigationActions
-                                    .navigateToRoute(navController, "detail/$url")
+                                navController.navigate("detail/$url")
                                 iconState = Icons.Filled.ArrowBack
                                 isShowBottomBar = false
                             },
@@ -206,8 +203,7 @@ fun MainNavHost(
                         SearchArticles(
                             viewModel = viewModel,
                             onClick = { url ->
-                                TechJunctionNavigationActions
-                                    .navigateToRoute(navController, "detail/$url")
+                                navController.navigate("detail/$url")
                             }
                         )
                     }
