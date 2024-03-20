@@ -19,8 +19,8 @@ import com.example.techjunction.ui.theme.TechJunctionTheme
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TechJunctionApp() {
-    val ret = isSystemInDarkTheme()
-    var isDarkTheme by remember { mutableStateOf(ret) }
+    val theme = isSystemInDarkTheme()
+    var isDarkTheme by remember { mutableStateOf(theme) }
 
     TechJunctionTheme(
         darkTheme = isDarkTheme
