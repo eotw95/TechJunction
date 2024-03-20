@@ -35,7 +35,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.techjunction.R
@@ -44,7 +43,6 @@ import com.example.techjunction.constants.CHANNEL_URL_QIITA
 import com.example.techjunction.constants.CHANNEL_URL_ZENN
 import com.example.techjunction.util.DateConverter
 import com.example.techjunction.viewmodel.ArticlesViewModel
-import com.example.techjunction.viewmodel.ArticlesViewModelFactory
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.Date
@@ -55,22 +53,19 @@ import java.util.Date
 fun MultiArticlesOverviewGrid(
     onClick: (String) -> Unit
 ) {
-    var vm: ArticlesViewModel? = null
-    LocalViewModelStoreOwner.current?.let {
-        vm = viewModel(
-            it,
-            "ArticlesViewModel",
-            ArticlesViewModelFactory(LocalContext.current.applicationContext as Application)
+    val viewModel: ArticlesViewModel = viewModel(
+        factory = ArticlesViewModel.provideFactory(
+            LocalContext.current.applicationContext as Application
         )
-    }
+    )
 
-    val observeQiitaArticles = vm?.articles?.observeAsState()
-    val observeRssChannels = vm?.rssChannels?.observeAsState()
-    val observeRssItems = vm?.rssItems?.observeAsState()
+    val observeQiitaArticles = viewModel.articles.observeAsState()
+    val observeRssChannels = viewModel.rssChannels.observeAsState()
+    val observeRssItems = viewModel.rssItems.observeAsState()
 
     val allArticles = mutableListOf<ArticleOverview>()
     allArticles.apply {
-        observeQiitaArticles?.value?.let { items ->
+        observeQiitaArticles.value?.let { items ->
             items.map {
                 ArticleOverview(
                     channelUrl = CHANNEL_URL_QIITA,
@@ -84,10 +79,10 @@ fun MultiArticlesOverviewGrid(
         }?.let {
             addAll(it)
         }
-        observeRssItems?.value?.let { items ->
+        observeRssItems.value?.let { items ->
             addAll(
                 items.mapNotNull { item ->
-                    observeRssChannels?.value?.find { it.id == item.channelId }?.let {
+                    observeRssChannels.value?.find { it.id == item.channelId }?.let {
                         ArticleOverview(
                             channelUrl = it.rssUrl,
                             title = item.title,

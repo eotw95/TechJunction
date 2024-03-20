@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.techjunction.constants.CHANNEL_URL_HATENA
 import com.example.techjunction.constants.CHANNEL_URL_ZENN
@@ -32,6 +33,15 @@ import kotlinx.coroutines.withContext
 class ArticlesViewModel(private val application: Application): ViewModel() {
     companion object {
         private val mutex = Mutex()
+
+        fun provideFactory(
+            application: Application
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return ArticlesViewModel(application) as T
+            }
+        }
     }
 
     private val db = QiitaArticleDatabase.getInstance(application)

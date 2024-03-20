@@ -27,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
@@ -42,7 +41,6 @@ import com.example.techjunction.screens.FollowArticles
 import com.example.techjunction.screens.SearchArticles
 import com.example.techjunction.screens.component.Header
 import com.example.techjunction.viewmodel.ArticlesViewModel
-import com.example.techjunction.viewmodel.ArticlesViewModelFactory
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -51,14 +49,11 @@ fun MainNavHost(
     navController: NavHostController,
     onChangeTheme: () -> Unit
     ) {
-    var viewModel: ArticlesViewModel? = null
-    LocalViewModelStoreOwner.current?.let {
-        viewModel = viewModel(
-            it,
-            "ArticleViewModel",
-            ArticlesViewModelFactory(LocalContext.current.applicationContext as Application)
+    val viewModel: ArticlesViewModel = viewModel(
+        factory = ArticlesViewModel.provideFactory(
+            LocalContext.current.applicationContext as Application
         )
-    }
+    )
     var iconState by remember { mutableStateOf(Icons.Filled.Search) }
     var currentRoot by remember { mutableStateOf(CurrentRoot.OVERVIEW) }
     var isShowBottomBar by remember { mutableStateOf(true) }
