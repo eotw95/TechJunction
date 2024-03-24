@@ -42,7 +42,7 @@ import com.example.techjunction.screens.follow.FollowArticles
 import com.example.techjunction.screens.haedline.ArticlesPager
 import com.example.techjunction.screens.overview.ArticlesOverview
 import com.example.techjunction.screens.search.SearchArticles
-import com.example.techjunction.viewmodel.ArticlesViewModel
+import com.example.techjunction.screens.search.SearchArticlesViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -51,20 +51,21 @@ fun MainNavHost(
     navController: NavHostController,
     onChangeTheme: () -> Unit
     ) {
-    val viewModel: ArticlesViewModel = viewModel(
-        factory = ArticlesViewModel.provideFactory(
-            LocalContext.current.applicationContext as Application
-        )
-    )
     var iconState by remember { mutableStateOf(Icons.Filled.Search) }
     var currentRoot by remember { mutableStateOf(CurrentRoot.OVERVIEW) }
     var isShowBottomBar by remember { mutableStateOf(true) }
+
+    val searchArticlesViewModel: SearchArticlesViewModel = viewModel(
+        factory = SearchArticlesViewModel.provideFactory(
+            LocalContext.current.applicationContext as Application
+        )
+    )
 
     Scaffold(
         topBar = {
             Header(
                 currentRoot = currentRoot,
-                viewModel = viewModel,
+                viewModel = searchArticlesViewModel,
                 onClickSearch = {
                     navController.navigate(Screen.Search.route)
                     iconState = Icons.Filled.ArrowBack
@@ -172,8 +173,7 @@ fun MainNavHost(
                                 navController.navigate("detail/$url")
                                 iconState = Icons.Filled.ArrowBack
                                 isShowBottomBar = false
-                            },
-                            viewModel = viewModel
+                            }
                         )
                     }
                     composable("detail/{url}") { navBackStackEntry ->
@@ -191,14 +191,13 @@ fun MainNavHost(
                                 navController.navigate("detail/$url")
                                 iconState = Icons.Filled.ArrowBack
                                 isShowBottomBar = false
-                            },
-                            viewModel = viewModel
+                            }
                         )
                     }
                     composable(Screen.Search.route) {
                         currentRoot = CurrentRoot.SEARCH
                         SearchArticles(
-                            viewModel = viewModel,
+                            viewModel = searchArticlesViewModel,
                             onClick = { url ->
                                 navController.navigate("detail/$url")
                             }

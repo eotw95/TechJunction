@@ -42,7 +42,6 @@ import com.example.techjunction.constants.CHANNEL_URL_HATENA
 import com.example.techjunction.constants.CHANNEL_URL_QIITA
 import com.example.techjunction.constants.CHANNEL_URL_ZENN
 import com.example.techjunction.util.DateConverter
-import com.example.techjunction.viewmodel.ArticlesViewModel
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.Date
@@ -53,8 +52,8 @@ import java.util.Date
 fun ArticlesOverview(
     onClick: (String) -> Unit
 ) {
-    val viewModel: ArticlesViewModel = viewModel(
-        factory = ArticlesViewModel.provideFactory(
+    val viewModel: ArticlesOverviewViewModel = viewModel(
+        factory = ArticlesOverviewViewModel.provideFactory(
             LocalContext.current.applicationContext as Application
         )
     )

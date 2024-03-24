@@ -37,14 +37,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.techjunction.constants.APP_NAME
 import com.example.techjunction.navigation.CurrentRoot
-import com.example.techjunction.viewmodel.ArticlesViewModel
+import com.example.techjunction.screens.search.SearchArticlesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Header(
     currentRoot: CurrentRoot,
-    viewModel: ArticlesViewModel?,
+    viewModel: SearchArticlesViewModel,
     onClickSearch: () -> Unit,
     onClickBack: () -> Unit,
     onChangeTheme: () -> Unit
@@ -109,7 +109,7 @@ fun Header(
                     ),
                     keyboardActions = KeyboardActions(
                         onDone = {
-                            viewModel?.getAllByQuery(inputText)
+                            viewModel.getAllByQuery(inputText)
                             keyboardController?.hide()
                         }
                     ),

@@ -42,8 +42,8 @@ import com.example.techjunction.constants.CHANNEL_URL_ZENN
 import com.example.techjunction.constants.HATENA
 import com.example.techjunction.constants.ZENN
 import com.example.techjunction.room.FollowArticle
+import com.example.techjunction.screens.haedline.ArticlesPagerViewModel
 import com.example.techjunction.util.DateConverter
-import com.example.techjunction.viewmodel.ArticlesViewModel
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.Date
@@ -53,18 +53,18 @@ import java.util.Date
 fun ArticlesByRssFeed(
     onClick: (String) -> Unit,
     channelUri: String,
-    viewModel: ArticlesViewModel?
+    viewModel: ArticlesPagerViewModel
 ) {
-    val observeRssChannels = viewModel?.rssChannels?.observeAsState()
-    val observeRssItems = viewModel?.rssItems?.observeAsState()
+    val observeRssChannels = viewModel.rssChannels.observeAsState()
+    val observeRssItems = viewModel.rssItems.observeAsState()
 
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .background(MaterialTheme.colorScheme.background)
     ) {
-        val channel = observeRssChannels?.value?.first() { it.rssUrl == channelUri }
-        val items = observeRssItems?.value?.filter { it.channelId == channel?.id }
+        val channel = observeRssChannels.value?.first() { it.rssUrl == channelUri }
+        val items = observeRssItems.value?.filter { it.channelId == channel?.id }
 
         items?.forEach { item ->
             val encoderUrl = URLEncoder.encode(item.link, StandardCharsets.UTF_8.toString())

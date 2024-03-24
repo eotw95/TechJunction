@@ -42,8 +42,8 @@ import coil.compose.AsyncImage
 import com.example.techjunction.R
 import com.example.techjunction.constants.QIITA
 import com.example.techjunction.room.FollowArticle
+import com.example.techjunction.screens.haedline.ArticlesPagerViewModel
 import com.example.techjunction.util.DateConverter
-import com.example.techjunction.viewmodel.ArticlesViewModel
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.Date
@@ -52,16 +52,16 @@ import java.util.Date
 @Composable
 fun ArticlesByQiitaApi(
     onClick: (String) -> Unit,
-    viewModel: ArticlesViewModel?
+    viewModel: ArticlesPagerViewModel
 ) {
-    val observeQiitaArticles = viewModel?.articles?.observeAsState()
+    val observeQiitaArticles = viewModel.articles.observeAsState()
 
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .background(MaterialTheme.colorScheme.background)
     ) {
-        observeQiitaArticles?.value?.forEach { article ->
+        observeQiitaArticles.value?.forEach { article ->
             val encoderUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
             Column(
                 modifier = Modifier

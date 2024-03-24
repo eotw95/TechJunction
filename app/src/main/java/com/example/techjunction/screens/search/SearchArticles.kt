@@ -29,17 +29,16 @@ import com.example.techjunction.R
 import com.example.techjunction.constants.HATENA
 import com.example.techjunction.constants.QIITA
 import com.example.techjunction.constants.ZENN
-import com.example.techjunction.viewmodel.ArticlesViewModel
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SearchArticles(
-    viewModel: ArticlesViewModel?,
+    viewModel: SearchArticlesViewModel,
     onClick: (String) -> Unit
-    ) {
-    val searchArticlesObserver = viewModel?.searchArticles?.observeAsState()
+) {
+    val searchArticlesObserver = viewModel.searchArticles.observeAsState()
 
     Surface(
         modifier = Modifier
@@ -50,7 +49,7 @@ fun SearchArticles(
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
-            searchArticlesObserver?.value?.forEach { article ->
+            searchArticlesObserver.value?.forEach { article ->
                 val encodeUrl = URLEncoder.encode(article.url, StandardCharsets.UTF_8.toString())
                 Column(
                     modifier = Modifier

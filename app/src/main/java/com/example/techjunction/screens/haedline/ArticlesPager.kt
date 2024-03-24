@@ -1,5 +1,6 @@
 package com.example.techjunction.screens.haedline
 
+import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -22,19 +23,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.techjunction.constants.CHANNEL_URL_HATENA
+import com.example.techjunction.constants.CHANNEL_URL_ZENN
+import com.example.techjunction.constants.HATENA
+import com.example.techjunction.constants.QIITA
+import com.example.techjunction.constants.ZENN
 import com.example.techjunction.constants.services
-import com.example.techjunction.screens.component.findArticleByName
-import com.example.techjunction.viewmodel.ArticlesViewModel
+import com.example.techjunction.screens.component.ArticlesByQiitaApi
+import com.example.techjunction.screens.component.ArticlesByRssFeed
 import com.google.accompanist.pager.HorizontalPagerIndicator
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ArticlesPager(
-    onClick: (String) -> Unit,
-    viewModel: ArticlesViewModel?
-) {
+fun ArticlesPager(onClick: (String) -> Unit) {
+    val viewModel: ArticlesPagerViewModel = viewModel(
+        factory = ArticlesPagerViewModel.provideFactory(
+            LocalContext.current.applicationContext as Application
+        )
+    )
+
     Column {
         val state = rememberPagerState()
         val count = services.size
@@ -88,5 +99,19 @@ fun ArticlesPager(
                 viewModel = viewModel
             )
         }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun findArticleByName(
+    onClick: (String) -> Unit,
+    categoryName: String,
+    viewModel: ArticlesPagerViewModel
+) {
+    when (categoryName) {
+        QIITA -> ArticlesByQiitaApi(onClick, viewModel)
+        ZENN -> ArticlesByRssFeed(onClick, CHANNEL_URL_ZENN, viewModel)
+        HATENA -> ArticlesByRssFeed(onClick, CHANNEL_URL_HATENA, viewModel)
     }
 }

@@ -1,5 +1,6 @@
 package com.example.techjunction.screens.follow
 
+import android.app.Application
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
@@ -26,24 +27,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.techjunction.R
 import com.example.techjunction.constants.HATENA
 import com.example.techjunction.constants.QIITA
 import com.example.techjunction.constants.ZENN
-import com.example.techjunction.viewmodel.ArticlesViewModel
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun FollowArticles(
-    onClick: (String) -> Unit,
-    viewModel: ArticlesViewModel?
-) {
-    val followArticleObserver = viewModel?.followArticles?.observeAsState()
+fun FollowArticles(onClick: (String) -> Unit) {
+    val viewModel: FollowArticlesViewModel = viewModel(
+        factory = FollowArticlesViewModel.provideFactory(
+            LocalContext.current.applicationContext as Application
+        )
+    )
+    val followArticleObserver = viewModel.followArticles.observeAsState()
 
     Surface(
         modifier = Modifier
@@ -56,8 +60,8 @@ fun FollowArticles(
                 .verticalScroll(rememberScrollState())
                 .padding(top = 10.dp),
         ) {
-            viewModel?.fetchFollowArticles()
-            followArticleObserver?.value?.forEach { article ->
+            viewModel.fetchFollowArticles()
+            followArticleObserver.value?.forEach { article ->
                 val encodeUrl = URLEncoder.encode(article.link, StandardCharsets.UTF_8.toString())
                 Column(
                     modifier = Modifier

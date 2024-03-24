@@ -30,7 +30,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 @RequiresApi(Build.VERSION_CODES.O)
-class ArticlesViewModel(private val application: Application): ViewModel() {
+class ArticlesViewModel(application: Application): ViewModel() {
     companion object {
         private val mutex = Mutex()
 
