@@ -27,3 +27,4 @@ Switch Color Theme
 * Coil
 * LiveData
 * Retrofit
+* Room
